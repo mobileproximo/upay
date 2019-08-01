@@ -37,13 +37,13 @@ public isconform = false;
   }
 
   ngOnInit() {
-    this.Userdata.controls.login.setValue(this.commingData.login);
-    this.Userdata.controls.prenom.setValue(this.commingData.prenom);
-    this.Userdata.controls.nom.setValue(this.commingData.nom);
-    this.Userdata.controls.numpiece.setValue(this.commingData.numpiece);
-    this.Userdata.controls.email.setValue(this.commingData.email);
-    this.Userdata.controls.mode.setValue(this.commingData.mode);
-    console.log(JSON.stringify(this.Userdata.getRawValue()));
+     this.Userdata.controls.login.setValue(this.commingData.login);
+     this.Userdata.controls.prenom.setValue(this.commingData.prenom);
+     this.Userdata.controls.nom.setValue(this.commingData.nom);
+     this.Userdata.controls.numpiece.setValue(this.commingData.numpiece);
+     this.Userdata.controls.email.setValue(this.commingData.email);
+     this.Userdata.controls.mode.setValue(this.commingData.mode);
+     console.log(JSON.stringify(this.Userdata.getRawValue()));
   }
   verifConfPin() {
 
@@ -76,7 +76,8 @@ public isconform = false;
     }
   }
   verssouscription() {
-    this.navCtrl.navigateBack('utilisateur');
+    // this.navCtrl.navigateBack('utilisateur');
+    this.navCtrl.back();
   }
   versbienvenue() {
     this.navCtrl.navigateForward('utilisateur/bienvenue');
