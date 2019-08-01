@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ServiceService } from './services/service.service';
 import { GlobalVariableService } from './services/global-variable.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -29,14 +30,16 @@ export class AppComponent {
     private statusBar: StatusBar,
     private serv: ServiceService,
     public glb: GlobalVariableService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public router: Router,
+    private alertController: AlertController
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#2c5aa3');
       this.splashScreen.hide();
       this.serv.createDataBase();
       // this.serv.deletealldata();
@@ -47,6 +50,12 @@ export class AppComponent {
   });
       window.addEventListener('keyboardDidShow', (event) => {
         this.glb.showheader = false;
+});
+      document.addEventListener('backbutton', () => {
+  const routes = ['/utilisateur', '/utilisateur/acceuil'];
+  if (routes.includes(this.router.url)) {
+     this.presentAlert();
+  }
 });
     });
   }
@@ -63,5 +72,31 @@ export class AppComponent {
   }
   versfavoris() {
     this.navCtrl.navigateForward('favoris');
+  }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'UPay',
+     // subHeader: 'Subtitle',
+      message: 'Voulez-vous vraiment quitter l\'application?',
+      cssClass: 'alertSucces',
+      buttons: [        {
+        text: 'Non',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+          console.log('Confirm Cancel: blah');
+        }
+      }, {
+        text: 'oui',
+        handler: () => {
+
+// tslint:disable-next-line: no-string-literal
+          navigator['app'].exitApp();
+          console.log('Confirm Okay');
+        }
+      }]
+    });
+
+    await alert.present();
   }
 }
