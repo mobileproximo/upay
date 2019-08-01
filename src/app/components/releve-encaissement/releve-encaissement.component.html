@@ -1,0 +1,105 @@
+<div style="padding: 15px;margin-bottom:40px">
+  <div class="formdiv releve">
+      <form [formGroup]="Encdata" class="formulaire typeform2" >
+          <label>{{datareleve.label}}</label>
+          <input type="tel" formControlName="reference" placeholder="Entrer le numéro ici"/>
+      </form>
+  </div>
+  <div  class="flex2 flexcenter" id="btncontrol">
+    <button  [style.background]="!Encdata.valid ? '#CFD8DC' : '#074A94'"  [disabled]="!Encdata.valid" (click)="releve()" style="height: 46px;width: 100%;border-radius: 5px;margin-top: 15px;" id="btnsvt" class="btnbleu ion-activatable" ><ion-ripple-effect></ion-ripple-effect>Relever</button>
+  </div>
+  <div *ngIf="showdetails">
+    <div *ngIf="showInfoClient" style="border-left: 5px solid #074A94;margin-top: 10px;" class="formdiv releve">
+    <div style="padding: 1px;">
+      <label>Reference :</label>   <span style="color:#6f6f6f"> {{infosClient.controls.reference.value}}</span>
+    </div>
+    <div style="padding: 1px;">
+        <label>Prénom et nom :</label>   <span style="color:#6f6f6f">{{infosClient.controls.prenom.value}} {{infosClient.controls.nom.value}}</span>
+      </div>
+    <div style="padding: 1px;" *ngIf="datareleve.codeoper=='0027'">
+      <label>Adresse :</label>         <span style="color:#6f6f6f"> {{infosClient.controls.adresse.value}}</span>
+    </div>
+    <div style="padding: 1px;" *ngIf="infosClient.controls.telephone.value!=''">
+      <label>Téléphone :</label>       <span style="color:#6f6f6f"> {{infosClient.controls.telephone.value}}</span>
+    </div>
+  </div>
+  <form *ngIf="datareleve.codeoper=='0016' && !hastel" [formGroup]="infosClient"> 
+      <div class="formdiv" style="margin-top: 10px;" [style.border-color]="infosClient.controls.telephone.errors && infosClient.controls.telephone.touched ? 'red' : '#578cc9'" >
+      <label>Saisir Téléphone * </label>
+      <input type="tel" prefix="+221 " mask="00-000-00-00" formControlName="telephone" placeholder="Entrer le téléphone ici"/>
+    </div>
+  </form>
+
+  <form *ngIf="datareleve.codeoper=='0027' && newclient==true" [formGroup]="infosClient">
+      <div  style="margin-top: 10px;" >
+      <div class="formdiv releve" [style.border-color]="infosClient.controls.prenom.errors && infosClient.controls.prenom.touched ? 'red' : '#578cc9'">
+        <label>Saisir Prénom * </label>
+        <input type="text" formControlName="prenom" placeholder="Entrer le prénom  ici"/>
+        <div></div>
+      </div>
+      <div class="formdiv releve" [style.border-color]="infosClient.controls.nom.errors && infosClient.controls.nom.touched ? 'red' : '#578cc9'">
+          <label>Saisir nom * </label>
+          <input type="text" formControlName="nom"  placeholder="Entrer le nom et nom ici"/>
+          <div></div>
+        </div>
+
+      <div class="formdiv releve" [style.border-color]="infosClient.controls.adresse.errors && infosClient.controls.adresse.touched ? 'red' : '#578cc9'">
+        <label>Saisir Adresse * </label>
+        <input type="text" formControlName="adresse" placeholder="Entrer l'adresse ici"/>
+        <div></div>
+      </div>
+
+      <div class="formdiv " [style.border-color]="infosClient.controls.telephone.errors && infosClient.controls.telephone.touched ? 'red' : '#578cc9'">
+        <label>Saisir Téléphone * </label>
+        <input type="tel" prefix="+221 " mask="00-000-00-00" formControlName="telephone" placeholder="Entrer le téléphone ici"/>
+        
+      </div>
+    </div>
+  </form>
+
+  <div >
+    <div class = "ligne" style="display: flex;" *ngFor="let facture of listefactures">
+      <div class="ligneitemfirst" style="align-items: center;border-left: 5px solid red;background: #fbf3eb;">
+        <img style="width: 70%" [src]="datareleve.image" alt="">
+      </div>
+
+      <div class="ligneitem">
+        <span class="ligneitem1" >FACTURE</span>
+        <span class="ligneitem2" ><span *ngIf="datareleve.codeoper=='0027'">{{facture.type}}-</span>{{facture.numFact}}</span>
+      </div>
+
+      <div class="ligneitem">
+        <span class="ligneitem1" >MONTANT</span>
+        <span class="ligneitem2">
+          <span *ngIf="datareleve.codeoper=='0027'">{{facture.mntTotal|millier}}</span>
+          <span *ngIf="datareleve.codeoper=='0016'">{{facture.mntFact|millier}}</span>
+      </span>
+      </div>
+
+      <div class="ligneitem ion-activatable">
+        <button [style.background]="!infosClient.valid ? '#CFD8DC' : 'red'" (click)="showPin(facture)" style="color:#fff;background:red;font-size: 14px;width: 92%;padding:6px">Payer</button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div id="abonnement" class="bodycontent" *ngIf="recentsContacts?.length > 0" >
+    <div class="titrehistorique">Facture(s) récent(s)</div>
+    <div *ngFor="let recent of recentsContacts" class = "ligne" style="display: flex;" (click)="selectRecent(recent)" >
+      <div class="ligneitemfirst" style="align-items: center;border-left: 5px solid green;background: #f6fbf3;">
+        <img style="width: 70%" [src]="datareleve.image" alt="">
+      </div>
+      <div class="ligneitem">
+        <span  class="ligneitem1" style="text-transform: uppercase">CLIENT</span>
+        <span  class="ligneitem2" >{{recent.nomclient}}</span>
+      </div>
+      <div class="ligneitem">
+          <span style="border: none" class="ligneitem1" style="text-transform: uppercase">{{datareleve.label}}</span>
+          <span style="border: none" class="ligneitem2" >{{recent.reference}}</span>
+        </div>
+    </div>
+
+  </div>
+
+
+</div>

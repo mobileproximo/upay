@@ -1,0 +1,61 @@
+import { Component, OnInit } from '@angular/core';
+import {NavController, ModalController, MenuController} from '@ionic/angular';
+import { GlobalVariableService } from 'src/app/services/global-variable.service';
+import { PinValidationPage } from '../pin-validation/pin-validation.page';
+
+@Component({
+  selector: 'app-acceuil',
+  templateUrl: './acceuil.page.html',
+  styleUrls: ['./acceuil.page.scss'],
+})
+export class AcceuilPage implements OnInit {
+  public ligneUne;
+  public ligneDeux;
+  constructor(public navCtrl: NavController,
+              public glbVariable: GlobalVariableService,
+              public modal: ModalController ) { }
+
+
+  ngOnInit() {
+    this.glbVariable.ShowSolde = false;
+    this.ligneUne  = [{image: this.glbVariable.IMG_URL + 'homepaiement.png', libelle: 'Paiement', chemin: 'paiement'},
+    {image: this.glbVariable.IMG_URL + 'homereception.png', libelle: 'Reception', chemin: 'reception' } ];
+
+    this.ligneDeux = [{image: this.glbVariable.IMG_URL + 'envoihome.png', libelle: 'Envoi', chemin: 'envoi' },
+    {image: this.glbVariable.IMG_URL + 'favorishome.png', libelle: 'Favoris', chemin: 'favoris' }
+  ];
+  }
+  async showSolde() {
+    if (!this.glbVariable.ShowSolde) {
+        const params: any = {};
+        const modal = await this.modal.create({
+          component: PinValidationPage,
+          backdropDismiss: true
+        });
+
+        modal.onDidDismiss().then((codepin) => {
+          if (codepin !== null && codepin.data) {
+            this.glbVariable.ShowSolde = true;
+          } else {
+            this.glbVariable.ShowSolde = false;
+          }
+        });
+        return await modal.present();
+    } else {
+      this.glbVariable.ShowSolde = false;
+    }
+
+  }
+  home(chemin: string) {
+    this.navCtrl.navigateForward(chemin);
+  }
+
+  historique() {
+    this.navCtrl.navigateForward('historique');
+  }
+
+  mescartes() {
+    this.navCtrl.navigateForward('mescartes');
+  }
+
+}

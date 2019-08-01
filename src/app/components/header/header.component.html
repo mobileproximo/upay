@@ -1,0 +1,43 @@
+<ion-header *ngIf="glb.showheader">
+  <ion-toolbar color="none" style="min-height:140px;background: url('assets/images/haut.png') #f2f2f2 no-repeat;background-size: 100%;">
+    <div style="display: flex">
+      <div style="width: 50px">
+<!--           <ion-buttons slot="end">
+              <ion-menu-button autoHide="false"></ion-menu-button>
+            </ion-buttons> -->
+         <ion-buttons slot="start">
+          <ion-back-button (click)="closeModal()" style="color:#fff" color="proximo" defaultHref="utilisateur/acceuil"></ion-back-button>
+        </ion-buttons> 
+      </div>
+      <ion-title style="height: 45px; text-transform: uppercase">
+        {{headerTitle}}
+      </ion-title>
+      <ion-buttons (click)="toggleMenu()" slot="end">
+          <ion-menu-button color="light" autoHide="false"><ion-icon name="list"></ion-icon></ion-menu-button>
+      </ion-buttons>
+ <!--      <div style="width: 50px;width: 50px;display: flex;justify-content: center;align-items: center;font-size: 25px;">
+        <ion-icon style="color:#fff" name="menu" slot="end"></ion-icon>
+      </div> -->
+    </div>
+    <div style="display: flex;padding: 10px 5px 20px 10px">
+      <div style="flex: 2;">
+        <div style="background: rgba(255,255,255,0.9);border-radius: 100px;height: 55px;max-width: 300px;width:97%;display:flex">
+          <div style="flex:2;display:flex;justify-content: start;align-items: center;margin-left: 8px;" (click)="acceuil()">
+            <img style="width: 100%;max-width: 120px;" src="assets/images/upayv2.png" alt="">
+          </div>
+          <div style="flex:1;display:flex;justify-content: flex-end;align-items: center">
+            <img style="width: 50%;margin-right: 10px;" src="assets/images/refresh.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="menuhisto" (click)="compte()">
+        <img style="height: 31px;" src="assets/images/compte.png" alt="">
+        <span style="font-size: 11px;color:#fff;">MES COMPTES</span>
+      </div>
+      <div (click)="historique()" class="menuhisto">
+        <img style="height: 31px;" src="assets/images/historique.png" alt="">
+        <span style="font-size: 11px;color:#fff;">HISTORIQUE</span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

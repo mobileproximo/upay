@@ -1,0 +1,54 @@
+
+
+<ion-content style="--ion-background-color:white">
+
+    <div id="content" class="flexcenter">
+      <div id="page">
+        <div class="flex1">
+          <div id="contentflex1">
+            <div id="logo">
+              <img src="assets/images/upayv2.png" height="70"/>
+            </div>
+          </div>
+          <span class="shatop"></span>
+        </div>
+        <div class="flexible" id="divflexible">
+    
+          <div style="padding:15px" id="contentform">
+            <form [formGroup]="Userdata"  class="formulaire" >
+                <div class="formdiv">
+                    <label>Choisir le type de la pièce</label>
+                    <ion-select formControlName="typepiece" style="--padding-start:0px; --padding-bottom: 0px" interface="popover">
+                      <ion-select-option value="passeport">Passeport</ion-select-option>
+                      <ion-select-option value="cni">Carte d'identité</ion-select-option>
+                    </ion-select>
+                    <div></div>
+                  </div>
+          
+                  <div class="formdiv">
+                    <label>Saisir votre numéro de pièce</label>
+                    <input formControlName="numpiece" type="text"/>
+                    <div></div>
+                  </div>
+          
+                  <div class="formdiv">
+                    <label>Saisir votre numéro de téléphone</label>
+                    <input type="tel" prefix="+221 " mask="00-000-00-00" formControlName="login"/>
+                    <div></div>
+                  </div>
+          
+                  <div class="flex2 flexcenter" id="btncontrol">
+                    <button style="width: 100%;border-radius: 5px;" id="btnsvt" [style.background]="!Userdata.valid ? '#CFD8DC' : '#074A94'"  class="btnbleu" [disabled]="!Userdata.valid" (click)="generateOTPCode()" class="btnbleu" >Valider</button>
+                  </div>
+            </form>
+
+
+          </div>
+        </div>
+    
+    
+      </div>
+    </div>
+    
+    </ion-content>
+    

@@ -1,0 +1,22 @@
+<app-header [headerTitle]="headerTitle"></app-header>
+
+<ion-content>
+  <div class="bodycontent">
+    <div style="justify-content:center;padding: 10px;padding-left: 5px;padding-right: 5px;display: flex;width:100%;flex-wrap: wrap;">
+      <div (click)="meswallets()" class="itemenu" >
+        <img style="height: 35px;" src="assets/images/wallet.png" alt="">
+        <span class="labelitem">WALLETS</span>
+      </div>
+
+      <div class="itemenu">
+        <img style="height: 35px;" src="assets/images/carte.png" alt="">
+        <span class="labelitem">CARTES</span>
+      </div>
+      <div class="itemenu">
+        <img style="height: 35px;" src="assets/images/compte2.png" alt="">
+        <span class="labelitem">COMPTES</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<app-footer></app-footer>

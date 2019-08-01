@@ -1,0 +1,12 @@
+
+<div class="bodycontent">
+ 
+ <div style="padding: 10px;padding-left: 3px;padding-right: 3px;display: flex;width:100%;flex-wrap: wrap; justify-content: center;">
+   <div class="itemenu ion-activatable" (click)="openpage(service.chemin)" *ngFor="let service of services" >
+      <ion-ripple-effect></ion-ripple-effect>
+     <img style="height: 35px;" [src]="service.image" alt="">
+    <span class="labelitem">{{service.libelle}}</span>
+   </div>
+ </div>
+</div>
+

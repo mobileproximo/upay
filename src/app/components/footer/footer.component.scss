@@ -1,0 +1,64 @@
+.menuoption{
+    width: calc((100% - 95px)/4);
+    background-color: #2C5AA3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .barremenu{
+    display: flex;
+    height: 66px;
+    background: #f2f2f2;
+  }
+  .qrcode{
+    width:95px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  .qrcodelogo{
+    position: relative;
+    top:-35px;
+    left:0px;
+    z-index: 9999999999;
+  }
+  .conteneur{
+    width: 36px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  hr {
+    height: .25rem;
+    width: calc((100% - 95px)/4);
+    margin: 0;
+    background: #fff;
+    border: none;
+    transition: .3s ease-in-out;
+    position: absolute;
+    min-width: 36px;
+  }
+
+.active1{
+    margin-left: 0%;
+  }
+  .active2{
+    margin-left: calc(((100% - 95px)/4)*1);
+  }
+  .active3{
+    margin-left: calc((((100% - 95px)/4)*2) + 95px);
+  }
+  .active4{
+    margin-left: calc((((100% - 95px)/4)*3) + 95px);
+  }
+  .cachefooter{
+    height: 0px;
+    transition: height .8s ease-in-out;
+  }
+  
+  .cachefooter .menuoption span{
+    display:none;
+  }

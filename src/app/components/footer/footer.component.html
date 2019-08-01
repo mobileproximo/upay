@@ -1,0 +1,36 @@
+<ion-footer>
+<div class="barremenu" [class.cachefooter]="!glb.showheader">
+  
+  <div (click)="selection(1)"  class="menuoption ">
+    <span class="conteneur">
+      <img style="height: 85%;" src="assets/images/paiement.png" alt="">
+    </span>
+
+    <span style="color:#fff;font-size: 11px">Paiement</span>
+  </div>
+  <div (click)="selection(2)"   class="menuoption">
+    <span class="conteneur">
+      <img style="height: 85%;" src="assets/images/reception.png" alt="">
+    </span>
+    <span style="color:#fff;font-size: 11px">Reception</span>
+  </div>
+
+  <div (click)="paiement()" style="background: url('assets/images/demicercle.png') no-repeat #2C5AA3;background-size: 100%;" class="qrcode">
+    <span class="qrcodelogo"><img style="width: 65px;" src="assets/images/qrcode.png" alt=""></span>
+  </div>
+
+  <div (click)="selection(3)" class="menuoption">
+    <span class="conteneur">
+      <img style="height: 85%;" src="assets/images/envoi.png" alt="">
+    </span>
+    <span style="color:#fff;font-size: 11px">Envoi</span>
+  </div>
+  <div  (click)="selection(4)" class="menuoption" >
+    <span class="conteneur">
+      <img style="height: 85%;" src="assets/images/favoris.png" alt="">
+    </span>
+    <span style="color:#fff;font-size: 11px">Favoris</span>
+  </div>
+  <hr [class.active1] = "glb.active1" [class.active2] = "glb.active2" [class.active3] = "glb.active3" [class.active4] = "glb.active4">
+</div>
+</ion-footer>

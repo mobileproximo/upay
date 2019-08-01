@@ -1,0 +1,140 @@
+
+.flex2{
+    flex:1;
+    background: #f2f2f2;
+  }
+  .flex3{
+    height:11%;
+    background: #659cd5
+  }
+  .flexcenter{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #codepin span{
+    font-size:16px;
+    color:#747474;
+    display:inline-block;
+    width:100%;
+    text-align:center;
+  }
+  
+  #pinvalue{
+    width:100%;
+    text-align:center;
+    margin:1px 0 12px 0;
+  }
+  #pinvalue div{
+    width:40px;
+    display:inline-block;
+    padding-bottom:5px;
+    border:0;
+    border-bottom:1px solid #2c5aa3;
+    margin:0 8px;
+    background: none;
+    height:23px;
+    font-size:28px;
+    vertical-align: top;
+    position: relative;
+  }
+  #pinvalue div em
+  {
+    width:0px;
+    border-bottom:2px solid #2c5aa3;
+    position:absolute;
+    bottom:-1.5px;
+    left:0;
+  
+    margin:0;
+    opacity: 0;
+    -webkit-transition: width 0.5s;
+  transition: width 0.5s;
+  }
+  
+  #pinvalue div.active{
+    border-bottom:0;
+  }
+  #pinvalue div.active em{
+    opacity: 1;
+    width:100%;
+  }
+  #pinvalue div.active span::after{
+      font-size: 25px;
+    content: "*";
+  }
+  #pinvalue div.active span{
+    color:#2c5aa3;
+  }
+  #clavier{
+    width:90%;
+    height:100%;
+    padding-top: 8px;
+  }
+  #clavier .number{
+    margin: 0% 1.5%;
+    width:30.33%;
+    height:25%;
+    float:left;
+  }
+  #clavier .number button{
+    background:#fff;
+    border:0;
+    text-align:center;
+    width:100%;
+    height:80%;
+    color:#898989;
+    font-size:23px;
+  
+  }
+  #clavier .number button.nobg{
+    background:none;
+  }
+  #clavier .number button.okbtn{
+    background: none;
+    color: #757575;
+  }
+  #codepin span{
+    color:#707070;
+    font-size: 18px;
+  }
+  .pagepin{
+    max-width:100%;
+  }
+  .pagepin #pagepin{
+    margin-top:20px;
+  
+  }
+  .pagepin{
+    background: #f2f2f2;
+    height:100%;
+    color:#2c5aa3;
+    font-family: 'helveticaneuelight';
+  }
+  .pagepin span{
+    color:#707070;
+    font-family: 'helveticaneuemedium';
+    font-size:15px;
+  }
+  .bgcolorwhite{
+    background: #fff;
+    padding:10px 15px;
+    border-left:5px solid #2c5aa3;
+    margin-left: 20px;
+    margin-right: 20px;
+  
+  }
+  #btncontrol #btnvalider{
+    width:100%;
+    padding:10px 0;
+  }
+  
+  #message{
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  
+  #content{
+  height : calc(100% - 50px) !important;
+  }
+  

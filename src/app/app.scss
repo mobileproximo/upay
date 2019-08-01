@@ -1,0 +1,824 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application.
+/* .ng-invalid:not(form).ng-touched {
+  border: solid 1px lightcoral !important;
+} */
+#menulateral{
+ 
+  width:100%;
+  height:100%;
+  color:#ffffff;
+  position:relative;
+}
+
+#menulateral::before/* , #contentmenu::after */{
+  content:"";
+  position:absolute;
+  z-index: 0;
+  width:150px;
+  height:150px;
+  top: 30px;
+  left: 20px;
+  border-radius:100%;
+  background: rgba(93,150,209,0.2);
+}
+#menulateral::after{
+ 
+  top: -50px;
+  left: -50px;
+ 
+}
+#menulateral > div{
+  position: relative;
+  z-index: 10;
+}
+#msg_acceuil{
+  text-align:center;
+  font-weight: 300;
+  font-size:16px;
+  width:100%;
+  height:120px;
+  display:flex;
+  align-items: flex-end;
+  justify-content: center
+}
+#msg_acceuil > div{
+  margin-bottom:15px;
+  width:80%;
+}
+#telef{
+  font-weight:500;
+  padding-top:15px;
+  padding-bottom:25px;
+  border-bottom:1px solid #6da0d7;
+}
+#utils{
+  display:flex;
+  height:90px;
+  width:100%;
+}
+.listul{
+  width:100%;
+  display:flex;
+  align-items: flex-end;
+}
+#utils div{
+  width:33%;
+  color:#fff;
+}
+#utils div span,
+#utils div label{
+  display:block;
+  width:100%;
+  text-align:center;
+}
+#utils div label{
+  padding-top:3px;
+}
+.listul ul{
+  list-style:none;
+  padding:0;
+  width:100%;
+  margin-bottom:0;
+  margin-top:0;
+  font-size:15px;
+  color:#fff;
+}
+.listul ul li span{
+  vertical-align: middle;
+  width:60px;
+  text-align:center;
+  display:inline-block;
+}
+.listul ul li{
+  padding: 10px 0;
+  border-top:1px solid #558eca;
+  width:100%;
+  background: rgba(93,150,209,0.4);
+}
+.listul ul li.deconnect{
+  background: #fff url('../assets/images/bgdeconnect.png') 100%  0 no-repeat;
+
+  color:#689ed6;
+}
+.listul ul li.deconnect span,
+.listul ul li.deconnect label{
+  display:inline-block;
+  width:100%;
+  text-align:center;
+  padding:1px 0;
+}
+ion-title{
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    position: relative;
+    
+  }
+  .bodycontent{
+    height: 100%;
+  }
+  #contentform{
+    padding-top:25px;
+  }
+  #contentflex1{
+    height:100%;
+  }
+  #page{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    vertical-align: top;
+  }
+  .flexcenter{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #contentflex1{
+    height:100%;
+  }
+  .flexible{
+    overflow: auto;
+    height: calc(100% - 143px);
+    position: relative;
+  
+  }
+  .formulaire{
+    padding: 5px 15px;
+  }
+  #contentform{
+    padding-top:25px;
+  }
+  #contentflex1{
+    height:100%;
+  }
+  .formdiv{
+    position:relative;
+  }
+  .formdiv label.radio{
+    line-height: 28px;
+    width: 32%;
+  }
+  .bordernull{
+    border: 0
+  }
+  .bordernull label{
+    padding-bottom: 5px;
+    display: inline-block;
+  }
+  .radio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkradion {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border:1px solid #2196F3;
+    border-radius: 50%;
+  }
+  #content{
+    background: url("../assets/images/bgcontent22.png") 0 100% no-repeat #fff;
+    background-size: cover;
+  }
+  #logo{
+    width:100%;
+    text-align:center;
+    padding-bottom:0;
+    padding-top:15px;
+  }  
+  // App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application.
+.barremenu{
+  display: flex;
+  height: 66px;
+  background: #f2f2f2;
+}
+.menuoption{
+  width: calc((100% - 95px)/4);
+  background-color: #2C5AA3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.qrcode{
+  width:95px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.qrcodelogo{
+  position: relative;
+  top:-35px;
+  left:0px;
+  z-index: 9999999999;
+}
+.conteneur{
+  width: 36px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+hr {
+  height: .25rem;
+  width: calc((100% - 95px)/4);
+  margin: 0;
+  background: #fff;
+  border: none;
+  transition: .3s ease-in-out;
+  position: absolute;
+  min-width: 36px;
+}
+
+.active1{
+  margin-left: 0%;
+}
+.active2{
+  margin-left: calc(((100% - 95px)/4)*1);
+}
+.active3{
+  margin-left: calc((((100% - 95px)/4)*2) + 95px);
+}
+.active4{
+  margin-left: calc((((100% - 95px)/4)*3) + 95px);
+}
+
+ion-content {
+--ion-background-color:#f2f2f2;
+}
+ion-footer::before{
+background-image: none !important;
+}
+ion-header::after {
+background-image: none !important;
+}
+ion-title{
+text-align: center;
+color: white;
+font-weight: 600;
+position: relative;
+}
+.menuhisto{
+display: flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
+padding: 6px;
+line-height: 2;
+}
+
+.bodycontent{
+height: 100%;
+background: url('../assets/images/bg.png') no-repeat !important;background-size: cover !important;
+}
+
+.bodycontent2{
+height: 100%;
+background: url('../assets/images/bg.png') no-repeat !important;background-size: cover !important;
+}
+.itemenu{
+width: 89px;
+height: 89px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background: #fff;
+border-radius: 100px;
+margin: 6px;
+line-height: 2;
+box-shadow: 0 3px 6px rgba(44,90,163,0.19), 0 3px 6px rgba(44,90,163,0.23);
+}
+.labelitem{
+font-size: 11px;
+color: #2c5aa3;
+}
+
+/*! Generated by Font Squirrel (https://www.fontsquirrel.com) on July 1, 2019 */
+
+@font-face {
+font-family: 'helveticaneuebold';
+src: url('../assets/font/helvetica_neu_bold-webfont.woff2') format('woff2'),
+url('../assets/font/helvetica_neu_bold-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneueblackcond';
+src: url('../assets/font/helveticaneue_blackcond-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneue_blackcond-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuelight';
+src: url('../assets/font/helveticaneue_light-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneue_light-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuemedium';
+src: url('../assets/font/helveticaneue_medium-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneue_medium-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuethin';
+src: url('../assets/font/helveticaneue_thin-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneue_thin-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneueregular';
+src: url('../assets/font/helveticaneue-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneue-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuebold';
+src: url('../assets/font/helveticaneuebd-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneuebd-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneueheavy';
+src: url('../assets/font/helveticaneuehv-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneuehv-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneueitalic';
+src: url('../assets/font/helveticaneueit-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneueit-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuelight';
+src: url('../assets/font/helveticaneuelt-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneuelt-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+
+
+
+
+@font-face {
+font-family: 'helveticaneuemedium';
+src: url('../assets/font/helveticaneuemed-webfont.woff2') format('woff2'),
+url('../assets/font/helveticaneuemed-webfont.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+
+}
+body,html{
+height:100%;
+}
+body{
+background:#fafafa;
+padding: 0px;
+margin:0;
+
+font-size:12px;
+}
+
+body, * {
+font-family: 'helveticaneuemedium', Arial !important;
+}
+
+.el-radio,.el-checkbox{position:relative;font-size:100%}label.el-radio,label.el-checkbox{display:block;cursor:pointer}.el-radio>input[type="radio"],.el-checkbox>input[type="checkbox"]{display:none}.el-radio>input[type="radio"][disabled],.el-checkbox>input[type="checkbox"][disabled]{cursor:not-allowed}.el-radio>input[type="radio"]+.el-radio-style,.el-checkbox>input[type="checkbox"]+.el-checkbox-style{position:relative;display:inline-block;width:1.4em;height:1.4em;vertical-align:middle;cursor:pointer}.el-radio>input[type="radio"]+.el-radio-style:hover:before,.el-checkbox>input[type="checkbox"]+.el-checkbox-style:hover:before{border-color:#20a0ff}.el-radio>input[type="radio"]+.el-radio-style:before,.el-checkbox>input[type="checkbox"]+.el-checkbox-style:before{position:absolute;top:0;left:0;display:inline-block;width:1.4em;height:1.4em;content:'';border:1px solid #C0CCDA}.el-radio>input[type="radio"]+.el-radio-style:after,.el-checkbox>input[type="checkbox"]+.el-checkbox-style:after{position:absolute;display:none;content:''}.el-radio>input[type="radio"][disabled]+.el-radio-style,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style{cursor:not-allowed;color:#D3DCE6}.el-radio>input[type="radio"][disabled]+.el-radio-style:hover,.el-radio>input[type="radio"][disabled]+.el-radio-style:before,.el-radio>input[type="radio"][disabled]+.el-radio-style:after,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style:hover,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style:before,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style:after{cursor:not-allowed}.el-radio>input[type="radio"][disabled]+.el-radio-style:hover:before,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style:hover:before{border:1px solid #D3DCE6;animation-name:none}.el-radio>input[type="radio"][disabled]+.el-radio-style:before,.el-checkbox>input[type="checkbox"][disabled]+.el-checkbox-style:before{border-color:#D3DCE6}.el-radio>input[type="radio"]:checked+.el-radio-style:before,.el-checkbox>input[type="checkbox"]:checked+.el-checkbox-style:before{animation-name:none}.el-radio>input[type="radio"]:checked+.el-radio-style:after,.el-checkbox>input[type="checkbox"]:checked+.el-checkbox-style:after{display:block}.el-radio>input[type="radio"]+.el-radio-style:before{border-radius:50%}.el-radio>input[type="radio"]+.el-radio-style:after{top:.4em;left:.4em;width:.6em;height:.6em;border-radius:50%;background:#20a0ff}.el-radio>input[type="radio"]:checked+.el-radio-style:before{border:1px solid #20a0ff}.el-radio>input[type="radio"]:checked[disabled]+.el-radio-style:before{border:1px solid #b0d7f5}.el-radio>input[type="radio"]:checked[disabled]+.el-radio-style:after{background:#b0d7f5}.el-checkbox>input[type="checkbox"]+.el-checkbox-style:before{border-radius:3px}.el-checkbox>input[type="checkbox"]+.el-checkbox-style:after{top:.15em;left:.5em;box-sizing:border-box;width:.4em;height:.85em;transform:rotate(45deg);border-right:2px solid #fff;border-bottom:2px solid #fff}.el-checkbox>input[type="checkbox"]:checked+.el-checkbox-style:before{border:#20a0ff;background:#20a0ff}.el-checkbox>input[type="checkbox"]:checked[disabled]+.el-checkbox-style:before{border:#b0d7f5;background:#b0d7f5}.el-radio.el-radio-blue>input[type="radio"]+label:hover:before,.el-checkbox.el-checkbox-blue>input[type="checkbox"]+label:hover:before,.el-radio.el-radio-blue>input[type="radio"]:checked+label:before,.el-checkbox.el-checkbox-blue>input[type="checkbox"]:checked+label:before{border-color:#20a0ff}.el-checkbox.el-checkbox-blue>input[type="checkbox"]:checked+label:before,.el-radio.el-radio-blue>input[type="radio"]+label:after{background:#20a0ff}.el-radio.el-radio-blue>input[type="radio"][disabled]+label:hover:before,.el-checkbox.el-checkbox-blue>input[type="checkbox"][disabled]+label:hover:before{border-color:#D3DCE6}.el-checkbox.el-checkbox-blue>input[type="checkbox"]:checked[disabled]+label:before,.el-radio.el-radio-blue>input[type="radio"]:checked[disabled]+label:before{border-color:#b0d7f5}.el-checkbox.el-checkbox-blue>input[type="checkbox"][disabled]:checked+label:before,.el-radio.el-radio-blue>input[type="radio"]:checked[disabled]+label:after{background:#b0d7f5}.el-radio.el-radio-green>input[type="radio"]+label:hover:before,.el-checkbox.el-checkbox-green>input[type="checkbox"]+label:hover:before,.el-radio.el-radio-green>input[type="radio"]:checked+label:before,.el-checkbox.el-checkbox-green>input[type="checkbox"]:checked+label:before{border-color:#13ce66}.el-checkbox.el-checkbox-green>input[type="checkbox"]:checked+label:before,.el-radio.el-radio-green>input[type="radio"]+label:after{background:#13ce66}.el-radio.el-radio-green>input[type="radio"][disabled]+label:hover:before,.el-checkbox.el-checkbox-green>input[type="checkbox"][disabled]+label:hover:before{border-color:#D3DCE6}.el-checkbox.el-checkbox-green>input[type="checkbox"]:checked[disabled]+label:before,.el-radio.el-radio-green>input[type="radio"]:checked[disabled]+label:before{border-color:#a1efc4}.el-checkbox.el-checkbox-green>input[type="checkbox"][disabled]:checked+label:before,.el-radio.el-radio-green>input[type="radio"]:checked[disabled]+label:after{background:#a1efc4}.el-radio.el-radio-red>input[type="radio"]+label:hover:before,.el-checkbox.el-checkbox-red>input[type="checkbox"]+label:hover:before,.el-radio.el-radio-red>input[type="radio"]:checked+label:before,.el-checkbox.el-checkbox-red>input[type="checkbox"]:checked+label:before{border-color:#ff4949}.el-checkbox.el-checkbox-red>input[type="checkbox"]:checked+label:before,.el-radio.el-radio-red>input[type="radio"]+label:after{background:#ff4949}.el-radio.el-radio-red>input[type="radio"][disabled]+label:hover:before,.el-checkbox.el-checkbox-red>input[type="checkbox"][disabled]+label:hover:before{border-color:#D3DCE6}.el-checkbox.el-checkbox-red>input[type="checkbox"]:checked[disabled]+label:before,.el-radio.el-radio-red>input[type="radio"]:checked[disabled]+label:before{border-color:#f9b3b3}.el-checkbox.el-checkbox-red>input[type="checkbox"][disabled]:checked+label:before,.el-radio.el-radio-red>input[type="radio"]:checked[disabled]+label:after{background:#f9b3b3}.el-radio.el-radio-yellow>input[type="radio"]+label:hover:before,.el-checkbox.el-checkbox-yellow>input[type="checkbox"]+label:hover:before,.el-radio.el-radio-yellow>input[type="radio"]:checked+label:before,.el-checkbox.el-checkbox-yellow>input[type="checkbox"]:checked+label:before{border-color:#f7ba2a}.el-checkbox.el-checkbox-yellow>input[type="checkbox"]:checked+label:before,.el-radio.el-radio-yellow>input[type="radio"]+label:after{background:#f7ba2a}.el-radio.el-radio-yellow>input[type="radio"][disabled]+label:hover:before,.el-checkbox.el-checkbox-yellow>input[type="checkbox"][disabled]+label:hover:before{border-color:#D3DCE6}.el-checkbox.el-checkbox-yellow>input[type="checkbox"]:checked[disabled]+label:before,.el-radio.el-radio-yellow>input[type="radio"]:checked[disabled]+label:before{border-color:#fbeac1}.el-checkbox.el-checkbox-yellow>input[type="checkbox"][disabled]:checked+label:before,.el-radio.el-radio-yellow>input[type="radio"]:checked[disabled]+label:after{background:#fbeac1}.el-switch,.el-switch-style,.el-switch-style:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.el-switch{display:inline-block;font-size:100%;height:1.6em;position:relative}.el-switch .el-switch-style{height:1.6em;left:0;background:#C0CCDA;-webkit-border-radius:.8em;border-radius:.8em;display:inline-block;position:relative;top:0;-webkit-transition:all .3s ease-in-out;transition:all .3s ease-in-out;width:3em;cursor:pointer}.el-switch .el-switch-style:before{display:block;content:'';height:1.4em;position:absolute;width:1.4em;background-color:#fff;-webkit-border-radius:50%;border-radius:50%;left:.1em;top:.1em;-webkit-transition:all .3s ease-in-out;transition:all .3s ease-in-out}.el-switch>input[type="checkbox"]{display:none}.el-switch>input[type="checkbox"][disabled]+.el-switch-style{cursor:not-allowed;background-color:#D3DCE6}.el-switch>input[type="checkbox"]:checked+.el-switch-style{background-color:#20a0ff}.el-switch>input[type="checkbox"]:checked+.el-switch-style:before{left:50%}.el-switch>input[type="checkbox"]:checked[disabled]+.el-switch-style{background-color:#b0d7f5}.el-switch.el-switch-blue>input[type="checkbox"]:checked+.el-switch-style{background-color:#20a0ff}.el-switch.el-switch-blue>input[type="checkbox"]:checked[disabled]+.el-switch-style{background-color:#b0d7f5}.el-switch.el-switch-green>input[type="checkbox"]:checked+.el-switch-style{background-color:#13ce66}.el-switch.el-switch-green>input[type="checkbox"]:checked[disabled]+.el-switch-style{background-color:#a1efc4}.el-switch.el-switch-red>input[type="checkbox"]:checked+.el-switch-style{background-color:#ff4949}.el-switch.el-switch-red>input[type="checkbox"]:checked[disabled]+.el-switch-style{background-color:#f9b3b3}.el-switch.el-switch-yellow>input[type="checkbox"]:checked+.el-switch-style{background-color:#f7ba2a}.el-switch.el-switch-yellow>input[type="checkbox"]:checked[disabled]+.el-switch-style{background-color:#fbeac1}.el-radio.el-radio-sm,.el-checkbox.el-checkbox-sm,.el-switch.el-switch-sm{font-size:85%}.el-radio.el-radio-lg,.el-checkbox.el-checkbox-lg,.el-switch.el-switch-lg{font-size:125%}
+#content{
+/* height:100%;
+ */}
+#page{
+display:flex;
+flex-direction: column;
+width:100%;
+height:100%;
+vertical-align: top;
+}
+.flex1{
+height:85px;
+background: transparent;
+position:relative;
+}
+.flexible{
+overflow: auto;
+height: calc(100% - 143px);
+position: relative;
+
+}
+.shatop {
+content: '';
+position: absolute;
+bottom: -15px;
+width: 100%;
+height: 15px;
+z-index:99;
+background: linear-gradient(white, rgba(255, 255, 255, 0.001)); /* transparent keyword is broken in Safari */
+}
+.shabot {
+content: '';
+position: absolute;
+top: -15px;
+width: 100%;
+height: 15px;
+background: linear-gradient(rgba(255, 255, 255, 0.001), white); /* transparent keyword is broken in Safari */
+}
+.flex2{
+height:58px;
+background: #f2f2f2
+}
+
+.flexcenter{
+display:flex;
+justify-content: center;
+align-items: center;
+}
+#logo{
+width:100%;
+text-align:center;
+padding-bottom:0;
+padding-top:15px;
+}
+.formdiv{
+border:1px solid #578cc9;
+padding: 7px 7px;
+margin-bottom:12px;
+}
+.bordernull{
+border: 0
+}
+.bordernull label{
+padding-bottom: 5px;
+display: inline-block;
+}
+.formdiv label{
+font-size: 11px;
+color:#466EAE;
+}
+.formdiv input[type="text"],
+.formdiv input[type="tel"],
+.formdiv input[type="number"],
+.formdiv input[type="email"]{
+border:0;
+background: none;
+width:100%;
+margin-top:8px;
+font-size: 12px;
+outline:none;
+}
+.formulaire select{
+border:1px solid #578cc9;
+padding: 7px 7px;
+width:100%;
+margin-bottom:12px;
+color:#2C5AA3;
+height:45px;
+}
+.formulaire{
+padding: 5px 15px;
+}
+#contentform{
+padding-top:25px;
+}
+#contentflex1{
+height:100%;
+}
+.suppl{
+border:0 !important;
+padding:0 !important;
+display:flex;
+align-items: center
+}
+.suppl input{
+-moz-appearance:none;
+-webkit-appearance:none;
+-o-appearance:none;
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+.suppl label {
+display: block;
+position: relative;
+padding-left: 40px;
+margin-bottom: 12px;
+cursor: pointer;
+font-size: 22px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+font-size:12px;
+line-height:19px;
+}
+
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 21px;
+width: 21px;
+border:1px solid #2196F3;
+}
+.suppl input:checked ~ .checkmark {
+background-color: #2196F3;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.suppl input:checked ~ .checkmark:after {
+display: block;
+}
+.suppl .checkmark:after {
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 3px 3px 0;
+-webkit-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+transform: rotate(45deg);
+}
+#btncontrol{
+position:relative;
+}
+#btncontrol button{
+width:50%;
+height:100%;
+border:0;
+background: #578cc9;
+text-transform: uppercase;
+color:#ffffff;
+font-size:14px;
+}
+#btncontrol button.btnbleu{
+background: #074A94;
+}
+
+.radio {
+display: block;
+position: relative;
+padding-left: 35px;
+margin-bottom: 12px;
+cursor: pointer;
+font-size: 22px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkradion {
+position: absolute;
+top: 0;
+left: 0;
+height: 25px;
+width: 25px;
+border:1px solid #2196F3;
+border-radius: 50%;
+}
+.formdiv{
+position:relative;
+}
+.formdiv label.radio{
+line-height: 28px;
+width: 32%;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkradion {
+background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkradion:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkradion:after {
+display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio .checkradion:after {
+top: 8px;
+left: 7px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: white;
+}
+.el-switch.custom .el-switch-style{
+border:1px solid #659cd5;
+background: none;
+width: 35px;
+}
+.el-switch.custom > input[type="checkbox"]:checked + .el-switch-style {
+background-color: #659cd5;
+}
+.el-switch.custom .el-switch-style::before{
+border:1px solid #659cd5;
+background: none;
+height: 1.5em;
+left: -1px;
+top: -1px;
+}
+.el-switch.custom > input[type="checkbox"]:checked + .el-switch-style::before {
+background-color: #fff;
+}
+.el-switch.custom > input[type="checkbox"]:checked + .el-switch-style::before {
+left: 40%;
+}
+.formdiv div{
+-webkit-transition: all 0.30s ease-in-out;
+-moz-transition: all 0.30s ease-in-out;
+-ms-transition: all 0.30s ease-in-out;
+-o-transition: all 0.30s ease-in-out;
+}
+input:focus + div{
+box-shadow: 0 0 10px #578cc9;
+padding: 0;
+position: absolute;
+width: 100%;
+left: 0;
+height: 100%;
+top: 0;
+z-index: 0;
+}
+
+#content{
+background: url("../assets/images/bgcontent22.png") 0 100% no-repeat #fff;
+background-size: cover;
+}
+.titrehistorique{
+  margin-top: 10px;
+  padding: 10px;
+  color: #2c5aa3;
+  font-size: 12.5px;
+  padding-bottom: 0px;
+}
+
+.ligne{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  height: 57px;
+  margin: 10px;
+  background: #fff;
+}
+
+.ligneitem{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  flex:1;
+  line-height: 1.5;
+  margin-left: 7px;
+}
+
+.ligneitemfirst{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  line-height: 1.5;
+  width: 60px;
+}
+
+.ligneitem1{
+  font-size: 11px;
+  color: #3165b7;
+  border-right: 1px dashed #bababa;
+}
+
+.ligneitem2{
+  font-size: 10px;
+  color: #a7a7a7;
+  border-right: 1px dashed #bababa;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.alert-title.sc-ion-alert-md{
+  text-align: center;
+}
+
+
+.alertCustomCss {
+  .alert-message {
+    text-align: center;
+      color: red; // text color for confirm alerts
+  }
+  
+}
+.alertSucces{
+  .alert-message {
+    text-align: center;
+      color: #2c5aa3; // text color for confirm alerts
+  }
+}
+

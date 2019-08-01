@@ -1,0 +1,112 @@
+
+#bienvenue {
+    background: #2C5AA3;
+    height: 100%;
+
+  }
+
+#bienvenue::before {
+    content: "";
+    width: 250px;
+    height: 250px;
+    border-radius: 100%;
+    position: absolute;
+    left: -50px;
+    bottom: 0px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  #logo {
+    padding-top: 0;
+  }
+
+  #bienvenue {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  #contentbien {
+    display: flex;
+    height: calc(100% - 100px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('../../../../assets/images/trace2.png') #EEF1F7 center 100% no-repeat;
+    background-size: 100%;
+  }
+
+  #contentbien img {
+    max-height: 100%;
+  }
+
+  #contentbien > div {
+    width: 100%;
+    height: 33%;
+    text-align: center;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  #contentbien > div#logo {
+    height: 22%;
+    padding: 15px 0;
+  }
+
+  #contentbien > div#infoicon {
+    height: 7%;
+    padding: 8px 0;
+  }
+
+  #contentbien > div#serveuricon {
+    height: 15%;
+    padding: 15px 0;
+  }
+
+  #contentbien > div#config {
+    width: 96px;
+    height: 23%;
+    position: relative;
+  }
+
+  #contentbien > div#msgbienvenu {
+    width: 85%;
+    color: #767676;
+    text-align: center;
+    line-height: 24px;
+    font-size: 15px;
+    font-family: 'helveticaneuelight';
+    overflow: auto;
+  }
+
+  #contentbien > div#config span {
+    text-transform: uppercase;
+    color: #2C5AA3;
+    display: inline-block;
+    padding-top: 10px;
+  }
+
+  .accessmenu {
+    text-align: center;
+    margin-top: 20px;
+    height: 56px;
+    position: relative;
+  }
+
+  .accessmenu span
+  {
+    display: inline-block;
+    line-height: 55px;
+    width: 90%;
+    height: 56px;
+    color: #2C5AA3;
+    text-transform: uppercase;
+    text-align: center;
+    background: url('../../../../assets/images/bgbtn.png') center center no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+  }
+
+  .shatop.shatop1 {
+    bottom: -10px;
+  }

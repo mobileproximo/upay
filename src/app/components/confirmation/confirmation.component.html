@@ -1,0 +1,81 @@
+<ion-header style="display: flex;justify-content: center">
+  <ion-toolbar color="none" style="min-height:140px;background: url('assets/images/haut.png') #f2f2f2 no-repeat;background-size: 100%;">
+    <ion-title style="height: 45px;">
+
+    </ion-title>
+
+  </ion-toolbar>
+
+  <div id="modaldiv">
+    <div id="logoupaydiv">
+      <img src="assets/images/logo-upay-portrait.png" height="80"/>
+    </div>
+    <div id="actionefectue">
+      Résumé de la transaction
+    </div>
+    <div id="detaildiv">
+      <div class="details">
+        <label>{{commingData.label}}: </label>
+        <span>{{commingData.telephone}}</span>
+      </div>
+      <div class="details" *ngIf="commingData.numFact">
+        <label>Num Fact: </label>
+        <span>{{commingData.numFact}}</span>
+      </div>
+      <div class="details">
+        <label>Date de paiement: </label>
+        <span>{{glb.dateUpdate}}</span>
+      </div>
+      <div class="details">
+        <label>Montant: </label>
+        <span>{{commingData.montant}} XOF</span>
+      </div>
+      <div class="details" *ngIf="commingData.frais">
+          <label>Dont frais: </label>
+          <span>{{commingData.frais}} XOF</span>
+      </div>
+      <div class="details" *ngIf="commingData.codeTransfert">
+          <label>code de transfert: </label>
+          <span>[ {{commingData.codeTransfert}} ]</span>
+        </div>
+      <div class="details" *ngIf="commingData.montantTotal">
+          <label>Montant TTC: </label>
+          <span>{{commingData.montantTotal}} XOF</span>
+      </div>
+      <div class="details" *ngIf="commingData.codewoyofal">
+          <label>Code: </label>
+          <span>[ {{commingData.codewoyofal}} ] </span>
+      </div>
+      <div class="details" *ngIf="commingData.energy">
+          <label>Eneygy: </label>
+          <span>{{commingData.energy}} </span>
+      </div>
+    </div>
+    <div id="messagestatus">
+      Transaction effecutée avec succés
+    </div>
+    <div id="actiondiv">
+      <div id="goacceuil" (click)="gohome()">
+               <span>
+                    <img src="assets/images/iconvalidation.png" height="55"/>
+               </span>
+        <label style="font-size: 13px;">Accueil</label>
+      </div>
+      <div id="nouveau" (click)="dismiss()">
+               <span>
+                    <img src="assets/images/nouveau.png" height="55"/>
+               </span>
+        <label style="font-size: 13px;">Nouveau</label>
+      </div>
+    </div>
+
+  </div>
+
+</ion-header>
+
+<ion-content>
+<div class="bodycontent">
+
+</div>
+</ion-content>
+<app-footer></app-footer>

@@ -1,0 +1,63 @@
+<ion-header style="display: flex;justify-content: center">
+  <ion-toolbar color="none" style="min-height:132px;background: url('assets/images/haut.png') #f2f2f2 no-repeat;background-size: 100%;">
+    <ion-title style="height: 45px;">
+      HISTORIQUE
+    </ion-title>
+
+  </ion-toolbar>
+  <div class="service">
+    <div class="topservice">
+      <div class="histo" (click)="listerhisto()">
+        <img src="assets/images/calendar.png" height="25"/>
+      </div>
+      <div class="logoservice">
+        <img src="assets/images/wizall.png" height="43"/>
+      </div>
+      <div class="actualise">
+        <img src="assets/images/refresh2.png" height="23"/>
+      </div>
+    </div>
+    <div id="soldecmpt">
+      <label>Solde du compte</label>
+      <div id="numcompte">
+          <span *ngIf="!glb.ShowSolde">- - - - - - - </span>
+          <span *ngIf="glb.ShowSolde">{{glb.HEADER.montant}} F</span>
+        <img (click)="showSolde()" src="assets/images/secure.png" height="26"/>
+      </div>
+    </div>
+
+    <span class="circlemedium"></span>
+  </div>
+  </ion-header >
+
+<ion-content id="contenthisto" >
+  <div style="margin-bottom:40px;" class = "bodycontent">
+    <div class="titrehistorique" *ngIf="showdetails">Historique</div>
+
+     <div class = "ligne" style="display: flex; " *ngFor="let trx of transactions">
+        <div class="ligneitemfirst" style="align-items: center;border-left: 5px solid green;background: #f6fbf3;">
+          <img style="width: 70%" [src]="trx.image" alt="">
+          <span style="border: none;line-height: 1.9;font-size: 7px" class="ligneitem2" >Type: {{trx.Type}}</span>
+        </div>
+  
+        <div class="ligneitem">
+          <span class="ligneitem1" >{{trx.label}}</span>
+          <span class="ligneitem2" >{{trx.Numc}}</span>
+        </div>
+  
+        <div class="ligneitem">
+          <span class="ligneitem1" >MONTANT</span>
+          <span class="ligneitem2" >{{trx.Mnt |millier}}</span>
+        </div>
+        <div class="ligneitem">
+          <span style="border: none" class="ligneitem1">DATE</span>
+          <span style="border: none;padding-right: 10px;" class="ligneitem2" >{{trx.datetrx}}</span>
+          <span style="border: none;padding-right: 10px;font-size: 7px" class="ligneitem2" ><i>TRX: {{trx.Num}}</i></span>
+        </div>
+      </div>
+  </div>
+
+</ion-content>
+<app-footer></app-footer>
+
+

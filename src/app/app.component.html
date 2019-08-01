@@ -1,0 +1,105 @@
+<ion-app>
+  <!--     <ion-menu  side="start">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Menu</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          menu stuff
+        </ion-content>
+      </ion-menu>
+  <ion-router-outlet></ion-router-outlet> -->
+  <div id="menulateral">
+    <ion-split-pane>
+      <ion-menu swipeGesture="false" type="overlay" style="--background: #2d5ba4 !important;">
+        <ion-header>
+
+          <div id="msg_acceuil">
+            <div>
+              <div>Bienvenue, {{glb.PRENOM}} {{glb.NOM}}</div>
+              <div id="telef">{{glb.PHONE}}</div>
+            </div>
+          </div>
+
+          <!--           <ion-toolbar style="--ion-background-color:#F2F2F2 !important">
+            <ion-title >Menu</ion-title>
+          </ion-toolbar> -->
+        </ion-header>
+        <ion-content style="--ion-background-color:none !important">
+          <div id="contentmenu"
+            style="height:100%;display: flex;align-items: flex-end; justify-content: space-between;flex-direction: column;">
+            <div id="utils">
+              <div>
+                <span><img src="assets/images/icon-param.png" /></span>
+                <label>Paramétres</label>
+              </div>
+              <div>
+                <span><img src="assets/images/icon-favoris.png" /></span>
+                <label>Favoris</label>
+              </div>
+              <div>
+                <span><img src="assets/images/icon-msg.png" /></span>
+                <label>Contact</label>
+              </div>
+            </div>
+
+            <div class="listul">
+              <ul>
+                <ion-menu-toggle auto-hide="false">
+                  <li (click)="vershome()">
+                    <span><img src="assets/images/icon-accueil.png" /></span>
+                    <label>Acceuil</label>
+                  </li>
+                </ion-menu-toggle>
+
+                <li>
+                  <span><img src="assets/images/icon-accueil.png" /></span>
+                  <label>Mon Profil</label>
+                </li>
+                <li>
+                  <span><img src="assets/images/icon-accueil.png" /></span>
+                  <label>Assistance</label>
+                </li>
+                <ion-menu-toggle auto-hide="false">
+                  <li (click)="versfavoris()">
+                    <span><img src="assets/images/icon-accueil.png" /></span>
+                    <label>Favoris</label>
+                  </li>
+                </ion-menu-toggle>
+                <li>
+                  <span><img src="assets/images/icon-accueil.png" /></span>
+                  <label>Mes contacts</label>
+                </li>
+                <ion-menu-toggle auto-hide="false">
+                  <li (click)="vershistorique()">
+                    <span><img src="assets/images/icon-accueil.png" /></span>
+                    <label>Mes transactions</label>
+                  </li>
+                </ion-menu-toggle>
+                <li>
+                  <span><img src="assets/images/icon-accueil.png" /></span>
+                  <label>Mention légales</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ion-content>
+        <ion-footer>
+          <div class="listul">
+            <ul>
+              <ion-menu-toggle auto-hide="false">
+                <li class="deconnect" (click)="deconnexion()">
+                  <span><img src="assets/images/logout.png" /></span>
+                  <label>Déconnexion</label>
+                </li>
+              </ion-menu-toggle>
+
+            </ul>
+          </div>
+        </ion-footer>
+      </ion-menu>
+      <ion-router-outlet main></ion-router-outlet>
+    </ion-split-pane>
+  </div>
+</ion-app>

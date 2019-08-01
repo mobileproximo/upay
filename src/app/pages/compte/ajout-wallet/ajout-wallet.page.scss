@@ -1,0 +1,40 @@
+#contentslide{
+    background: #fff;
+     height: 60px;
+     padding-top: 15px;
+   }
+   
+   .swiper-slide img {
+     width: 35px !important;
+   }
+   .swiper-wrapper {
+   align-items: center;
+   }
+   
+   .custom-swiper-pagination .swiper-pagination-bullet {
+     width: 0px !important;
+     height: 0px !important;
+     display: none !important;
+   }
+   
+   .customfirst{
+     background: #fff;
+     margin-bottom: 18px;
+     border: none;
+     padding: 10px 10px;
+     margin-bottom: 0px;
+   }
+   
+   .opa{
+     opacity: 0.2;
+   }
+   
+   .active{
+     opacity: 1;
+   }
+   
+   .formdiv{
+     border: 1px solid #b6d3f0;
+     border-radius: 5px;
+   }
+   

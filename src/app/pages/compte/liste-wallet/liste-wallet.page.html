@@ -1,0 +1,23 @@
+<app-header [headerTitle]="headerTitle"></app-header>
+<ion-content>
+  <div class="bodycontent">
+    <div style="justify-content:center;padding: 10px;padding-left: 5px;padding-right: 5px;display: flex;width:100%;flex-wrap: wrap;">
+
+      <div class="itemenu" *ngFor="let wallet of wallets">
+        <img style="height: 35px;" [src]="wallet.image" alt="">
+        <span class="labelitem"></span>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab  vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="ajoutWallet()" style="--background: white; --color:#2C5AA3;" >
+      <ion-icon name="add" size="large" ></ion-icon>
+    </ion-fab-button >
+<!--     <ion-fab-list side="top" >
+        <ion-fab-button *ngFor="let service of glbVariable.OperatorsImages"><img [src]="service.image"/></ion-fab-button>
+      </ion-fab-list> -->
+  </ion-fab>
+
+</ion-content>
+<app-footer></app-footer>
