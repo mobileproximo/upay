@@ -14,8 +14,6 @@ export class AcceuilPage implements OnInit {
   constructor(public navCtrl: NavController,
               public glbVariable: GlobalVariableService,
               public modal: ModalController ) { }
-
-
   ngOnInit() {
     this.glbVariable.ShowSolde = false;
     this.ligneUne  = [{image: this.glbVariable.IMG_URL + 'homepaiement.png', libelle: 'Paiement', chemin: 'paiement'},

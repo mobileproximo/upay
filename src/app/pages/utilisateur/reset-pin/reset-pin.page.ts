@@ -27,7 +27,6 @@ export class ResetPinPage implements OnInit {
       mode: ['R']
     });
   }
-
   ngOnInit() {
   }
   generateOTPCode() {
