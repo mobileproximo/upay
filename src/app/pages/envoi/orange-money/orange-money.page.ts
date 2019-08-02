@@ -13,7 +13,7 @@ export class OrangeMoneyPage implements OnInit {
   constructor(public glb: GlobalVariableService) { }
 
   ngOnInit() {
-    this.datarecharge.codeOperateur = '0005';
+    this.datarecharge.codeOperateur = '0025';
     this.datarecharge.sousoperateur = '0005';
     this.datarecharge.image         = this.glb.IMG_URL + 'omoney.png';
     this.datarecharge.chemin        = 'envoi/orangemoney';
