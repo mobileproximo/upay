@@ -45,7 +45,7 @@ export class HistoriquePage implements OnInit {
 
         modal.onDidDismiss().then((codepin) => {
           if (codepin !== null && codepin.data) {
-            this.glb.ShowSolde = true;
+            this.serv.getplafond();
           } else {
             this.glb.ShowSolde = false;
           }

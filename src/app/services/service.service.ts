@@ -22,11 +22,12 @@ export class ServiceService {
               private localNotifications: LocalNotifications,
               private platform: Platform,
               public modal: ModalController,
+              public number: MillierPipe,
               public navCtrl: NavController) {
                 this.platform.ready().then(() => {
                   this.localNotifications.on('click').subscribe(res => {
-                    //const transaction =  res.data.mydata : '';
-                    //this.showAlert(res.title, res.text, msg);
+                    // const transaction =  res.data.mydata : '';
+                    // this.showAlert(res.title, res.text, msg);
                     const mod = this.modal.create({
                       component: ConfirmationComponent,
                       componentProps: {
@@ -35,10 +36,10 @@ export class ServiceService {
                     }).then((e) => {
                       e.present();
                       e.onDidDismiss().then(() => {
-                        //this.getrecent();
+                        // this.getrecent();
                       });
-          
-                    }); 
+
+                    });
                   });
 
                 });
@@ -480,6 +481,36 @@ export class ServiceService {
       text: 'Transaction effecutée avec succés, cliquer pour voir les details',
       sound: 'file://sound.mp3',
       data: { recu: trx }
+    });
+  }
+
+  getPlafond() {
+    this.afficheloading();
+    this.getplafond().then(data => {
+      this.dismissloadin();
+      const plafond = JSON.parse(data.data);
+      if (plafond.returnCode) {
+              if (plafond.returnCode === '0') {
+                this.glb.ShowSolde = true;
+                this.glb.dateUpdate = this.getCurrentDate();
+                this.glb.HEADER.montant = this.number.transform(plafond.mntPlf);
+
+                this.glb.HEADER.numcompte = plafond.numcompte;
+                this.glb.HEADER.consomme = this.number.transform(plafond.consome);
+      } else { this.showError(plafond.errorLabel); }
+      } else {
+        this.showError('Réponse inattendue');
+
+      }
+
+
+    }).catch(error => {
+      this.dismissloadin();
+      if (error.status === 500) {
+        this.showError('Une erreur interne s\'est produite ERREUR 500');
+        } else {
+        this.showError('Impossible d\'atteindre le serveur veuillez réessayer');
+        }
     });
   }
 

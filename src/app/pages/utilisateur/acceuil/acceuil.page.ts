@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavController, ModalController, MenuController} from '@ionic/angular';
 import { GlobalVariableService } from 'src/app/services/global-variable.service';
 import { PinValidationPage } from '../pin-validation/pin-validation.page';
+import { ServiceService } from 'src/app/services/service.service';
 
 @Component({
   selector: 'app-acceuil',
@@ -13,6 +14,7 @@ export class AcceuilPage implements OnInit {
   public ligneDeux;
   constructor(public navCtrl: NavController,
               public glbVariable: GlobalVariableService,
+              public serv: ServiceService,
               public modal: ModalController ) { }
   ngOnInit() {
     this.glbVariable.ShowSolde = false;
@@ -33,8 +35,9 @@ export class AcceuilPage implements OnInit {
 
         modal.onDidDismiss().then((codepin) => {
           if (codepin !== null && codepin.data) {
-            this.glbVariable.ShowSolde = true;
+            this.serv.getplafond(); 
           } else {
+
             this.glbVariable.ShowSolde = false;
           }
         });
@@ -44,6 +47,7 @@ export class AcceuilPage implements OnInit {
     }
 
   }
+
   home(chemin: string) {
     this.navCtrl.navigateForward(chemin);
   }
