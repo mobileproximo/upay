@@ -29,10 +29,10 @@ export class EnvoiPage implements OnInit {
   {image: this.glbVariable.IMG_URL + 'logo_Tigo Cash.png', libelle: '', chemin: 'envoi/tigocash' },
   {image: this.glbVariable.IMG_URL + 'postecash.png', libelle: '', chemin: 'envoi/postecash'},
   {image: this.glbVariable.IMG_URL + 'emoney.png', libelle: '', chemin: 'envoi/emoney'},
-  {image: this.glbVariable.IMG_URL + 'logo_Orange.png', libelle: '', chemin: 'envoi/seddo'},
-  {image: this.glbVariable.IMG_URL + 'logo_Tigo.png', libelle: '', chemin: 'envoi/izi'},
-  {image: this.glbVariable.IMG_URL + 'logo_Expresso.png', libelle: '', chemin: 'envoi/yakalma'},
-  {image: this.glbVariable.IMG_URL + 'logo_rapido.png', libelle: '', chemin: 'envoi/rapido'},
+ // {image: this.glbVariable.IMG_URL + 'logo_Orange.png', libelle: '', chemin: 'envoi/seddo'},
+  //{image: this.glbVariable.IMG_URL + 'logo_Tigo.png', libelle: '', chemin: 'envoi/izi'},
+  //{image: this.glbVariable.IMG_URL + 'logo_Expresso.png', libelle: '', chemin: 'envoi/yakalma'},
+  //{image: this.glbVariable.IMG_URL + 'logo_rapido.png', libelle: '', chemin: 'envoi/rapido'},
   {image: this.glbVariable.IMG_URL + 'logo-upay-portrait.png', libelle: '', chemin: 'envoi/upaywallet'},
 ];
   }
