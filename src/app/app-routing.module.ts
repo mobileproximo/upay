@@ -13,7 +13,6 @@ const routes: Routes = [
   { path: 'compte', loadChildren: './pages/compte/compte.module#ComptePageModule' }
 ];
 
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

@@ -1,0 +1,30 @@
+<app-header [headerTitle]="headerTitle"></app-header>
+<ion-content>
+  <div style="padding:15px" id="contentform">
+    <form   class="formulaire" >
+        <div class="formdiv">
+            <label>Selectionner un Wallet Source</label>
+            <ion-select  style="--padding-start:0px; --padding-bottom: 0px" interface="popover">
+              <ion-select-option value="0025">Orange Money</ion-select-option>
+              <ion-select-option value="0022">Tigo Cash</ion-select-option>
+              <ion-select-option value="0057">Wizall</ion-select-option>
+              <ion-select-option value="0054">E-Money</ion-select-option>
+              <ion-select-option value="0054">PosteCash</ion-select-option>
+            </ion-select>
+            <div></div>
+          </div>
+          <div class="formdiv releve">
+            <label>Renseigner le montant souhaité</label>
+            <input type="number"  placeholder="Saisir le montant ici" />
+            <div></div>
+          </div>
+  
+          <div class="flex2 flexcenter" id="btncontrol">
+            <button style="width: 100%;border-radius: 5px;" id="btnsvt"  class="btnbleu"  class="btnbleu" >Valider</button>
+          </div>
+    </form>
+
+
+  </div>
+</ion-content>
+  <app-footer></app-footer>
