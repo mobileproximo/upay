@@ -7,9 +7,7 @@ import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 export class GlobalVariableService {
   public showPin = false;
 public IMG_URL                 = 'assets/images/';
-
-//public BASEURL                    = 'http://196.207.207.63:8080/upayMobile/';
-public BASEURL                    = 'https://mobile.upay.africa:8080/upayMobile/';
+public BASEURL                    = 'http://196.207.207.63:8080/upayMobile/';
 public IDPART                         = '';
 public IDSESS                         = '';
 public IDTERM                         = '';
@@ -38,7 +36,7 @@ public active1 = false;
 public active2 = false;
 public active3 = false;
 public active4 = false;
-PHONE: any;
+PHONE: any = '775067661';
 NUMCOMPTE: any = '';
 URLUPLOAD = 'http://192.168.4.63:8080/amifa-1/';
 isLoadingShowing = false;
