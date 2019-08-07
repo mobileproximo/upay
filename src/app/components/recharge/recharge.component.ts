@@ -22,7 +22,7 @@ export class RechargeComponent implements OnInit {
   public contactName = '';
   @Input() datarecharge: any = {};
   showName: boolean;
-  displayName: string;
+  displayName = '';
   recentsContacts: any;
   constructor(public formBuilder: FormBuilder,
               public millier: MillierPipe,
@@ -119,6 +119,7 @@ export class RechargeComponent implements OnInit {
     const params = this.Rechargedata.getRawValue();
 
     params.nameContact = this.contactName;
+    params.nameContact = params.nameContact === '' ? this.displayName : params.nameContact;
     params.type        = 'recharge';
    // alert(JSON.stringify(params))
 
@@ -247,6 +248,7 @@ export class RechargeComponent implements OnInit {
     // this.contact.find()
     this.contact.pickContact().then(numbers => {
       this.displayName  = numbers.displayName;
+
      // alert(JSON.stringify(numbers));
       const nombre = numbers.phoneNumbers.length;
       // le contact a plusieurs numero
