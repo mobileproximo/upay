@@ -68,7 +68,7 @@ export class RechargeComponent implements OnInit {
     const mnt  = this.millier.transform(recent.montant);
     this.Rechargedata.controls.montant.setValue(mnt);
   }
-  eraseAmount(){
+  eraseAmount() {
     this.Rechargedata.controls.montant.setValue('');
   }
   getrecent() {
@@ -114,7 +114,9 @@ export class RechargeComponent implements OnInit {
     });
 
   } */
-
+  resetContactName() {
+this.displayName = '';
+  }
   async showPin() {
     const params = this.Rechargedata.getRawValue();
 
