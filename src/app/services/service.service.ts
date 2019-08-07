@@ -267,7 +267,30 @@ export class ServiceService {
     }
 
   }
+  async afficheloadingWithExit() {
+    // this.checkNetwork();
+    if (this.glb.ISCONNECTED === true) {
+      this.loading = true;
+      return await this.loadingCtrl.create({
+        message: 'Veuillez patienter ...',
+        spinner: 'lines-small',
+        cssClass: 'custom-loader-class',
+        backdropDismiss: true
+      }).then(a => {
+        a.present().then(() => {
+          this.glb.isLoadingShowing = true;
+          console.log('presented');
+          if (!this.loading) {
+            a.dismiss().then(() => {
+              console.log('abort presenting');
+              this.glb.isLoadingShowing = false;
+            });
+          }
+        });
+      });
+    }
 
+  }
   async dismissloadin() {
     this.loading = false;
     return await this.loadingCtrl.dismiss().then(() => {
@@ -333,10 +356,6 @@ export class ServiceService {
       this.http.setRequestTimeout(90);
       return this.http.post(url, body, headers);
     }
-
-
-
-
 
   }
   showError(text: string = 'Erreur Non reconnue.Veuillez contacter le SUPPORT') {
@@ -514,4 +533,24 @@ export class ServiceService {
     });
   }
 
+  post(service: string, body: any = {}, headers: any = {}): any {
+    /*   this.checkNetwork();*/
+      if (this.glb.ISCONNECTED === false) {
+        this.showToast('Veuillez revoir votre connexion internet !');
+        return ;
+      } else {
+        const url =  service;
+        console.log(headers);
+        console.log(url);
+        console.log(body);
+        this.http.setDataSerializer('json');
+        this.http.setSSLCertMode('nocheck');
+        this.http.setRequestTimeout(90);
+        return this.http.post(url, body, headers);
+      }
+
+
+
+
+    }
 }

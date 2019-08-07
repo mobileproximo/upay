@@ -40,8 +40,7 @@ export class SouscriptionSuitePage implements OnInit {
     });
   }
   ionViewDidLeave() {
-   // this.stopwatching();
-
+   this.stopwatching();
   }
   checkPermission() {
     this.platform.ready().then(() => {

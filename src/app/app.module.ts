@@ -30,16 +30,14 @@ import {FilePath} from '@ionic-native/file-path/ngx';
 import { OperatorImagePipe } from './pipes/operator-image.pipe';
 import { FormatcodePipe } from './pipes/formatcode.pipe';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { SharedModule } from './shared/shared.module';
-//import { Keyboard } from '@ionic-native/keyboard/ngx';
-
+import { CallNumber } from '@ionic-native/call-number/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), SharedModule, AppRoutingModule, IonicStorageModule.forRoot()],
   providers: [
-    StatusBar, SQLite, Toast,  Sim, Network, OperatorImagePipe, LocalNotifications,
+    StatusBar, SQLite, Toast,  Sim, Network, OperatorImagePipe, LocalNotifications, CallNumber,
     SplashScreen, GlobalVariableService, Camera, Base64, ServiceService, HTTP, Contacts, FilePath, FormatcodePipe,
     MillierPipe, FormatphonePipe, AndroidPermissions,  FormatdatePipe, CoupurechainePipe, BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

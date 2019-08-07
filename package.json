@@ -23,6 +23,7 @@
     "@ionic-native/android-permissions": "^5.11.0",
     "@ionic-native/barcode-scanner": "^5.10.0",
     "@ionic-native/base64": "^5.10.0",
+    "@ionic-native/call-number": "^5.11.0",
     "@ionic-native/camera": "^5.10.0",
     "@ionic-native/contacts": "^5.10.0",
     "@ionic-native/core": "^5.0.0",
@@ -37,6 +38,7 @@
     "@ionic-native/toast": "^5.10.0",
     "@ionic/angular": "^4.1.0",
     "@ionic/storage": "^2.2.0",
+    "call-number": "^1.0.1",
     "com-badrit-base64": "^0.2.0",
     "cordova-android": "8.0.0",
     "cordova-plugin-advanced-http": "^2.1.1",
@@ -121,7 +123,8 @@
         "MAX_STORE": "2",
         "MIN_BACKGROUND_DURATION": "30",
         "UPDATE_API": "https://api.ionicjs.com"
-      }
+      },
+      "mx.ferreyra.callnumber": {}
     },
     "platforms": [
       "android"

@@ -206,7 +206,6 @@ export class RechargeComponent implements OnInit {
                             image: this.datarecharge.image,
                             };
           this.serv.insertFavoris(operateur);
-          
           parametres.recharge.montant    = this.monmillier.transform(parametres.recharge.montant);
           parametres.recharge.nameContact = this.contactName;
           parametres.recharge.label = 'N° Tel';

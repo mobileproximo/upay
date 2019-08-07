@@ -1,26 +1,26 @@
 <app-header [headerTitle]="headerTitle"></app-header>
 <ion-content>
   <div style="padding:15px" id="contentform">
-    <form   class="formulaire" >
+    <form   class="formulaire" [formGroup]="rechargeForm"  >
         <div class="formdiv">
             <label>Selectionner un Wallet Source</label>
-            <ion-select  style="--padding-start:0px; --padding-bottom: 0px" interface="popover">
-              <ion-select-option value="0025">Orange Money</ion-select-option>
+            <ion-select formControlName="service" style="--padding-start:0px; --padding-bottom: 0px" interface="popover">
+              <ion-select-option value="0005">Orange Money</ion-select-option>
               <ion-select-option value="0022">Tigo Cash</ion-select-option>
               <ion-select-option value="0057">Wizall</ion-select-option>
               <ion-select-option value="0054">E-Money</ion-select-option>
-              <ion-select-option value="0054">PosteCash</ion-select-option>
+              <ion-select-option value="0053">PosteCash</ion-select-option>
             </ion-select>
             <div></div>
           </div>
           <div class="formdiv releve">
             <label>Renseigner le montant souhaité</label>
-            <input type="number"  placeholder="Saisir le montant ici" />
+            <input type="number" formControlName="montantrlv"   placeholder="Saisir le montant ici" />
             <div></div>
           </div>
-  
+            
           <div class="flex2 flexcenter" id="btncontrol">
-            <button style="width: 100%;border-radius: 5px;" id="btnsvt"  class="btnbleu"  class="btnbleu" >Valider</button>
+            <button style="width: 100%;border-radius: 5px;" [style.background]="rechargeForm.controls['montantrlv'].value<=0 ? '#CFD8DC' : '#074A94'" (click)="showPin()" [disabled]="rechargeForm.controls['montantrlv'].value<=0" id="btnsvt"  class="btnbleu"  class="btnbleu" >Transferer</button>
           </div>
     </form>
 
