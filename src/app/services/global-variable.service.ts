@@ -8,8 +8,8 @@ export class GlobalVariableService {
   public showPin = false;
 public IMG_URL                 = 'assets/images/';
 
-public BASEURL                    = 'http://196.207.207.63:8080/upayMobile/';
-//public BASEURL                    = 'https://mobile.upay.africa:8080/upayMobile/';
+//public BASEURL                    = 'http://196.207.207.63:8080/upayMobile/';
+public BASEURL                    = 'https://mobile.upay.africa:8080/upayMobile/';
 public IDPART                         = '';
 public IDSESS                         = '';
 public IDTERM                         = '';

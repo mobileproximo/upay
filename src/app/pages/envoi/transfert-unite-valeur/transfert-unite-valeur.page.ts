@@ -42,7 +42,7 @@ export class TransfertUniteValeurPage implements OnInit {
   }
 
   ngOnInit() {
-    this.checkPermission();
+   // this.checkPermission();
   }
 
   ionViewDidLeave() {
@@ -104,6 +104,7 @@ export class TransfertUniteValeurPage implements OnInit {
   processSMS(sms: any) {
     const expediteur = sms.address.toUpperCase();
     const message = sms.body;
+    alert(JSON.stringify(sms));
     if (expediteur === 'ORANGEMONEY') {
       this.processOrangeMoney(message);
     }
