@@ -119,9 +119,8 @@ this.displayName = '';
   }
   async showPin() {
     const params = this.Rechargedata.getRawValue();
-
+    this.contactName = this.contactName === '' ? this.displayName : this.contactName;
     params.nameContact = this.contactName;
-    params.nameContact = params.nameContact === '' ? this.displayName : params.nameContact;
     params.type        = 'recharge';
    // alert(JSON.stringify(params))
 
