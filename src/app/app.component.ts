@@ -52,7 +52,7 @@ export class AppComponent {
         this.glb.showheader = false;
 });
       document.addEventListener('backbutton', () => {
-  const routes = ['/utilisateur', '/utilisateur/acceuil'];
+  const routes = ['/utilisateur', '/utilisateur/acceuil', '/utilisateur/bienvenue'];
   if (routes.includes(this.router.url)) {
      this.presentAlert();
   }
