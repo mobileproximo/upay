@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {NavController} from '@ionic/angular';
-
 @Component({
   selector: 'app-bienvenu',
   templateUrl: './bienvenue.page.html',
@@ -14,10 +13,10 @@ export class BienvenuePage implements OnInit {
   ngOnInit() {
   }
 
-  accueil(){
+  accueil() {
     this.navCtrl.navigateRoot('utilisateur/acceuil');
   }
-  verscompte(){
+  verscompte() {
     this.navCtrl.navigateForward('compte');
   }
 

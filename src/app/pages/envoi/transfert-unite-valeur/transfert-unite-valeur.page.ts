@@ -8,7 +8,8 @@ import { GlobalVariableService } from 'src/app/services/global-variable.service'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidatorPhone } from 'src/app/components/customValidator/custom-validator';
 import { PinValidationPage } from '../../utilisateur/pin-validation/pin-validation.page';
-declare var SMS: any;
+import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
+declare var SMSReceive: any;
 @Component({
   selector: 'app-transfert-unite-valeur',
   templateUrl: './transfert-unite-valeur.page.html',
@@ -20,6 +21,7 @@ export class TransfertUniteValeurPage implements OnInit {
   numtrx: any;
   sousop: any;
   idtrxEmoney: any;
+  codepin = '';
   public rechargeForm: FormGroup;
   private listeServiceDisponible = ['0005', '0054', '0057', '0053', '0022'];
   constructor(public androidPermissions: AndroidPermissions,
@@ -39,10 +41,27 @@ export class TransfertUniteValeurPage implements OnInit {
       frais: [''],
       sousop: ['']
     });
+   // alert('je suis ');
+    this.smsreceiver();
   }
 
   ngOnInit() {
-   // this.checkPermission();
+    // this.smsreceiver();
+    // this.checkPermission();
+  }
+  smsreceiver() {
+    this.platform.ready().then(() => {
+      if (SMSReceive) {
+      this.startWatching();
+      document.addEventListener('onSMSArrive', (e: any) => {
+        const IncomingSMS = e.data;
+        this.processSMS(IncomingSMS);
+    });
+      } else {
+        this.serv.showError('Impossible de lire un sms entrant');
+        alert('nok');
+      }
+    });
   }
 
   ionViewDidLeave() {
@@ -50,21 +69,21 @@ export class TransfertUniteValeurPage implements OnInit {
   }
   checkPermission() {
     this.platform.ready().then(() => {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_SMS).then(
+      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(
         result => {
-          console.log('Has permission?', result.hasPermission);
+          alert('Has permission? ' + result.hasPermission);
           this.watchingSMS();
         },
         err => {
 
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_SMS).then(r => {
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(r => {
             this.watchingSMS();
           }).catch((err) => {
 
           });
         }
       );
-      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_SMS]);
+      this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.RECEIVE_SMS]);
 
     });
 
@@ -79,26 +98,25 @@ export class TransfertUniteValeurPage implements OnInit {
     }
   }
   stopwatching() {
-    SMS.stopWatch(
-      () => { console.log('watch stopped'); },
-      () => { console.log('watch stop failed'); }
+    SMSReceive.stopWatch(
+      () => { alert('watch stopped'); },
+      () => { alert('watch stop failed'); }
     );
   }
 
   startWatching() {
-    SMS.startWatch(
-      () => { console.log('watch started'); },
-      () => { console.log('watch started failed'); }
+    SMSReceive.startWatch(
+      () => {  },
+      () => {  }
     );
   }
 
   restartWatching() {
-    SMS.stopWatch(
+    SMSReceive.stopWatch(
       () => {
         this.startWatching();
-        console.log('watch stopped');
       },
-      () => { console.log('watch stop failed'); }
+      () => {  }
     );
   }
   processSMS(sms: any) {
@@ -114,7 +132,14 @@ export class TransfertUniteValeurPage implements OnInit {
     if (expediteur === 'E-MONEY') {
       this.processEmoney(message);
     }
+    if (expediteur === 'POSTECASH') {
+      this.processpostecash(message);
+    }
+/*     setTimeout(() => {
+      this.restartWatching();
+    }, 200); */
   }
+
   processOrangeMoney(message: string) {
     if (message.substr(0, 30) === 'Vous allez faire un retrait de') {
       setTimeout(() => {
@@ -172,14 +197,13 @@ export class TransfertUniteValeurPage implements OnInit {
   processEmoney(message: string) {
     if (message.indexOf('OTP') !== -1) {
       setTimeout(() => {
-        // const otp = message.substring(message.indexOf('OTP:') + 5, message.indexOf('. Ref:'));
+        const otp = message.substring(message.indexOf('OTP:') + 5, message.indexOf('. Ref:'));
         const parametres: any = {};
         parametres.recharge = {};
         parametres.recharge.numtrx = this.idtrxEmoney;
-        //  parametres.recharge.codevalidation    = otp;
-        //  parametres.recharge.montant   = this.rechargeForm.controls.montantrlv.value.replace(/ /g, '');
+        parametres.recharge.codevalidation    = otp;
+        parametres.recharge.montant   = this.rechargeForm.controls.montantrlv.value.replace(/ /g, '');
         this.serv.posts('recharge/validationemoney.php', parametres, {}).then(data => {
-          // this.serv.dismissloadin();
           const reponse = JSON.parse(data.data);
           if (reponse.returnCode) {
 
@@ -189,7 +213,6 @@ export class TransfertUniteValeurPage implements OnInit {
           } else {
             this.serv.dismissloadin();
             this.serv.showError('Reponse inattendue');
-
           }
         }).catch(err => {
           this.serv.dismissloadin();
@@ -205,7 +228,36 @@ export class TransfertUniteValeurPage implements OnInit {
 
     }
   }
+  processpostecash(message) {
+    if (message.substr(0, 42) === 'Vous avez effectue une demande de debit de') {
+      const v = message.substr(message.indexOf(':') + 2, message.indexOf('.'));
+      const otp = v.substr(0, v.indexOf('.'));
+      const parametre: any = {};
+      parametre.recharge = {};
+      parametre.recharge.telephone = this.glb.PHONE;
+      parametre.recharge.codevalidation = otp;
+      parametre.recharge.montant = this.rechargeForm.controls.montantrlv.value.replace(/ /g, '');
+      parametre.recharge.pin = this.codepin;
+      parametre.idTerm = this.glb.IDTERM;
+      parametre.session = this.glb.IDSESS;
+      this.serv.posts('recharge/retraitpostcash.php', parametre, {}).then(data => {
+          this.serv.dismissloadin();
+          const reponse = JSON.parse(data.data);
+          if (reponse.returnCode === '0') {
+            this.numtrx = this.glb.PHONE;
+            this.glb.HEADER.montant = this.millier.transform(reponse.mntPlfap);
+            this.cashinUPay();
+          } else {
+            this.serv.showError(reponse.errorLabel);
+          }
+        }).catch(err => {
+          this.serv.dismissloadin();
+          this.serv.showError('Impossible d\'atteindre le serveur');
+        });
 
+
+     }
+  }
   cashinUPay() {
     const parametres: any = {};
     parametres.recharge = {};
@@ -223,15 +275,21 @@ export class TransfertUniteValeurPage implements OnInit {
       const reponse = JSON.parse(data.data);
       if (reponse.returnCode) {
         if (reponse.returnCode === '0') {
-          // alert('cashin UPAY' + JSON.stringify(reponse) );
-          // this.glb.recu = reponse;
-          // this.glb.recu.guichet = this.glb.IDTERM.substring(5, 6);
-          // this.glb.recu.agence = this.glb.HEADER.agence;
-          this.glb.showRecu = true;
           this.glb.HEADER.montant = this.millier.transform(reponse.mntPlfap);
           this.glb.dateUpdate = this.serv.getCurrentDate();
-         // this.glb.recu.service = 'Cashin UPay';
-          // this.glb.recu.Oper = 'UPay';
+          parametres.recharge.montant    = this.millier.transform(parametres.recharge.montant);
+          parametres.recharge.nameContact = this.glb.PRENOM + ' ' + this.glb.NOM;
+          parametres.recharge.label = 'N° Tel';
+          const mod = this.modal.create({
+            component: ConfirmationComponent,
+            componentProps: {
+              data: parametres.recharge,
+            }
+          }).then((e) => {
+            e.present();
+            e.onDidDismiss().then(() => {
+            });
+          });
         } else {
           this.serv.showError(reponse.errorLabel);
         }
@@ -260,6 +318,7 @@ export class TransfertUniteValeurPage implements OnInit {
       });
       modal.onDidDismiss().then((codepin) => {
         if (codepin !== null && codepin.data) {
+          this.codepin = codepin.data;
           this.initier();
         } else {
           this.glb.ShowSolde = false;

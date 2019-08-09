@@ -24,15 +24,15 @@ export class EnvoiPage implements OnInit {
     {image: this.glbVariable.IMG_URL + 'logo-upay-portrait.png', libelle: 'UPAY', chemin: 'envoi/upaywallet'},
   ]; */
   this.envoiServices  = [{image: this.glbVariable.IMG_URL + 'omoney.png', libelle: '', chemin: 'envoi/orangemoney'},
-  {image: this.glbVariable.IMG_URL + 'wizall.png', libelle: '', chemin: 'envoi/wizall' },
-  {image: this.glbVariable.IMG_URL + 'logo_Tigo Cash.png', libelle: '', chemin: 'envoi/tigocash' },
-  {image: this.glbVariable.IMG_URL + 'postecash.png', libelle: '', chemin: 'envoi/postecash'},
-  {image: this.glbVariable.IMG_URL + 'emoney.png', libelle: '', chemin: 'envoi/emoney'},
+                         {image: this.glbVariable.IMG_URL + 'wizall.png', libelle: '', chemin: 'envoi/wizall' },
+                         {image: this.glbVariable.IMG_URL + 'logo_Tigo Cash.png', libelle: '', chemin: 'envoi/tigocash' },
+                         {image: this.glbVariable.IMG_URL + 'postecash.png', libelle: '', chemin: 'envoi/postecash'},
+                         {image: this.glbVariable.IMG_URL + 'emoney.png', libelle: '', chemin: 'envoi/emoney'},
  // {image: this.glbVariable.IMG_URL + 'logo_Orange.png', libelle: '', chemin: 'envoi/seddo'},
   // {image: this.glbVariable.IMG_URL + 'logo_Tigo.png', libelle: '', chemin: 'envoi/izi'},
   // {image: this.glbVariable.IMG_URL + 'logo_Expresso.png', libelle: '', chemin: 'envoi/yakalma'},
   // {image: this.glbVariable.IMG_URL + 'logo_rapido.png', libelle: '', chemin: 'envoi/rapido'},
-  {image: this.glbVariable.IMG_URL + 'upayv2.png', libelle: '', chemin: 'envoi/upaywallet'},
+                        {image: this.glbVariable.IMG_URL + 'upayv2.png', libelle: '', chemin: 'envoi/upaywallet'},
  /// {image: this.glbVariable.IMG_URL + 'homereception.png', libelle: 'MOGA', chemin: 'envoi/transfertuv'},
 ];
 }
