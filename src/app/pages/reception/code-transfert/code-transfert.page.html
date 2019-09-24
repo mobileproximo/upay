@@ -1,4 +1,79 @@
 <app-header [headerTitle]="headerTitle"></app-header>
 <ion-content>
+        <div style="padding: 15px">
+                <form [formGroup]="cashoutForm">
+
+                        <div class="formdiv releve" style="margin-bottom: 10px">
+                                <label>Choisir un opérateur</label>
+                                <ion-select formControlName="service" interface="popover" >
+                                        <ion-select-option value="0052">Proxicash</ion-select-option>
+                                        <ion-select-option value="044">RIA</ion-select-option>
+                                </ion-select>
+                                <div></div>
+                        </div>
+
+                        <div class="formdiv releve">
+                                <label>Renseigner le code transfert</label>
+                                <input formControlName="codTrans" type="text" placeholder="Saisir le code ici" />
+                                
+                        </div>
+                        <div class="formdiv releve" style="margin-bottom: 10px">
+                                <label>Destination</label>
+                                <ion-select formControlName="destination" (ionChange)="changementdestination()" interface="popover">
+                                        <ion-select-option value="0000">UPay</ion-select-option>
+                                        <ion-select-option value="0025">Orange Money</ion-select-option>
+                                </ion-select>
+                                <div></div>
+                        </div>
+                
+                                <div class="formdiv releve" *ngIf="cashoutForm.controls.destination.value=='0025'">
+                                <div class="light" id="newcontact" (click)="listecontacts()">
+                                  <span><img  src="assets/images/new_contact.png" style="width:22px"/></span>
+                                </div>
+                                <label>Numéro de téléphone</label>
+                                <input type="tel" prefix="+221 " mask="00-000-00-00" formControlName="telBen"  placeholder="Entrer le numéro de téléphone"/>
+                                <div></div>
+                              </div>
+                              <ion-label *ngIf="glb.showContactName">{{displayName}}</ion-label>
+
+                        <div class="flex2 flexcenter" id="btncontrol">
+                                <button (click)="relever()"
+                                        style="height: 46px;width: 100%;border-radius: 5px;margin-top: 15px;"
+                                        [style.background]="cashoutForm.controls.codTrans.invalid ? '#CFD8DC' : '#074A94'"
+                                        [disabled]="cashoutForm.controls.codTrans.invalid"
+                                        id="btnsvt" class="btnbleu">Relever</button>
+                        </div>
+                        <div *ngIf="showdetails">
+                                        <div  style="line-height: 1.3;border-left: 5px solid #074A94;margin-top: 20px;"
+                                        class="formdiv releve">
+                                        <div style="padding: 1px;">
+                                                <label style="width: 72px;display: inline-block;">Expéditeur </label> <span
+                                                        style="color:#6f6f6f"> {{cashoutForm.controls.prenomExp.value}} {{cashoutForm.controls.nomExp.value}}</span>
+                                        </div>
+                                        <div style="padding: 1px;">
+                                                <label style="width: 72px;display: inline-block;">Adresse </label> <span
+                                                        style="color:#6f6f6f">{{cashoutForm.controls.adrsExp.value}} </span>
+                                        </div>
+                                        <div style="padding: 1px;">
+                                                <label style="width: 72px;display: inline-block;">Téléphone </label> <span
+                                                        style="color:#6f6f6f"> {{cashoutForm.controls.telExp.value}}</span>
+                                        </div>
+                                        <div style="padding: 1px;">
+                                                <label style="width: 72px;display: inline-block;">Montant </label> <span
+                                                        style="color:#6f6f6f">{{cashoutForm.controls.mntPaie.value}}</span>
+                                        </div>
+                                </div>
+                                
+                                <div class="flex2 flexcenter" id="btncontrol">
+                                        <button (click)="showPin()" style="height: 46px;width: 100%;border-radius: 5px;margin-top: 15px;"
+                                        [disabled]="!cashoutForm.valid"
+                                        [style.background]="!cashoutForm.valid ? '#CFD8DC' : '#074A94'"
+                                                id="btnsvt" class="btnbleu">Valider</button>
+                                </div>
+                        </div>
+
+                </form>
+        </div>
+
 </ion-content>
 <app-footer></app-footer>

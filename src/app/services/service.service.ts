@@ -8,6 +8,7 @@ import { GlobalVariableService } from './global-variable.service';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
+import { FormControl, AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -384,8 +385,11 @@ export class ServiceService {
     if (codeOper === '0029') {
       label = 'Compteur';
     }
-    if (codeOper === '0057' && codeSousop === '0002') {
+    if (codeOper === '0057' && codeSousop === '2') {
       label = 'N° Badge';
+    }
+    if (codeOper === '0075') {
+      label = 'Code marchant';
     }
     return label;
 
@@ -532,7 +536,45 @@ export class ServiceService {
         }
     });
   }
+  getphone(selectedPhone) {
+    let tel = selectedPhone.replace(/ /g, '');
+    if (isNaN(tel * 1)) {
+      console.log('Not a number');
+      return '';
+    }
+    tel = tel * 1 + '';
+    if (tel.substring(0, 3) === '221') {
+      tel = tel.substring(3, tel.length);
+    }
+    const  numeroautorisé = ['77', '78', '70', '76'];
+    const retour = numeroautorisé.indexOf(tel.substring(0, 2));
+    if (retour === -1) {
+      console.log('Not a in array');
 
+      return '';
+    }
+    tel =  tel.replace(/ /g, '');
+    tel = tel.replace(/-/g, '');
+    let  phone = tel.length >= 2 ? tel.substring(0, 2) + '-' : '';
+    phone += tel.length > 5 ? tel.substring(2, 5) + '-' : '';
+    phone += tel.length > 7 ? tel.substring(5, 7) + '-' : '';
+    phone += tel.length >= 8 ? tel.substring(7, 9) : '';
+    if (phone.length !== 12) {
+      console.log('Not a 12');
+
+      return '';
+    }
+    return phone;
+  }
+  setTelephoneFromselection(value, control: AbstractControl) {
+    this.glb.showContactName = false;
+    if (value === '') {
+      this.showToast('Numéro de téléphone incorrect!');
+    } else {
+      this.glb.showContactName = true;
+      control.setValue(value);
+    }
+  }
   post(service: string, body: any = {}, headers: any = {}): any {
     /*   this.checkNetwork();*/
       if (this.glb.ISCONNECTED === false) {
@@ -548,9 +590,22 @@ export class ServiceService {
         this.http.setRequestTimeout(90);
         return this.http.post(url, body, headers);
       }
-
-
-
-
     }
+
+    generateUniqueId() {
+      const length = 8;
+      const timestamp = +new Date;
+      const ts = timestamp.toString();
+      const parts = ts.split( '' ).reverse();
+      let id = '';
+      for ( let i = 0; i < length; ++i ) {
+        const min = 0;
+        const max = parts.length - 1;
+        const index = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+        id += parts[index];
+      }
+      return id;
+    }
+
+
 }

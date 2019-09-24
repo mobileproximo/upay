@@ -122,6 +122,7 @@ export class LoginPage implements OnInit {
                     this.glb.PHONE =  this.glb.PHONE.substring(3);
                     this.glb.NOM = reponse.nom;
                     this.glb.PIN = reponse.pin;
+                    this.glb.NUMPIECE = reponse.numpiece;
                  //   this.oneSignal.sendTags({codeespace: this.glb.HEADER.agence});
                     if (typeof(reponse.mntPlf) !== 'object') {
                       this.glb.HEADER.montant = this.monmillier.transform(reponse.mntPlf);

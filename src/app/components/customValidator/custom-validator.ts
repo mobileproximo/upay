@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 export function CustomValidatorPhone(control: FormControl) {
+  
     let telephone = control.value === null ? '' : control.value  ;
     telephone = telephone.replace(/-/g, '');
     telephone = telephone.replace(/ /g, '');

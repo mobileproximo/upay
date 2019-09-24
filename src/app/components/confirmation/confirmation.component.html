@@ -14,7 +14,7 @@
       Résumé de la transaction
     </div>
     <div id="detaildiv">
-      <div class="details">
+      <div class="details" *ngIf="commingData.label">
         <label>{{commingData.label}}: </label>
         <span>{{commingData.telephone}}</span>
       </div>

@@ -22,7 +22,7 @@ export class RechargeComponent implements OnInit {
   public contactName = '';
   @Input() datarecharge: any = {};
   showName: boolean;
-  displayName = '';
+  displayName: string;
   recentsContacts: any;
   constructor(public formBuilder: FormBuilder,
               public millier: MillierPipe,
@@ -41,7 +41,8 @@ export class RechargeComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.getrecent();
+    this.glb.showContactName = false;
+    this.getrecent();
   }
 
   getContactName() {
@@ -114,12 +115,10 @@ export class RechargeComponent implements OnInit {
     });
 
   } */
-  resetContactName() {
-this.displayName = '';
-  }
+
   async showPin() {
     const params = this.Rechargedata.getRawValue();
-    this.contactName = this.contactName === '' ? this.displayName : this.contactName;
+
     params.nameContact = this.contactName;
     params.type        = 'recharge';
    // alert(JSON.stringify(params))
@@ -164,7 +163,7 @@ this.displayName = '';
     parametres.session = this.glb.IDSESS;
     this.serv.afficheloading();
     const phone = parametres.recharge.telephone;
-    let file;
+    let file: string;
     if (parametres.recharge.oper === '0073') {
       file = 'upayW2W';
     } else {
@@ -183,7 +182,8 @@ this.displayName = '';
         if (reponse.returnCode === '0') {
          // this.getContactName(parametres.recharge.telephone);
           this.Rechargedata.reset();
-          this.showName = false;
+          //this.showName = false;
+          this.glb.showContactName = false;
           this.glb.recu = reponse;
           if (typeof (reponse.telRech) === 'object') {
             this.glb.recu.telRech = parametres.recharge.telephone;
@@ -222,7 +222,6 @@ this.displayName = '';
             e.onDidDismiss().then(() => {
               this.getrecent();
             });
-
           });
 
           this.getrecent();
@@ -244,12 +243,12 @@ this.displayName = '';
   }
 
   listecontacts() {
-    this.showName = false;
+   // this.showName = false;
+    this.glb.showContactName = false;
     this.Rechargedata.controls.telephone.setValue('');
     // this.contact.find()
     this.contact.pickContact().then(numbers => {
       this.displayName  = numbers.displayName;
-
      // alert(JSON.stringify(numbers));
       const nombre = numbers.phoneNumbers.length;
       // le contact a plusieurs numero
@@ -261,8 +260,8 @@ this.displayName = '';
         }
         this.showContacsNumbers();
       } else {
-        const value = this.getphone(numbers.phoneNumbers[0].value);
-        this.setTelephoneFromselection(value);
+        const value = this.serv.getphone(numbers.phoneNumbers[0].value);
+        this.serv.setTelephoneFromselection(value, this.Rechargedata.controls.telephone);
       }
     }).catch(err => {
     });
@@ -275,50 +274,10 @@ async  showContacsNumbers() {
   });
   popover.onDidDismiss().then((dataReturned) => {
     if (dataReturned.data) {
-      const value = this.getphone(dataReturned.data);
-      this.setTelephoneFromselection(value);
+      const value = this.serv.getphone(dataReturned.data);
+      this.serv.setTelephoneFromselection(value, this.Rechargedata.controls.telephone);
     }
   });
   return await popover.present();
-}
-
-setTelephoneFromselection(value) {
-  this.showName = false;
-  if (value === '') {
-    this.serv.showToast('Numéro de téléphone incorrect!');
-  } else {
-    this.showName = true;
-    this.Rechargedata.controls.telephone.setValue(value);
-  }
-}
-getphone(selectedPhone) {
-  let tel = selectedPhone.replace(/ /g, '');
-  if (isNaN(tel * 1)) {
-    console.log('Not a number');
-    return '';
-  }
-  tel = tel * 1 + '';
-  if (tel.substring(0, 3) === '221') {
-    tel = tel.substring(3, tel.length);
-  }
-  const  numeroautorisé = ['77', '78', '70', '76'];
-  const retour = numeroautorisé.indexOf(tel.substring(0, 2));
-  if (retour === -1) {
-    console.log('Not a in array');
-
-    return '';
-  }
-  tel =  tel.replace(/ /g, '');
-  tel = tel.replace(/-/g, '');
-  let  phone = tel.length >= 2 ? tel.substring(0, 2) + '-' : '';
-  phone += tel.length > 5 ? tel.substring(2, 5) + '-' : '';
-  phone += tel.length > 7 ? tel.substring(5, 7) + '-' : '';
-  phone += tel.length >= 8 ? tel.substring(7, 9) : '';
-  if (phone.length !== 12) {
-    console.log('Not a 12');
-
-    return '';
-  }
-  return phone;
 }
 }

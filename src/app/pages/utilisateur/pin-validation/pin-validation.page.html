@@ -23,6 +23,12 @@
          <span *ngIf="commingData.numfact"> Num: {{commingData.numfact}} <br></span>
           Client: {{commingData.nameContact}}</span> 
   </span>
+  <span *ngIf="commingData.type=='reception'">
+      Vous allez receptionner sur votre compte Upay la somme de  <strong>{{commingData.montant}} F</strong> <br>
+  <span id="valeurmsg">Expediteur: {{commingData.nomexp}} <br>
+  Telephone: {{commingData.telephone}} <br>
+  Operateur: {{commingData.operateur}}</span> 
+  </span>
 
 
         </div>

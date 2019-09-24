@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
-import { IonicModule } from '@ionic/angular';
-
 import { ReceptionPage } from './reception.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CollectePage } from './collecte/collecte.page';
@@ -16,14 +11,14 @@ const routes: Routes = [
     component: ReceptionPage
   },
   {
+    path: 'codetransfert',
+    component: CodeTransfertPage
+  },
+  {
     path: 'collecte',
     component: CollectePage
   }
-  ,
-  {
-    path: 'codetransfert',
-    component: CodeTransfertPage
-  }
+
 ];
 
 @NgModule({

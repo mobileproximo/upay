@@ -6,10 +6,10 @@
         <span><img  src="assets/images/new_contact.png" style="width:22px"/></span>
       </div>
       <label>Numéro de téléphone</label>
-      <input type="tel" prefix="+221 " (input)="resetContactName()" mask="00-000-00-00" formControlName="telephone"  placeholder="Entrer le numéro de téléphone"/>
+      <input type="tel" prefix="+221 " mask="00-000-00-00" formControlName="telephone"  placeholder="Entrer le numéro de téléphone"/>
       <div></div>
     </div>
-    <ion-label *ngIf="showName">{{displayName}}</ion-label>
+    <ion-label *ngIf="glb.showContactName">{{displayName}}</ion-label>
     <div class="formdiv" [style.border-color]="Rechargedata.controls.montant.errors && Rechargedata.controls.montant.touched ? 'red' : '#578cc9'">
         <div class="light" id="newcontact" (click)="eraseAmount()">
             <ion-icon size="large"  style="color: #659cd5 !important;" name="backspace"></ion-icon>
