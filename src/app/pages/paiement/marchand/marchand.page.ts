@@ -69,7 +69,6 @@ export class MarchandPage implements OnInit {
     }
     parametres.idTerm = this.glb.IDTERM;
     parametres.session = this.glb.IDSESS;
-    console.log(JSON.stringify(parametres));
     this.serv.afficheloading();
     this.serv.posts('recharge/paiementmarchand.php', parametres, {}).then(data => {
       this.serv.dismissloadin();

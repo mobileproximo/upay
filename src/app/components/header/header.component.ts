@@ -33,8 +33,6 @@ export class HeaderComponent implements OnInit {
   }
   }
   toggleMenu() {
-    //console.log('test')
-  //  this.menuCtrl.enable(true, 'content1');
-    //this.menuCtrl.open('content1'); //Add this method to your button click function
+
   }
 }

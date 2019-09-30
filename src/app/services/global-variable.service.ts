@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { SERVER_URL } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ export class GlobalVariableService {
   public showPin = false;
   public IMG_URL = 'assets/images/';
  // public BASEURL = 'http://196.207.207.63:8080/upayMobile/';
-  public BASEURL = 'https://mobile.upay.africa:8080/upayMobile/';
+  public  URLPROD = 'https://mobile.upay.africa:8080/upayMobile/';
+  public URLTEST =  'http://196.207.245.99:8282/upayMobile/';
+ // public BASEURL =  '';
   public IDPART = '';
   public IDSESS = '';
   public IDTERM = '';

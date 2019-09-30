@@ -92,7 +92,6 @@ export class HistoriquePage implements OnInit {
     parametre.session = this.glb.IDSESS;
     const url = mode === 'all' ? 'transaction/histotrx.php' : 'transaction/getlasttrx.php';
     this.all = mode === 'all' ? true : false;
-    console.log('parametre ' + JSON.stringify(parametre));
     this.serv.afficheloading();
     this.serv.posts(url, parametre, {}).then(data => {
       this.serv.dismissloadin();

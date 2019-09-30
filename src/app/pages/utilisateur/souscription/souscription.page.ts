@@ -103,8 +103,6 @@ export class SouscriptionPage implements OnInit {
          // this.isphoto = true;
           this.pictureRecto = this.sanitizer.bypassSecurityTrustUrl(img);
           this.isrecto = true;
-          console.log('Encodage===>' + JSON.stringify(base64File));
-          // console.log("photo===>"+JSON.stringify(this.recto));
           this.filePath.resolveNativePath(imageData)
           .then((path) => {
             this.http.setDataSerializer('json');
@@ -128,10 +126,8 @@ export class SouscriptionPage implements OnInit {
             console.error(err);
           });
         }).catch((err) => {
-          console.log('Erreur encodage==>' + JSON.stringify(err));
         });
      }).catch((err) => {
-      console.log('Erreur getPicture==>' + JSON.stringify(err));
     });
   }
   takeVerso() {
@@ -154,10 +150,7 @@ export class SouscriptionPage implements OnInit {
          // this.isphoto = true;
           this.pictureVerso = this.sanitizer.bypassSecurityTrustUrl(img);
           this.isVerso = true;
-          console.log('Encodage===>' + JSON.stringify(base64File));
-          // console.log("photo===>"+JSON.stringify(this.recto));
         }, (err) => {
-          console.log('Erreur encodage==>' + JSON.stringify(err));
         });
       this.filePath.resolveNativePath(imageData)
         .then((path) => {
@@ -200,15 +193,12 @@ export class SouscriptionPage implements OnInit {
 
   }
   logScrollStart() {
-    console.log('logScrollStart : When Scroll Starts');
   }
 
   logScrolling() {
-    console.log('logScrolling : When Scrolling');
   }
 
   logScrollEnd() {
-    console.log('logScrollEnd : When Scroll Ends');
   }
 
   ScrollToBottom() {
@@ -230,7 +220,6 @@ export class SouscriptionPage implements OnInit {
      const userdata = this.Userdata.getRawValue();
      userdata.login = '221' + this.Userdata.controls.login.value;
      userdata.login = userdata.login.replace(/-/g, '');
-     console.log(JSON.stringify(userdata));
      this.serv.afficheloading();
      this.serv.posts('connexion/generateOTP.php', userdata, {}).then(data => {
        this.serv.dismissloadin();

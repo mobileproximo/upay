@@ -438,9 +438,13 @@ lancementussd(service: string) {
   this.serv.afficheloadingWithExit();
   setTimeout(() => {
     const  reference = this.serv.generateUniqueId();
-    const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*'+ this.rechargeForm.controls.montantrlv.value+"#";
+// tslint:disable-next-line: max-line-length
+/*     const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*'+ this.rechargeForm.controls.montantrlv.value+"#";
     const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*'+this.rechargeForm.controls.montantrlv.value+'#';
-    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + ''+this.rechargeForm.controls.montantrlv.value+'#';
+    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + ''+this.rechargeForm.controls.montantrlv.value+'#'; */
+    const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*1#';
+    const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*10#';
+    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*100#';
     let commande = '';
     if (service === '0022') {
       commande = commandetigo;

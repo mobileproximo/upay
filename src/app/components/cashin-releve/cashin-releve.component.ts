@@ -156,17 +156,8 @@ export class CashinReleveComponent implements OnInit {
     modal.onDidDismiss().then((codepin) => {
 
       if (codepin !== null && codepin.data) {
-        console.log(codepin.data);
         this.codepin = codepin.data;
         this.recharger();
-       // this.rechargerServ();
-        /*       const confmodal =  this.modal.create({
-                component: ConfirmationComponent
-              }).then((e) => {
-                e.present();
-              }); */
-        //  this.dataReturned = dataReturned.data;
-        // alert('Modal Sent Data :'+ dataReturned);
       }
     });
 
@@ -282,9 +273,9 @@ export class CashinReleveComponent implements OnInit {
             this.recentsContacts.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
 
   }
 
@@ -339,7 +330,6 @@ export class CashinReleveComponent implements OnInit {
   getphone(selectedPhone) {
     let tel = selectedPhone.replace(/ /g, '');
     if (isNaN(tel * 1)) {
-      console.log('Not a number');
       return '';
     }
     tel = tel * 1 + '';
@@ -349,8 +339,6 @@ export class CashinReleveComponent implements OnInit {
     const  numeroautorisé = ['77', '78', '70', '76'];
     const retour = numeroautorisé.indexOf(tel.substring(0, 2));
     if (retour === -1) {
-      console.log('Not a in array');
-
       return '';
     }
     tel =  tel.replace(/ /g, '');
@@ -360,8 +348,6 @@ export class CashinReleveComponent implements OnInit {
     phone += tel.length > 7 ? tel.substring(5, 7) + '-' : '';
     phone += tel.length >= 8 ? tel.substring(7, 9) : '';
     if (phone.length !== 12) {
-      console.log('Not a 12');
-
       return '';
     }
     return phone;

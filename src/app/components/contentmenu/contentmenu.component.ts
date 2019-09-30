@@ -15,7 +15,6 @@ export class ContentmenuComponent implements OnInit {
   }
 
   ngOnInit() {
-   // console.log(JSON.stringify(this.services))
   }
 
 }

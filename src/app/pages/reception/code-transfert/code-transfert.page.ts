@@ -186,7 +186,6 @@ destination: ['0000']
    modal.onDidDismiss().then((codepin) => {
 
     if (codepin !== null && codepin.data) {
-      console.log(codepin.data);
       this.codepin = codepin.data;
       this.validerReception();
 

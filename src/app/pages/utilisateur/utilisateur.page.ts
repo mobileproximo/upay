@@ -121,7 +121,6 @@ export class UtilisateurPage implements OnInit {
             this.serv.posts('connexion/connexion.php', params, {}).then(data => {
               this.serv.dismissloadin();
               const reponse = JSON.parse(data.data);
-              console.log(JSON.stringify(reponse));
              // alert('Connexion rep' + JSON.stringify(reponse));
               if (reponse.returnCode) {
                   if (reponse.returnCode === '0') {

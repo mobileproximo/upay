@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ServiceService } from './services/service.service';
 import { GlobalVariableService } from './services/global-variable.service';
 import { Router } from '@angular/router';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @Component({
   selector: 'app-root',
@@ -32,31 +33,33 @@ export class AppComponent {
     public glb: GlobalVariableService,
     public navCtrl: NavController,
     public router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private appVersion: AppVersion,
+    private emailComposer: EmailComposer
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.appVersion.getPackageName().then((val) => {
+        this.glb.BASEURL = val === 'atps.africa.upaymobile' ? this.glb.URLPROD : this.glb.URLTEST;
+      });
       this.statusBar.backgroundColorByHexString('#2c5aa3');
       this.splashScreen.hide();
       this.serv.createDataBase();
-      // this.serv.deletealldata();
-     // this.serv.insert();
-     // this.serv.getdata();
       window.addEventListener('keyboardDidHide', () => {
         this.glb.showheader = true;
-  });
+      });
       window.addEventListener('keyboardDidShow', (event) => {
         this.glb.showheader = false;
-});
+      });
       document.addEventListener('backbutton', () => {
-  const routes = ['/utilisateur', '/utilisateur/acceuil'];
-  if (routes.includes(this.router.url)) {
-     this.presentAlert();
-  }
-});
+        const routes = ['/utilisateur', '/utilisateur/acceuil'];
+        if (routes.includes(this.router.url)) {
+          this.presentAlert();
+        }
+      });
     });
   }
   vershome() {
@@ -76,23 +79,21 @@ export class AppComponent {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'UPay',
-     // subHeader: 'Subtitle',
+      // subHeader: 'Subtitle',
       message: 'Voulez-vous vraiment quitter l\'application?',
       cssClass: 'alertSucces',
-      buttons: [        {
+      buttons: [{
         text: 'Non',
         role: 'cancel',
         cssClass: 'secondary',
         handler: (blah) => {
-          console.log('Confirm Cancel: blah');
         }
       }, {
         text: 'oui',
         handler: () => {
 
-// tslint:disable-next-line: no-string-literal
+          // tslint:disable-next-line: no-string-literal
           navigator['app'].exitApp();
-          console.log('Confirm Okay');
         }
       }]
     });

@@ -62,9 +62,7 @@ export class FooterComponent implements OnInit {
 
         })
         .catch(err => {
-          console.log('Error', err);
         });
-  
   }
 
 }

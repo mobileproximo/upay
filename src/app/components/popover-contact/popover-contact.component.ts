@@ -12,7 +12,6 @@ export class PopoverContactComponent implements OnInit {
               public popover: PopoverController) { }
 
   ngOnInit() {
-    console.log(JSON.stringify(this.nav.data.phones));
     this.listphones = this.nav.data.phones;
   }
  async dismiss(phone) {

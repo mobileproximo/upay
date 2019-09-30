@@ -349,9 +349,6 @@ export class ServiceService {
       return;
     } else {
       const url = this.glb.BASEURL + service;
-      console.log(headers);
-      console.log(url);
-      console.log(body);
       this.http.setDataSerializer('json');
       this.http.setSSLCertMode('nocheck');
       this.http.setRequestTimeout(90);
@@ -582,9 +579,9 @@ export class ServiceService {
         return ;
       } else {
         const url =  service;
-        console.log(headers);
-        console.log(url);
-        console.log(body);
+        //console.log(headers);
+        //console.log(url);
+        //console.log(body);
         this.http.setDataSerializer('json');
         this.http.setSSLCertMode('nocheck');
         this.http.setRequestTimeout(90);

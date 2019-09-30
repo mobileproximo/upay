@@ -66,9 +66,9 @@ export class WoyofalPage implements OnInit {
             this.recentsContacts.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
   }
   relever() {
     this.showdetails = this.newclient = false;
@@ -154,7 +154,6 @@ async showPin() {
   modal.onDidDismiss().then((codepin) => {
     if (codepin !== null && codepin.data) {
       this.codePin = codepin.data;
-      console.log(codepin.data);
       this.encaisser();
     }
   });

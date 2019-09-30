@@ -36,9 +36,9 @@ export class ListeWalletPage implements OnInit {
             this.wallets.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
 
   }
 }

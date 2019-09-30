@@ -33,9 +33,9 @@ export class FavorisPage implements OnInit {
             this.favoris.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
 
   }
 

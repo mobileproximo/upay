@@ -96,7 +96,6 @@ async showPin(facture) {
   modal.onDidDismiss().then((codepin) => {
     if (codepin !== null && codepin.data) {
       this.codePin = codepin.data;
-      console.log(codepin.data);
       this.encaisser(facture, params);
 
     }
@@ -325,7 +324,6 @@ encaisser(facture, params) {
             });
 
             if (reponse.Factures.Facture.length) {
-              console.log('taillle possible');
               this.factures = reponse;
               // this.factures.nomClient=reponse.NomClient;
               this.factures.numfacture = reponse.IdClient;
@@ -339,7 +337,6 @@ encaisser(facture, params) {
                 if (typeof (this.factures.Factures.Facture[i].dateEch) === 'object') {
                   this.factures.Factures.Facture[i].dateEch = '';
                 }
-                //  console.log(typeof(this.factures.Factures.Facture[i].dateEch));
                 this.factures.Factures.Facture[i].id = i;
 
               }
@@ -358,11 +355,8 @@ encaisser(facture, params) {
               this.factures.Factures.Facture.push(reponse.Factures.Facture);
               this.factures.Factures.Facture[0].checked = false;
               this.factures.Factures.Facture[0].id = 0;
-              console.log('une seule facture', this.factures);
             }
             this.listefactures = this.factures.Factures.Facture;
-
-            console.log(JSON.stringify(this.listefactures));
 
           } else {
             this.serv.showError(reponse.errorLabel);
@@ -401,9 +395,9 @@ encaisser(facture, params) {
             this.recentsContacts.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
 
   }
 }

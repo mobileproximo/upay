@@ -63,15 +63,15 @@ export class SouscriptionSuitePage implements OnInit {
 
   stopwatching() {
     SMSReceive.stopWatch(
-      () => { console.log('watch stopped'); },
-      () => { console.log('watch stop failed'); }
+      () => {  },
+      () => { }
     );
   }
 
   startWatching() {
     SMSReceive.startWatch(
-      () => { console.log('watch started'); },
-      () => { console.log('watch started failed'); }
+      () => {  },
+      () => {  }
     );
   }
 
@@ -79,9 +79,8 @@ export class SouscriptionSuitePage implements OnInit {
     SMSReceive.stopWatch(
       () => {
         this.startWatching();
-        console.log('watch stopped');
       },
-      () => { console.log('watch stop failed'); }
+      () => {  }
     );
   }
 
@@ -92,13 +91,9 @@ export class SouscriptionSuitePage implements OnInit {
     this.Userdata.controls.numpiece.setValue(this.commingData.numpiece);
     this.Userdata.controls.email.setValue(this.commingData.email);
     this.Userdata.controls.mode.setValue(this.commingData.mode);
-    console.log(JSON.stringify(this.Userdata.getRawValue()));
     this.smsreceiver();
   }
   verifConfPin() {
-
-    // console.log('pin ' + codepin)
-    // console.log('confpin ' + confpin)
     if (this.Userdata.controls.codepin.value > 4) {
       const val = this.Userdata.controls.codepin.value.toString();
       this.Userdata.controls.codepin.setValue(val.substring(0, 4));
@@ -117,7 +112,6 @@ export class SouscriptionSuitePage implements OnInit {
         this.isconform = false;
         this.message = 'Le code ne doit pas être consecutif ni composé d\'un même chiffre';
       } else {
-        console.log('Mes pin sont pin1: ' + codepin + ' pin2: ' + confpin);
         this.isconform = codepin === confpin;
         if (!this.isconform) {
           this.message = 'Les codes pin saisis ne sont pas conformes';

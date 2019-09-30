@@ -84,9 +84,9 @@ export class RechargeComponent implements OnInit {
             this.recentsContacts.push((data.rows.item(i)));
           }
           })
-        .catch(e => console.log(e));
+        .catch(e => {});
     })
-    .catch(e => console.log(e));
+    .catch(e => {});
 
   }
   changemontant() {
@@ -99,7 +99,6 @@ export class RechargeComponent implements OnInit {
     }
   }
   focusmontant() {
-    console.log('focus');
     if (this.Rechargedata.controls.montant.value) {
       this.Rechargedata.controls.montant.setValue(this.Rechargedata.controls.montant.value.replace(/ /g, ''));
 
@@ -134,7 +133,6 @@ export class RechargeComponent implements OnInit {
     modal.onDidDismiss().then((codepin) => {
 
       if (codepin !== null && codepin.data) {
-        console.log(codepin.data);
         this.Rechargedata.controls.pin.setValue(codepin.data);
         this.rechargerServ();
         /*       const confmodal =  this.modal.create({
