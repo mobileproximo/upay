@@ -77,7 +77,7 @@
       </div>
 
       <div class="ligneitem ion-activatable">
-        <button [style.background]="!infosClient.valid ? '#CFD8DC' : 'red'" (click)="showPin(facture)" style="color:#fff;background:red;font-size: 14px;width: 92%;padding:6px">Payer</button>
+        <button [disabled]="!infosClient.valid" [style.background]="!infosClient.valid ? '#CFD8DC' : 'red'" (click)="showPin(facture)" style="color:#fff;background:red;font-size: 14px;width: 92%;padding:6px">Payer</button>
       </div>
     </div>
   </div>

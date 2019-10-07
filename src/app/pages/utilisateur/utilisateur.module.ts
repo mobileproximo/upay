@@ -12,6 +12,7 @@ import { SouscriptionPage } from './souscription/souscription.page';
 import { LoginPage } from './login/login.page';
 import { ResetPinPage } from './reset-pin/reset-pin.page';
 import { CheckComptePage } from './check-compte/check-compte.page';
+import { AccessGuard } from 'src/app/services/access.guard';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
   },
   {
     path: 'acceuil',
-    component: AcceuilPage
+    component: AcceuilPage,
+    canActivate: [AccessGuard]
   },
   {
     path: 'bienvenue',

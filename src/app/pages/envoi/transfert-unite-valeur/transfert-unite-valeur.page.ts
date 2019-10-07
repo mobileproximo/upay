@@ -24,8 +24,8 @@ export class TransfertUniteValeurPage implements OnInit {
   codepin = '';
   isUSSDTriggered = false;
   public rechargeForm: FormGroup;
- // private listeServiceDisponible = ['0005', '0054', '0057', '0053', '0022'];
-  private listeServiceDisponible = ['0022'];
+  // private listeServiceDisponible = ['0005', '0054', '0057', '0053', '0022'];
+    private listeServiceDisponible = ['0022'];
   constructor(public androidPermissions: AndroidPermissions,
               public platform: Platform,
               public callNumber: CallNumber,
@@ -439,12 +439,13 @@ lancementussd(service: string) {
   setTimeout(() => {
     const  reference = this.serv.generateUniqueId();
 // tslint:disable-next-line: max-line-length
-/*     const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*'+ this.rechargeForm.controls.montantrlv.value+"#";
-    const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*'+this.rechargeForm.controls.montantrlv.value+'#';
-    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + ''+this.rechargeForm.controls.montantrlv.value+'#'; */
-    const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*1#';
+    const mnt = this.rechargeForm.controls.montantrlv.value;
+    const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*' + mnt + '#';
+    const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*' + mnt + '#';
+    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*' + mnt + '#';
+ /* const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*1#';
     const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*10#';
-    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*100#';
+    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*100#';*/
     let commande = '';
     if (service === '0022') {
       commande = commandetigo;

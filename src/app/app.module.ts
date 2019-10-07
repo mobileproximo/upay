@@ -33,6 +33,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SharedModule } from './shared/shared.module';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { CodePush } from '@ionic-native/code-push/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -41,7 +42,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
     StatusBar, SQLite, Toast,  Sim, Network, OperatorImagePipe, LocalNotifications, CallNumber,
     SplashScreen, GlobalVariableService, Camera, Base64, ServiceService, HTTP, Contacts, FilePath, FormatcodePipe,
     MillierPipe, FormatphonePipe, AndroidPermissions,  FormatdatePipe, CoupurechainePipe, BarcodeScanner,
-    AppVersion,
+    AppVersion, CodePush,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -50,7 +50,7 @@ export class CheckComptePage implements OnInit {
       if (err.status === 500) {
         this.serv.showError('Une erreur interne s\'est produite  ERREUR 500');
       } else {
-        this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' + JSON.stringify(err));
+        this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ');
       }
     });
   }

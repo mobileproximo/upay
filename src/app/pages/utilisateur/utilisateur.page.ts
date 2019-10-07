@@ -156,7 +156,7 @@ export class UtilisateurPage implements OnInit {
               if (error.status === 500) {
                 this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
                 } else {
-                this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' + JSON.stringify(error));
+                this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' );
                 }
 
             });
@@ -171,7 +171,7 @@ export class UtilisateurPage implements OnInit {
 
 
    } else {
-     //this.serv.showToast('Compte inexistant !');
+     // this.serv.showToast('Compte inexistant !');
      this.navCtrl.navigateForward('utilisateur/checkcompte');
    }
 
@@ -179,7 +179,7 @@ export class UtilisateurPage implements OnInit {
   verssouscription() {
     this.navCtrl.navigateForward('utilisateur/souscription');
   }
-  reinit(){
+  reinit() {
     this.navCtrl.navigateForward('utilisateur/resetpin');
 
   }

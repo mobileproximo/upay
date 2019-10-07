@@ -32,11 +32,11 @@
 
 <ion-content id="contenthisto" >
   <div style="margin-bottom:40px;" class = "bodycontent">
-    <div class="titrehistorique" *ngIf="showdetails">Historique</div>
+    <div class="titrehistorique" *ngIf="showdetails">Historique(5 dernières transactions)</div>
 
      <div class = "ligne" style="display: flex; " *ngFor="let trx of transactions">
         <div class="ligneitemfirst" style="align-items: center;border-left: 5px solid green;background: #f6fbf3;">
-          <img style="width: 70%" [src]="trx.image" alt="">
+          <img style="width: 70%" [src]="trx.image" alt="" onerror="this.onerror=null;this.src='assets/images/logo-upay-portrait.png'">
           <span style="border: none;line-height: 1.9;font-size: 7px" class="ligneitem2" >Type: {{trx.Type}}</span>
         </div>
   

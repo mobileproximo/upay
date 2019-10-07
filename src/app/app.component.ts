@@ -7,6 +7,8 @@ import { ServiceService } from './services/service.service';
 import { GlobalVariableService } from './services/global-variable.service';
 import { Router } from '@angular/router';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { CodePush } from '@ionic-native/code-push/ngx';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +37,8 @@ export class AppComponent {
     public router: Router,
     private alertController: AlertController,
     private appVersion: AppVersion,
-    private emailComposer: EmailComposer
+    public androidPermissions: AndroidPermissions,
+    private codepush: CodePush
   ) {
     this.initializeApp();
   }
@@ -43,7 +46,11 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.appVersion.getPackageName().then((val) => {
-        this.glb.BASEURL = val === 'atps.africa.upaymobile' ? this.glb.URLPROD : this.glb.URLTEST;
+        this.glb.BASEURL = val === this.glb.prodpackageName ? this.glb.URLPROD : this.glb.URLTEST;
+      });
+      this.codepush.sync();
+      this.platform.resume.subscribe(() => {
+        this.codepush.sync();
       });
       this.statusBar.backgroundColorByHexString('#2c5aa3');
       this.splashScreen.hide();
@@ -61,6 +68,18 @@ export class AppComponent {
         }
       });
     });
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(
+      result => {
+        alert('Has permission? ' + result.hasPermission);
+      },
+      err => {
+
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(r => {
+        }).catch((err) => {
+        });
+      }
+    );
+    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.RECEIVE_SMS]);
   }
   vershome() {
     this.navCtrl.navigateRoot('utilisateur/acceuil');

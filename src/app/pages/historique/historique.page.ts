@@ -107,7 +107,7 @@ export class HistoriquePage implements OnInit {
             this.transactions[0] = reponse.Transactions.Transaction;
           }
           this.mnttotal = 0;
-// tslint:disable-next-line: prefer-for-of
+          // tslint:disable-next-line: prefer-for-of
           for (let i = 0; i < this.transactions.length; i++) {
             const sousop = this.transactions[i].codesousop;
             const codeoper = this.transactions[i].codeOper;
@@ -150,7 +150,6 @@ export class HistoriquePage implements OnInit {
             this.transactions[j].datetrx = this.formatdate.transform(this.transactions[j].Dtrx);
             this.transactions[j].image = this.operatorImage.transform(this.glb.OperatorsImages, codeoper, sousop);
           }
-         // alert(JSON.stringify(this.transactions));
         }
       } else { this.serv.showError(reponse.errorLabel); }
 

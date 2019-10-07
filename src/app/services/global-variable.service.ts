@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { SERVER_URL } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class GlobalVariableService {
  // public BASEURL = 'http://196.207.207.63:8080/upayMobile/';
   public  URLPROD = 'https://mobile.upay.africa:8080/upayMobile/';
   public URLTEST =  'http://196.207.245.99:8282/upayMobile/';
- // public BASEURL =  '';
+  public BASEURL =  '';
   public IDPART = '';
   public IDSESS = '';
   public IDTERM = '';
@@ -52,6 +51,7 @@ export class GlobalVariableService {
   isErrorShowing = false;
   showheader = true;
   database: SQLiteObject;
+  prodpackageName = 'atps.africa.upaymobile';
   // tslint:disable-next-line: max-line-length
   public OperatorsImages = [{ codeoper: '0054', image: this.IMG_URL + 'emoney.png', sousop: '' }, { codeoper: '0025', image: this.IMG_URL + 'omoney.png', sousop: '' },
   // tslint:disable-next-line: max-line-length
@@ -61,7 +61,7 @@ export class GlobalVariableService {
   // tslint:disable-next-line: max-line-length
   { codeoper: '0027', image: this.IMG_URL + 'Petite-Icon-24.png', sousop: '' }, { codeoper: '0029', image: this.IMG_URL + 'woyofal.png', sousop: '' }, { codeoper: '0020', image: this.IMG_URL + 'logo_Tigo.png', sousop: '' },
   // tslint:disable-next-line: max-line-length
-  { codeoper: '0005', image: this.IMG_URL + 'logo_Orange.png', sousop: '' }, { codeoper: '0057', image: this.IMG_URL + 'logo_rapido.png', sousop: '0002' }, { codeoper: '0052', image: this.IMG_URL + 'logo_Proxicash.png', sousop: '' },
+  { codeoper: '0005', image: this.IMG_URL + 'logo_Orange.png', sousop: '' }, { codeoper: '0057', image: this.IMG_URL + 'logo_rapido.png', sousop: '0002' }, { codeoper: '0052', image: this.IMG_URL + 'proxicash.png', sousop: '' },
   ];
   public MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet',
     'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];

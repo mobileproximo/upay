@@ -370,6 +370,7 @@ export class ServiceService {
       }
       res.present();
       if (text === 'Session expiree. Veuillez vous reconnecter!') {
+        this.glb.IDSESS =  this.glb.IDTERM = '';
         this.navCtrl.navigateRoot('utilisateur');
       }
     });
@@ -399,6 +400,10 @@ export class ServiceService {
       buttons: ['OK']
     }).then(res => {
       res.present();
+      if (text === 'Merci de vous connecter pour acceder à ce service') {
+        this.glb.IDSESS =  this.glb.IDTERM = '';
+        this.navCtrl.navigateRoot('utilisateur');
+      }
     });
   }
   getCurrentDate() {
@@ -591,7 +596,7 @@ export class ServiceService {
 
     generateUniqueId() {
       const length = 8;
-      const timestamp = +new Date;
+      const timestamp = + new Date;
       const ts = timestamp.toString();
       const parts = ts.split( '' ).reverse();
       let id = '';
