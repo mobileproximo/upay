@@ -145,7 +145,7 @@ export class LoginPage implements OnInit {
               if (error.status === 500) {
                 this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
                 } else {
-                this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer');
+                this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
                 }
 
             });

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController, AlertController } from '@ionic/angular';
+import { Platform, NavController, AlertController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ServiceService } from './services/service.service';
 import { GlobalVariableService } from './services/global-variable.service';
 import { Router } from '@angular/router';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CodePush } from '@ionic-native/code-push/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 @Component({
   selector: 'app-root',
@@ -37,21 +37,25 @@ export class AppComponent {
     public router: Router,
     private alertController: AlertController,
     private appVersion: AppVersion,
-    public androidPermissions: AndroidPermissions,
-    private codepush: CodePush
+    private codepush: CodePush,
+    private network: Network,
+    private toastController: ToastController
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.codepush.sync().subscribe((syncStatus) => {});
+      this.platform.resume.subscribe(() => {
+        this.codepush.sync().subscribe((syncStatus) => { });
+      });
+      this.checkNetwork();
       this.appVersion.getPackageName().then((val) => {
         this.glb.BASEURL = val === this.glb.prodpackageName ? this.glb.URLPROD : this.glb.URLTEST;
       });
-      this.codepush.sync();
-      this.platform.resume.subscribe(() => {
-        this.codepush.sync();
-      });
+
+
       this.statusBar.backgroundColorByHexString('#2c5aa3');
       this.splashScreen.hide();
       this.serv.createDataBase();
@@ -68,18 +72,6 @@ export class AppComponent {
         }
       });
     });
-    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(
-      result => {
-        alert('Has permission? ' + result.hasPermission);
-      },
-      err => {
-
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.RECEIVE_SMS).then(r => {
-        }).catch((err) => {
-        });
-      }
-    );
-    this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.RECEIVE_SMS]);
   }
   vershome() {
     this.navCtrl.navigateRoot('utilisateur/acceuil');
@@ -118,5 +110,29 @@ export class AppComponent {
     });
 
     await alert.present();
+  }
+   checkNetwork() {
+    this.network.onDisconnect().subscribe(() => {
+      this.serv.showToast('Vous n\'avez plus d\'accès internet');
+      this.glb.ISCONNECTED = false;
+
+    });
+    this.network.onConnect().subscribe(() => {
+      if (!this.glb.ISCONNECTED) {
+
+        this.affichemessageToast('Connexion retrouvée');
+      }
+      this.glb.ISCONNECTED = true;
+
+    });
+  }
+  async affichemessageToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      color: 'success',
+      position: 'bottom',
+      duration: 2000
+    });
+    toast.present();
   }
 }

@@ -3,7 +3,6 @@ import { Toast } from '@ionic-native/toast/ngx';
 import { LoadingController, AlertController, NavController, Platform, ModalController } from '@ionic/angular';
 import { HTTP } from '@ionic-native/http/ngx';
 import { MillierPipe } from '../pipes/millier.pipe';
-import { Network } from '@ionic-native/network/ngx';
 import { GlobalVariableService } from './global-variable.service';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -18,33 +17,31 @@ export class ServiceService {
   database: SQLiteObject;
   constructor(private alertCtrl: AlertController, private http: HTTP, public monmillier: MillierPipe,
               private toast: Toast, public loadingCtrl: LoadingController, private glb: GlobalVariableService,
-              private network: Network,
+
               private sqlite: SQLite,
               private localNotifications: LocalNotifications,
               private platform: Platform,
               public modal: ModalController,
-              public number: MillierPipe,
+              public millier: MillierPipe,
               public navCtrl: NavController) {
-                this.platform.ready().then(() => {
-                  this.localNotifications.on('click').subscribe(res => {
-                    // const transaction =  res.data.mydata : '';
-                    // this.showAlert(res.title, res.text, msg);
-                    const mod = this.modal.create({
-                      component: ConfirmationComponent,
-                      componentProps: {
-                        data: res.data.recu,
-                      }
-                    }).then((e) => {
-                      e.present();
-                      e.onDidDismiss().then(() => {
-                        // this.getrecent();
-                      });
+    this.platform.ready().then(() => {
+      this.localNotifications.on('click').subscribe(res => {
+        const mod = this.modal.create({
+          component: ConfirmationComponent,
+          componentProps: {
+            data: res.data.recu,
+          }
+        }).then((e) => {
+          e.present();
+          e.onDidDismiss().then(() => {
+            // this.getrecent();
+          });
 
-                    });
-                  });
+        });
+      });
 
-                });
-              }
+    });
+  }
   showToast(message) {
     this.toast.showLongCenter(message).subscribe(value => {
       console.log(value);
@@ -77,31 +74,31 @@ export class ServiceService {
     this.getDataBase()
       .then((db: SQLiteObject) => {
         let sql = ' select * from recents where codeoperateur=? and sousoperateur =? and reference=? and numcompte=?';
-       // const sql = 'INSERT INTO recents VALUES(?,?,?,?)';
-        let values = [clientData.codeOper, clientData.sousOper, clientData.reference, this.glb.NUMCOMPTE ];
+        // const sql = 'INSERT INTO recents VALUES(?,?,?,?)';
+        let values = [clientData.codeOper, clientData.sousOper, clientData.reference, this.glb.NUMCOMPTE];
         db.executeSql(sql, values)
           .then((data) => {
             let dateupdate: any = new Date();
             dateupdate = dateupdate.getTime();
             // User existant update datemisajour
             if (data.rows.length > 0) {
-              sql =  'update recents set datemisajour =?, nomclient=?, montant=?';
+              sql = 'update recents set datemisajour =?, nomclient=?, montant=?';
               sql += ' where codeoperateur=? and sousoperateur =? and reference=? and numcompte=?';
               values = [dateupdate, clientData.nomclient,
-                        clientData.montant, clientData.codeOper,
-                        clientData.sousOper, clientData.reference,
-                        this.glb.NUMCOMPTE
-                       ];
+                clientData.montant, clientData.codeOper,
+                clientData.sousOper, clientData.reference,
+                this.glb.NUMCOMPTE
+              ];
 
             } else {
               sql = 'INSERT INTO recents VALUES(?,?,?,?,?,?,?)';
               values = [this.glb.NUMCOMPTE, clientData.codeOper, clientData.sousOper,
-                        clientData.reference, clientData.nomclient,
-                        dateupdate, clientData.montant ];
+              clientData.reference, clientData.nomclient,
+                dateupdate, clientData.montant];
             }
             db.executeSql(sql, values)
-            .then((res) => { })
-            .catch(e => console.log(e));
+              .then((res) => { })
+              .catch(e => console.log(e));
           })
           .catch(e => {
             { }
@@ -112,117 +109,117 @@ export class ServiceService {
 
   insertWallet(wallet: any) {
     this.getDataBase()
-    .then((db: SQLiteObject) => {
-      let sql = ' select * from wallet where codeoperateur=? and numcompte=?';
-      let values = [wallet.codeoperateur, this.glb.NUMCOMPTE];
-      db.executeSql(sql, values)
-        .then((data) => {
-          let dateupdate: any = new Date();
-          dateupdate = dateupdate.getTime();
-          // User existant update datemisajour
-          if (data.rows.length > 0) {
-            const oper: any = data.rows.item(0);
-            const nbtrx = oper.nombretrx * 1 + 1;
-            sql =  'update wallet set image =?, telephone =?, chemin=?, libelle=?';
-            sql += ' where codeoperateur=? and numcompte=?';
-            values = [wallet.image, wallet.telephone, wallet.chemin, wallet.libelle, wallet.codeoperateur, this.glb.NUMCOMPTE ];
+      .then((db: SQLiteObject) => {
+        let sql = ' select * from wallet where codeoperateur=? and numcompte=?';
+        let values = [wallet.codeoperateur, this.glb.NUMCOMPTE];
+        db.executeSql(sql, values)
+          .then((data) => {
+            let dateupdate: any = new Date();
+            dateupdate = dateupdate.getTime();
+            // User existant update datemisajour
+            if (data.rows.length > 0) {
+              const oper: any = data.rows.item(0);
+              const nbtrx = oper.nombretrx * 1 + 1;
+              sql = 'update wallet set image =?, telephone =?, chemin=?, libelle=?';
+              sql += ' where codeoperateur=? and numcompte=?';
+              values = [wallet.image, wallet.telephone, wallet.chemin, wallet.libelle, wallet.codeoperateur, this.glb.NUMCOMPTE];
 
-          } else {
-            sql = 'INSERT INTO wallet VALUES(?,?,?,?,?,?)';
-            values = [this.glb.NUMCOMPTE, wallet.codeoperateur, wallet.image, wallet.chemin, wallet.telephone, wallet.libelle ];
-          }
-          db.executeSql(sql, values)
-          .then((res) => {
-            this.showToast('Wallet Ajouté avec succès! ');
-            this.navCtrl.navigateBack('compte/listewallet');
+            } else {
+              sql = 'INSERT INTO wallet VALUES(?,?,?,?,?,?)';
+              values = [this.glb.NUMCOMPTE, wallet.codeoperateur, wallet.image, wallet.chemin, wallet.telephone, wallet.libelle];
+            }
+            db.executeSql(sql, values)
+              .then((res) => {
+                this.showToast('Wallet Ajouté avec succès! ');
+                this.navCtrl.navigateBack('compte/listewallet');
+              })
+              .catch(e => { });
           })
-          .catch(e => {});
-        })
-        .catch(e => {
-          { }
-        });
-    })
-    .catch(e => console.log(e));
+          .catch(e => {
+            { }
+          });
+      })
+      .catch(e => console.log(e));
 
   }
   insertFavoris(operateur: any) {
     this.getDataBase()
-    .then((db: SQLiteObject) => {
-      let sql = ' select * from favoris where codeoperateur=? and sousoperateur =? and numcompte=?';
-      let values = [operateur.codeOper, operateur.sousOper, this.glb.NUMCOMPTE ];
-      db.executeSql(sql, values)
-        .then((data) => {
-          let dateupdate: any = new Date();
-          dateupdate = dateupdate.getTime();
-          // User existant update datemisajour
-          if (data.rows.length > 0) {
-            const oper: any = data.rows.item(0);
-            const nbtrx = oper.nombretrx * 1 + 1;
-            sql =  'update favoris set datemisajour =?, nombretrx =?, chemin=?, image=?';
-            sql += ' where codeoperateur=? and sousoperateur =? and numcompte=?';
-            values = [dateupdate, nbtrx, operateur.chemin, operateur.image, operateur.codeOper, operateur.sousOper, this.glb.NUMCOMPTE ];
+      .then((db: SQLiteObject) => {
+        let sql = ' select * from favoris where codeoperateur=? and sousoperateur =? and numcompte=?';
+        let values = [operateur.codeOper, operateur.sousOper, this.glb.NUMCOMPTE];
+        db.executeSql(sql, values)
+          .then((data) => {
+            let dateupdate: any = new Date();
+            dateupdate = dateupdate.getTime();
+            // User existant update datemisajour
+            if (data.rows.length > 0) {
+              const oper: any = data.rows.item(0);
+              const nbtrx = oper.nombretrx * 1 + 1;
+              sql = 'update favoris set datemisajour =?, nombretrx =?, chemin=?, image=?';
+              sql += ' where codeoperateur=? and sousoperateur =? and numcompte=?';
+              values = [dateupdate, nbtrx, operateur.chemin, operateur.image, operateur.codeOper, operateur.sousOper, this.glb.NUMCOMPTE];
 
-          } else {
-            sql = 'INSERT INTO favoris VALUES(?,?,?,?,?,?,?)';
-            values = [this.glb.NUMCOMPTE, operateur.codeOper, operateur.sousOper, operateur.chemin, operateur.image, 1, dateupdate ];
-          }
-          db.executeSql(sql, values)
-          .then((res) => { })
-          .catch(e => {});
-        })
-        .catch(e => {
-          { }
-        });
-    })
-    .catch(e => console.log(e));
+            } else {
+              sql = 'INSERT INTO favoris VALUES(?,?,?,?,?,?,?)';
+              values = [this.glb.NUMCOMPTE, operateur.codeOper, operateur.sousOper, operateur.chemin, operateur.image, 1, dateupdate];
+            }
+            db.executeSql(sql, values)
+              .then((res) => { })
+              .catch(e => { });
+          })
+          .catch(e => {
+            { }
+          });
+      })
+      .catch(e => console.log(e));
 
   }
   getrecent() {
     const recents: any = [];
     this.getDataBase()
-    .then((db: SQLiteObject) => {
-      const sql = 'select * from recents where codeoperateur=? and sousoperateur =? and numcompte=?';
-      const values = ['0005', '0005', '221775067661'];
-      db.executeSql(sql, values)
-        .then((data) => {
-          for (let i = 0; i < data.rows.length; i++) {
-            recents.push((data.rows.item(i)));
-          }
+      .then((db: SQLiteObject) => {
+        const sql = 'select * from recents where codeoperateur=? and sousoperateur =? and numcompte=?';
+        const values = ['0005', '0005', '221775067661'];
+        db.executeSql(sql, values)
+          .then((data) => {
+            for (let i = 0; i < data.rows.length; i++) {
+              recents.push((data.rows.item(i)));
+            }
           })
-        .catch(e => console.log(e));
-    })
-    .catch(e => console.log(e));
+          .catch(e => console.log(e));
+      })
+      .catch(e => console.log(e));
 
     return recents;
   }
   getdata() {
     this.getDataBase()
-    .then((db: SQLiteObject) => {
-      const sql = 'select * from recents';
-      const values = [];
-      db.executeSql(sql, values)
-        .then((data) => {
-          for (let i = 0; i < data.rows.length; i++) {
-            alert('data ' + JSON.stringify(data.rows.item(i)));
-          }
+      .then((db: SQLiteObject) => {
+        const sql = 'select * from recents';
+        const values = [];
+        db.executeSql(sql, values)
+          .then((data) => {
+            for (let i = 0; i < data.rows.length; i++) {
+              alert('data ' + JSON.stringify(data.rows.item(i)));
+            }
           })
-        .catch(e => console.log(e));
-    })
-    .catch(e => console.log(e));
+          .catch(e => console.log(e));
+      })
+      .catch(e => console.log(e));
 
   }
   deletealldata() {
     this.getDataBase()
-    .then((db: SQLiteObject) => {
-     // const sql = 'delete from recents where reference =\'108000008611\' ';
-      // const sql = 'update recents set sousoperateur=\'0002\' ';
-      const sql = 'drop table wallet ';
-      const values = [];
-      db.executeSql(sql, values)
-        .then(() => {})
-        .catch(e => console.log(e));
-    })
-    .catch(e => console.log(e));
+      .then((db: SQLiteObject) => {
+        // const sql = 'delete from recents where reference =\'108000008611\' ';
+        // const sql = 'update recents set sousoperateur=\'0002\' ';
+        const sql = 'drop table wallet ';
+        const values = [];
+        db.executeSql(sql, values)
+          .then(() => { })
+          .catch(e => console.log(e));
+      })
+      .catch(e => console.log(e));
   }
   getDataBase() {
     return this.sqlite.create({
@@ -246,7 +243,6 @@ export class ServiceService {
 
   }
   async afficheloading() {
-    // this.checkNetwork();
     if (this.glb.ISCONNECTED === true) {
       this.loading = true;
       return await this.loadingCtrl.create({
@@ -266,10 +262,8 @@ export class ServiceService {
         });
       });
     }
-
   }
   async afficheloadingWithExit() {
-    // this.checkNetwork();
     if (this.glb.ISCONNECTED === true) {
       this.loading = true;
       return await this.loadingCtrl.create({
@@ -327,12 +321,7 @@ export class ServiceService {
         console.log('Loading dismissed!');
       });
     });
-    /*     if (!this.loading) {
-          this.loading = this.loadingCtrl.create({
-            message: 'Veuillez patienter...'
-          });
-          this.loading.present();
-        } else { this.loading.present(); } */
+
   }
   dismissloadin_old() {
     this.loading = true;
@@ -343,7 +332,6 @@ export class ServiceService {
         } */
   }
   posts(service: string, body: any = {}, headers: any = {}): any {
-    /*   this.checkNetwork();*/
     if (this.glb.ISCONNECTED === false) {
       this.showToast('Veuillez revoir votre connexion internet !');
       return;
@@ -358,9 +346,10 @@ export class ServiceService {
   }
   showError(text: string = 'Erreur Non reconnue.Veuillez contacter le SUPPORT') {
     this.alertCtrl.create({
-      header: 'UPay',
-      message: text ,
-      cssClass: 'alertCustomCss',
+      header: 'UPay Africa',
+      message: text,
+    //  cssClass: 'alertSucces',
+      cssClass: 'alertSucces',
 
       buttons: ['OK']
     }).then(res => {
@@ -370,7 +359,7 @@ export class ServiceService {
       }
       res.present();
       if (text === 'Session expiree. Veuillez vous reconnecter!') {
-        this.glb.IDSESS =  this.glb.IDTERM = '';
+        this.glb.IDSESS = this.glb.IDTERM = '';
         this.navCtrl.navigateRoot('utilisateur');
       }
     });
@@ -394,14 +383,14 @@ export class ServiceService {
   }
   showAlert(text: string) {
     this.alertCtrl.create({
-      header: 'Upay',
+      header: 'UPay Africa',
       message: text,
       cssClass: 'alertSucces',
       buttons: ['OK']
     }).then(res => {
       res.present();
       if (text === 'Merci de vous connecter pour acceder à ce service') {
-        this.glb.IDSESS =  this.glb.IDTERM = '';
+        this.glb.IDSESS = this.glb.IDTERM = '';
         this.navCtrl.navigateRoot('utilisateur');
       }
     });
@@ -474,7 +463,7 @@ export class ServiceService {
       if (err.status === 500) {
         this.showError('Une erreur interne s\'est produite ERREUR 500');
       } else {
-        this.showError('Impossible d\'atteindre le serveur veuillez réessayer');
+        this.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
       }
 
     });
@@ -487,18 +476,6 @@ export class ServiceService {
     const numeroautorisé = ['77', '78', '70', '76'];
     const retour = numeroautorisé.indexOf(telephone.substring(0, 2));
     return retour === -1;
-  }
-  checkNetwork() {
-    this.network.onDisconnect().subscribe(() => {
-      // this.showToast('Vous n\'avez plus de connexion internet');
-      this.glb.ISCONNECTED = false;
-
-    });
-    this.network.onConnect().subscribe(() => {
-      // this.showToast('Vous êtes maintenant en ligne');
-      this.glb.ISCONNECTED = true;
-
-    });
   }
   notifier(trx) {
     this.localNotifications.schedule({
@@ -515,14 +492,14 @@ export class ServiceService {
       this.dismissloadin();
       const plafond = JSON.parse(data.data);
       if (plafond.returnCode) {
-              if (plafond.returnCode === '0') {
-                this.glb.ShowSolde = true;
-                this.glb.dateUpdate = this.getCurrentDate();
-                this.glb.HEADER.montant = this.number.transform(plafond.mntPlf);
+        if (plafond.returnCode === '0') {
+          this.glb.ShowSolde = true;
+          this.glb.dateUpdate = this.getCurrentDate();
+          this.glb.HEADER.montant = this.millier.transform(plafond.mntPlf);
 
-                this.glb.HEADER.numcompte = plafond.numcompte;
-                this.glb.HEADER.consomme = this.number.transform(plafond.consome);
-      } else { this.showError(plafond.errorLabel); }
+          this.glb.HEADER.numcompte = plafond.numcompte;
+          this.glb.HEADER.consomme = this.millier.transform(plafond.consome);
+        } else { this.showError(plafond.errorLabel); }
       } else {
         this.showError('Réponse inattendue');
 
@@ -533,9 +510,9 @@ export class ServiceService {
       this.dismissloadin();
       if (error.status === 500) {
         this.showError('Une erreur interne s\'est produite ERREUR 500');
-        } else {
-        this.showError('Impossible d\'atteindre le serveur veuillez réessayer');
-        }
+      } else {
+        this.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
+      }
     });
   }
   getphone(selectedPhone) {
@@ -548,16 +525,16 @@ export class ServiceService {
     if (tel.substring(0, 3) === '221') {
       tel = tel.substring(3, tel.length);
     }
-    const  numeroautorisé = ['77', '78', '70', '76'];
+    const numeroautorisé = ['77', '78', '70', '76'];
     const retour = numeroautorisé.indexOf(tel.substring(0, 2));
     if (retour === -1) {
       console.log('Not a in array');
 
       return '';
     }
-    tel =  tel.replace(/ /g, '');
+    tel = tel.replace(/ /g, '');
     tel = tel.replace(/-/g, '');
-    let  phone = tel.length >= 2 ? tel.substring(0, 2) + '-' : '';
+    let phone = tel.length >= 2 ? tel.substring(0, 2) + '-' : '';
     phone += tel.length > 5 ? tel.substring(2, 5) + '-' : '';
     phone += tel.length > 7 ? tel.substring(5, 7) + '-' : '';
     phone += tel.length >= 8 ? tel.substring(7, 9) : '';
@@ -578,36 +555,35 @@ export class ServiceService {
     }
   }
   post(service: string, body: any = {}, headers: any = {}): any {
-    /*   this.checkNetwork();*/
-      if (this.glb.ISCONNECTED === false) {
-        this.showToast('Veuillez revoir votre connexion internet !');
-        return ;
-      } else {
-        const url =  service;
-        //console.log(headers);
-        //console.log(url);
-        //console.log(body);
-        this.http.setDataSerializer('json');
-        this.http.setSSLCertMode('nocheck');
-        this.http.setRequestTimeout(90);
-        return this.http.post(url, body, headers);
-      }
+    if (this.glb.ISCONNECTED === false) {
+      this.showToast('Veuillez revoir votre connexion internet !');
+      return;
+    } else {
+      const url = service;
+      // console.log(headers);
+      // console.log(url);
+      // console.log(body);
+      this.http.setDataSerializer('json');
+      this.http.setSSLCertMode('nocheck');
+      this.http.setRequestTimeout(90);
+      return this.http.post(url, body, headers);
     }
+  }
 
-    generateUniqueId() {
-      const length = 8;
-      const timestamp = + new Date;
-      const ts = timestamp.toString();
-      const parts = ts.split( '' ).reverse();
-      let id = '';
-      for ( let i = 0; i < length; ++i ) {
-        const min = 0;
-        const max = parts.length - 1;
-        const index = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
-        id += parts[index];
-      }
-      return id;
+  generateUniqueId() {
+    const length = 8;
+    const timestamp = + new Date;
+    const ts = timestamp.toString();
+    const parts = ts.split('').reverse();
+    let id = '';
+    for (let i = 0; i < length; ++i) {
+      const min = 0;
+      const max = parts.length - 1;
+      const index = Math.floor(Math.random() * (max - min + 1)) + min;
+      id += parts[index];
     }
+    return id;
+  }
 
 
 }

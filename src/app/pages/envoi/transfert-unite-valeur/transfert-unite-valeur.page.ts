@@ -24,8 +24,8 @@ export class TransfertUniteValeurPage implements OnInit {
   codepin = '';
   isUSSDTriggered = false;
   public rechargeForm: FormGroup;
-  // private listeServiceDisponible = ['0005', '0054', '0057', '0053', '0022'];
-    private listeServiceDisponible = ['0022'];
+  // private listeServiceDisponible = ['0005',  '0057', '0053'];
+    private listeServiceDisponible = ['0022', '0054'];
   constructor(public androidPermissions: AndroidPermissions,
               public platform: Platform,
               public callNumber: CallNumber,
@@ -206,7 +206,7 @@ export class TransfertUniteValeurPage implements OnInit {
           if (err.status === 500) {
             this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
           } else {
-            this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' + JSON.stringify(err));
+            this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
           }
         });
 
@@ -237,7 +237,7 @@ export class TransfertUniteValeurPage implements OnInit {
           if (err.status === 500) {
             this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
           } else {
-            this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' + JSON.stringify(err));
+            this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
           }
         });
 
@@ -324,7 +324,7 @@ export class TransfertUniteValeurPage implements OnInit {
       if (err.status === 500) {
         this.serv.showError('Une erreur interne s\'est produit ERREUR 500');
       } else {
-        this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer');
+        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
       }
     });
   }
@@ -399,7 +399,7 @@ export class TransfertUniteValeurPage implements OnInit {
                 if (err.status === 500) {
                   this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
                 } else {
-                  this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer ' + JSON.stringify(err));
+                  this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
                 }
               });
           }
@@ -409,7 +409,7 @@ export class TransfertUniteValeurPage implements OnInit {
             if (err.status === 500) {
               this.serv.showError('Une erreur interne s\'est produit ERREUR 500 ' + JSON.stringify(err));
             } else {
-              this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer' + JSON.stringify(err));
+              this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard' + JSON.stringify(err));
             }
           });
         break;
@@ -501,7 +501,7 @@ initOperation(service: string) {
     if (err.status === 500) {
       this.serv.showError('Une erreur interne s\'est produit ERREUR 500');
     } else {
-      this.serv.showError('Impossible d\'atteindre le serveur veuillez réessayer');
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
     }
   });
 }

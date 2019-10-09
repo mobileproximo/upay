@@ -4,7 +4,6 @@ import { AccessGuard } from './services/access.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'utilisateur', pathMatch: 'full' },
-  { path: 'home', loadChildren: './pages/home/home.module#HomePageModule', canActivate: [AccessGuard] },
   { path: 'paiement', loadChildren: './pages/paiement/paiement.module#PaiementPageModule', canActivate: [AccessGuard] },
   { path: 'reception', loadChildren: './pages/reception/reception.module#ReceptionPageModule', canActivate: [AccessGuard] },
   { path: 'envoi', loadChildren: './pages/envoi/envoi.module#EnvoiPageModule', canActivate: [AccessGuard] },
