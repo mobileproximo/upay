@@ -45,6 +45,7 @@ export class GlobalVariableService {
   public ATPS_EM_IDMERCHAND = 100044;
   PHONE: any = '775067661';
   NUMCOMPTE: any = '';
+  isUSSDTriggered = false;
   showContactName = false;
   URLUPLOAD = 'http://192.168.4.63:8080/amifa-1/';
   isLoadingShowing = false;

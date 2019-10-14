@@ -37,7 +37,6 @@ export class SouscriptionSuitePage implements OnInit {
       email: [''],
       mode: ['']
     });
-    
   }
   ionViewDidLeave() {
    this.stopwatching();
@@ -50,7 +49,6 @@ export class SouscriptionSuitePage implements OnInit {
         const IncomingSMS = e.data;
         const message = IncomingSMS.body;
         this.Userdata.controls.codeotp.setValue(message.substring(message.length - 4));
-  
     });
       } else {
         this.serv.showError('Impossible de lire un sms entrant');

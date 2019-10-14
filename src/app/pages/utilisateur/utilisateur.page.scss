@@ -4,15 +4,15 @@
   #page{
     display:flex;
     flex-direction: column;
-    width:97%;
-    height:98%;
+    width:100%;
+    height:100%;
     border:1px solid #eaeaea;
   }
   .flex1{
-    height:53%;
+    height:57%;
   }
   .flex2{
-    height:36%;
+    flex: 1;
     background: #f2f2f2
   }
   .flex3{
@@ -27,7 +27,7 @@
   #logo{
     width:100%;
     text-align:center;
-    margin-bottom:25px;
+    margin-bottom:40px;
   }
   #codepin span{
     font-size:16px;
@@ -53,7 +53,7 @@
   #pinvalue{
     width:100%;
     text-align:center;
-    margin:20px 0 25px 0;
+    margin:30px 0 45px 0;
   }
   #pinvalue div{
     width:40px;

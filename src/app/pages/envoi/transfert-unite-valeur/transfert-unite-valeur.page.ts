@@ -22,7 +22,6 @@ export class TransfertUniteValeurPage implements OnInit {
   sousop: any;
   idtrxEmoney: any;
   codepin = '';
-  isUSSDTriggered = false;
   public rechargeForm: FormGroup;
   // private listeServiceDisponible = ['0005',  '0057', '0053'];
     private listeServiceDisponible = ['0022', '0054'];
@@ -44,12 +43,14 @@ export class TransfertUniteValeurPage implements OnInit {
       sousop: ['']
     });
    // alert('je suis ');
+    this.glb.isUSSDTriggered = false;
     this.smsreceiver();
   }
 
   ngOnInit() {
     // this.smsreceiver();
     // this.checkPermission();
+    this.glb.isUSSDTriggered = false;
   }
   smsreceiver() {
     this.platform.ready().then(() => {
@@ -129,7 +130,7 @@ export class TransfertUniteValeurPage implements OnInit {
     const expediteur = sms.address.toUpperCase();
     const message = sms.body;
    // alert(JSON.stringify(sms));
-    if (this.isUSSDTriggered === true) {
+    if (this.glb.isUSSDTriggered === true) {
       if (expediteur === 'ORANGEMONEY') {
       this.processOrangeMoney(message);
     }
@@ -166,7 +167,7 @@ export class TransfertUniteValeurPage implements OnInit {
   }
 
   processOrangeMoney(message: string) {
-    if (this.isUSSDTriggered === true) {
+    if (this.glb.isUSSDTriggered === true) {
       const parta = 'Votre operation de';
       const partb = 'a ete reglee par Orange Money.';
       // const partc = 'le montant';
@@ -277,7 +278,7 @@ export class TransfertUniteValeurPage implements OnInit {
      }
   }
   cashinUPay() {
-    this.isUSSDTriggered = false;
+    this.glb.isUSSDTriggered = false;
     const parametres: any = {};
     parametres.recharge = {};
     parametres.recharge.nomClient = this.glb.PRENOM + ' ' + this.glb.NOM;
@@ -459,7 +460,7 @@ lancementussd(service: string) {
    // alert(commande);
     this.callNumber.callNumber(commande, true)
       .then(res => {
-         this.isUSSDTriggered = true;
+         this.glb.isUSSDTriggered = true;
        })
       .catch(err => {
         this.serv.dismissloadin();

@@ -47,8 +47,20 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.codepush.sync().subscribe((syncStatus) => {});
+      this.platform.pause.subscribe(() => {
+        this.glb.DATEPAUSE = new Date();
+      });
       this.platform.resume.subscribe(() => {
-        this.codepush.sync().subscribe((syncStatus) => { });
+        this.codepush.sync().subscribe((syncStatus) => {});
+        this.glb.DATEREPRISE = new Date();
+        const diff = this.serv.dateDiff(this.glb.DATEPAUSE, this.glb.DATEREPRISE);
+        const route = ['/utilisateur', '/utilisateur/souscription', '/utilisateur/suitesouscription',
+                       '/utilisateur/resetpin', '/utilisateur/checkcompte' ];
+        if (!route.includes(this.router.url)) {
+        if (diff.min >= 5) {
+        this.serv.showError('Session expiree. Veuillez vous reconnecter!');
+        }
+        }
       });
       this.checkNetwork();
       this.appVersion.getPackageName().then((val) => {
@@ -119,7 +131,6 @@ export class AppComponent {
     });
     this.network.onConnect().subscribe(() => {
       if (!this.glb.ISCONNECTED) {
-
         this.affichemessageToast('Connexion retrouvée');
       }
       this.glb.ISCONNECTED = true;
@@ -131,7 +142,7 @@ export class AppComponent {
       message,
       color: 'success',
       position: 'bottom',
-      duration: 2000
+      duration: 5000
     });
     toast.present();
   }

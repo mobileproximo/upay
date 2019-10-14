@@ -44,7 +44,6 @@ export class ResetPinPage implements OnInit {
               user: userdata
             }
           };
-          
           this.router.navigate(['/utilisateur/suitesouscription'], navigationExtras);
         } else { this.serv.showError(reponse.errorLabel); }
       } else {
