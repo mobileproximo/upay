@@ -6,7 +6,7 @@
                     <img style="height: 95px;" src="assets/images/logo-upay-portrait.png"/>
                 </div>
                 <div id="codepin">
-                    <span>Entrer votre code pin</span>
+                    <span>Entrez votre code pin</span>
                 </div>
                 <div id="pinvalue">
                     <div [class.active] = "pin.length>0" class="pin1"><span></span><em></em></div>
@@ -15,12 +15,12 @@
                     <div [class.active] = "pin.length>3" class="pin1"><span></span><em></em></div> 
                 </div>
                 <div id="compte">
-                    <span>Pas encore inscrit,</span>
+                    <span>Pas encore inscrit &nbsp;</span>
                     <a (click)="verssouscription()">Créer un compte</a>
                 </div>
                 <div (click)="reinit()" style="margin-top: 30px;color: #747474;text-align: center;font-size: 12px;">
-                        <span>Code pin oublié,&nbsp;</span>
-                        <a style="color: #747474;" >Cliquer ici</a>
+                        <span>Code pin oublié&nbsp;</span>
+                        <a style="color: #747474; text-decoration: underline; font-weight: bold;" >Cliquer ici</a>
                 </div>
             </div>
 

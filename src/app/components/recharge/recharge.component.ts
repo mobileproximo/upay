@@ -8,8 +8,9 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { ServiceService } from 'src/app/services/service.service';
 import { GlobalVariableService } from 'src/app/services/global-variable.service';
 import { PopoverContactComponent } from '../popover-contact/popover-contact.component';
-import { Contacts , ContactFindOptions} from '@ionic-native/contacts/ngx';
+import { Contacts, ContactFindOptions } from '@ionic-native/contacts/ngx';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { CheckService } from 'src/app/services/check.service';
 
 @Component({
   selector: 'app-recharge',
@@ -29,7 +30,8 @@ export class RechargeComponent implements OnInit {
               public modal: ModalController,
               public serv: ServiceService,
               public glb: GlobalVariableService,
-              // tslint:disable-next-line: deprecation
+              private check: CheckService,
+    // tslint:disable-next-line: deprecation
               public contact: Contacts,
               public monmillier: MillierPipe,
               public popover: PopoverController) {
@@ -52,21 +54,21 @@ export class RechargeComponent implements OnInit {
     options.desiredFields = ['displayName'];
     options.hasPhoneNumber = true;
     options.filter = this.Rechargedata.controls.telephone.value;
-   // options.multiple = true;
+    // options.multiple = true;
 
     this.contact.find(['phoneNumbers'], options).then(
-        (data) => {
+      (data) => {
 
-          if (data.length > 0) {
-            this.contactName = data[0].displayName;
-          }
-          this.showPin();
+        if (data.length > 0) {
+          this.contactName = data[0].displayName;
         }
+        this.showPin();
+      }
     );
   }
   selectRecent(recent: any) {
     this.Rechargedata.controls.telephone.setValue(recent.reference);
-    const mnt  = this.millier.transform(recent.montant);
+    const mnt = this.millier.transform(recent.montant);
     this.Rechargedata.controls.montant.setValue(mnt);
   }
   eraseAmount() {
@@ -75,18 +77,18 @@ export class RechargeComponent implements OnInit {
   getrecent() {
     this.recentsContacts = [];
     this.serv.getDataBase()
-    .then((db: SQLiteObject) => {
-      const sql = 'select * from recents where codeoperateur=? and sousoperateur =? and numcompte=? order by datemisajour desc limit 5';
-      const values = [this.datarecharge.codeOperateur, this.datarecharge.sousoperateur, this.glb.NUMCOMPTE];
-      db.executeSql(sql, values)
-        .then((data) => {
-          for (let i = 0; i < data.rows.length; i++) {
-            this.recentsContacts.push((data.rows.item(i)));
-          }
+      .then((db: SQLiteObject) => {
+        const sql = 'select * from recents where codeoperateur=? and sousoperateur =? and numcompte=? order by datemisajour desc limit 5';
+        const values = [this.datarecharge.codeOperateur, this.datarecharge.sousoperateur, this.glb.NUMCOMPTE];
+        db.executeSql(sql, values)
+          .then((data) => {
+            for (let i = 0; i < data.rows.length; i++) {
+              this.recentsContacts.push((data.rows.item(i)));
+            }
           })
-        .catch(e => {});
-    })
-    .catch(e => {});
+          .catch(e => { });
+      })
+      .catch(e => { });
 
   }
   changemontant() {
@@ -117,35 +119,41 @@ export class RechargeComponent implements OnInit {
 
   async showPin() {
     const params = this.Rechargedata.getRawValue();
+    const montantPlafond = this.glb.HEADER.montant.replace(/ /g, '') * 1;
+    const montantArecharger = params.montant.replace(/ /g, '') * 1;
+    if (montantPlafond < montantArecharger) {
+      this.check.showMoga();
+    } else {
+      params.nameContact = this.contactName;
+      params.type = 'recharge';
+      // alert(JSON.stringify(params))
 
-    params.nameContact = this.contactName;
-    params.type        = 'recharge';
-   // alert(JSON.stringify(params))
+      const modal = await this.modal.create({
+        component: PinValidationPage,
+        componentProps: {
+          data: params
+        },
+        backdropDismiss: true
+      });
 
-    const modal = await this.modal.create({
-      component: PinValidationPage,
-      componentProps: {
-        data: params
-      },
-      backdropDismiss: true
-    });
+      modal.onDidDismiss().then((codepin) => {
 
-    modal.onDidDismiss().then((codepin) => {
+        if (codepin !== null && codepin.data) {
+          this.Rechargedata.controls.pin.setValue(codepin.data);
+          this.rechargerServ();
+          /*       const confmodal =  this.modal.create({
+                  component: ConfirmationComponent
+                }).then((e) => {
+                  e.present();
+                }); */
+          //  this.dataReturned = dataReturned.data;
+          // alert('Modal Sent Data :'+ dataReturned);
+        }
+      });
 
-      if (codepin !== null && codepin.data) {
-        this.Rechargedata.controls.pin.setValue(codepin.data);
-        this.rechargerServ();
-        /*       const confmodal =  this.modal.create({
-                component: ConfirmationComponent
-              }).then((e) => {
-                e.present();
-              }); */
-        //  this.dataReturned = dataReturned.data;
-        // alert('Modal Sent Data :'+ dataReturned);
-      }
-    });
+      return await modal.present();
+    }
 
-    return await modal.present();
   }
   async rechargerServ() {
     const parametres: any = {};
@@ -159,7 +167,11 @@ export class RechargeComponent implements OnInit {
     }
     parametres.idTerm = this.glb.IDTERM;
     parametres.session = this.glb.IDSESS;
+
+
+
     this.serv.afficheloading();
+
     const phone = parametres.recharge.telephone;
     let file: string;
     if (parametres.recharge.oper === '0073') {
@@ -176,11 +188,12 @@ export class RechargeComponent implements OnInit {
     this.serv.posts('recharge/' + file + '.php', parametres, {}).then(data => {
       this.serv.dismissloadin();
       const reponse = JSON.parse(data.data);
+      alert(JSON.stringify(reponse));
       if (reponse.returnCode) {
         if (reponse.returnCode === '0') {
-         // this.getContactName(parametres.recharge.telephone);
+          // this.getContactName(parametres.recharge.telephone);
           this.Rechargedata.reset();
-          //this.showName = false;
+          // this.showName = false;
           this.glb.showContactName = false;
           this.glb.recu = reponse;
           if (typeof (reponse.telRech) === 'object') {
@@ -194,19 +207,22 @@ export class RechargeComponent implements OnInit {
           this.glb.showRecu = true;
           this.glb.HEADER.montant = this.monmillier.transform(reponse.mntPlfap);
           this.glb.dateUpdate = this.serv.getCurrentDate();
-          const clientData = {codeOper: this.datarecharge.codeOperateur,
-                            sousOper: this.datarecharge.sousoperateur,
-                            reference: phone,
-                            nomclient: this.contactName,
-                            montant: parametres.recharge.montant};
+          const clientData = {
+            codeOper: this.datarecharge.codeOperateur,
+            sousOper: this.datarecharge.sousoperateur,
+            reference: phone,
+            nomclient: this.contactName,
+            montant: parametres.recharge.montant
+          };
           this.serv.insert(clientData);
-          const operateur = {codeOper: this.datarecharge.codeOperateur,
-                            sousOper: this.datarecharge.sousoperateur,
-                            chemin: this.datarecharge.chemin,
-                            image: this.datarecharge.image,
-                            };
+          const operateur = {
+            codeOper: this.datarecharge.codeOperateur,
+            sousOper: this.datarecharge.sousoperateur,
+            chemin: this.datarecharge.chemin,
+            image: this.datarecharge.image,
+          };
           this.serv.insertFavoris(operateur);
-          parametres.recharge.montant    = this.monmillier.transform(parametres.recharge.montant);
+          parametres.recharge.montant = this.monmillier.transform(parametres.recharge.montant);
           parametres.recharge.nameContact = this.contactName;
           parametres.recharge.label = 'N° Tel';
           this.serv.notifier(parametres.recharge);
@@ -223,31 +239,32 @@ export class RechargeComponent implements OnInit {
           });
 
           this.getrecent();
-        } else { this.serv.showError(reponse.errorLabel); }
+        } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue');
 
       }
 
     }).catch(err => {
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
+
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
 
     });
+
+
+
+
 
   }
 
   listecontacts() {
-   // this.showName = false;
+    // this.showName = false;
     this.glb.showContactName = false;
     this.Rechargedata.controls.telephone.setValue('');
     // this.contact.find()
     this.contact.pickContact().then(numbers => {
-      this.displayName  = numbers.displayName;
-     // alert(JSON.stringify(numbers));
+      this.displayName = numbers.displayName;
+      // alert(JSON.stringify(numbers));
       const nombre = numbers.phoneNumbers.length;
       // le contact a plusieurs numero
       if (nombre > 1) {
@@ -264,18 +281,18 @@ export class RechargeComponent implements OnInit {
     }).catch(err => {
     });
   }
-async  showContacsNumbers() {
-  const popover = await this.popover.create({
-    component: PopoverContactComponent,
-    componentProps: {phones: this.phones},
-    translucent: true
-  });
-  popover.onDidDismiss().then((dataReturned) => {
-    if (dataReturned.data) {
-      const value = this.serv.getphone(dataReturned.data);
-      this.serv.setTelephoneFromselection(value, this.Rechargedata.controls.telephone);
-    }
-  });
-  return await popover.present();
-}
+  async  showContacsNumbers() {
+    const popover = await this.popover.create({
+      component: PopoverContactComponent,
+      componentProps: { phones: this.phones },
+      translucent: true
+    });
+    popover.onDidDismiss().then((dataReturned) => {
+      if (dataReturned.data) {
+        const value = this.serv.getphone(dataReturned.data);
+        this.serv.setTelephoneFromselection(value, this.Rechargedata.controls.telephone);
+      }
+    });
+    return await popover.present();
+  }
 }

@@ -1,0 +1,85 @@
+#modaldiv{
+  border-radius:5px;
+  background:#ffffff;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width:400px;
+  padding-bottom:20px;
+  -webkit-box-shadow: 3px 12px 35px -9px rgba(38,123,251,0.3);
+  box-shadow: 3px 12px 35px -9px rgba(38,123,251,0.3);
+  position: absolute;
+  z-index: 600;
+  top: 30px;
+  max-width: 90%;
+}
+#modaldiv > div{
+  width:100%;
+  text-align:center;
+}
+#logoupaydiv{
+  margin:15px 30px;
+}
+#actionefectue{
+  color:#2C5AA3;
+  font-size:18px;
+  margin:13px;
+  font-family: 'helveticaneuelight';
+}
+#detaildiv{
+  width:90%!important;
+  text-align: left;
+  color:#2C5AA3;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#detaildiv label{
+  font-family: 'helveticaneuebold';
+  font-size: 14px;
+  line-height: 1.6;
+
+}
+#detaildiv span{
+  font-family: 'helveticaneuelight';
+  font-size: 14px;
+
+}
+.details{
+  text-align:left;
+  width:85%!important;
+  margin-bottom:5px;
+}
+#messagestatus{
+  margin:20px 0px 20px 0;
+  color:#659CD5;
+  font-family: 'helveticaneuelight';
+  font-size: 16px;
+}
+#actiondiv{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+#actiondiv label{
+  display:inline-block;
+  width:100%;
+  text-align:center;
+  font-family: 'helveticaneuelight';
+  margin-top:10px;
+}
+#goacceuil label{
+  color:#659CD5;
+}
+#nouveau label{
+  color:#2C5AA3;
+}
+
+#goacceuil{
+  width: 120px;
+}
+#nouveau{
+  width: 120px;
+}

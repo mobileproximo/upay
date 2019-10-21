@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, NavController, Platform } from '@ionic/angular';
+import { IonContent, NavController, Platform, ModalController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Base64 } from '@ionic-native/base64/ngx';
@@ -16,6 +16,8 @@ import { FormatphonePipe } from 'src/app/pipes/formatphone.pipe';
 import { CustomValidatorPhone } from 'src/app/components/customValidator/custom-validator';
 import { HTTP } from '@ionic-native/http/ngx';
 import {FilePath} from '@ionic-native/file-path/ngx';
+import { MessageComponent } from 'src/app/components/message/message.component';
+import { PubliciteComponent } from 'src/app/components/publicite/publicite.component';
 
 @Component({
   selector: 'app-souscription',
@@ -47,6 +49,7 @@ export class SouscriptionPage implements OnInit {
               public filePath: FilePath,
               public http: HTTP,
               public splashScreen: SplashScreen,
+              private modalCrtl: ModalController,
               public formatphone: FormatphonePipe,
               public androidPermissions: AndroidPermissions) {
 
@@ -212,9 +215,9 @@ export class SouscriptionPage implements OnInit {
   ScrollToPoint(X, Y) {
     this.content.scrollToPoint(X, Y, 1500);
   }
-  goback() {
-    this.navCtrl.navigateBack('utilisateur');
-  }
+ goback() {
+   this.navCtrl.navigateBack('utilisateur');
+}
   generateOTPCode() {
     // this.Userdata.controls.login.setValue('221' + this.Userdata.controls.login.value);
      const userdata = this.Userdata.getRawValue();
@@ -232,7 +235,7 @@ export class SouscriptionPage implements OnInit {
            }
          };
          this.router.navigate(['/utilisateur/suitesouscription'], navigationExtras);
-       } else { this.serv.showError(reponse.errorLabel); }
+       } else { this.serv.showError('Opération échouée'); }
        } else {
          this.serv.showError('Reponse inattendue  ');
        }
@@ -240,11 +243,9 @@ export class SouscriptionPage implements OnInit {
 
      }).catch(err => {
        this.serv.dismissloadin();
-       if (err.status === 500) {
-       this.serv.showError('Une erreur interne s\'est produite  ERREUR 500');
-       } else {
+
        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-       }
+       
      });
 
 

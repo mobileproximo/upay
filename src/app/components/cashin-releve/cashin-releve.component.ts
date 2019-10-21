@@ -11,6 +11,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { PopoverContactComponent } from '../popover-contact/popover-contact.component';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Storage } from '@ionic/storage';
+import { CheckService } from 'src/app/services/check.service';
 
 @Component({
   selector: 'cashin-releve',
@@ -37,6 +38,7 @@ export class CashinReleveComponent implements OnInit {
               public modal: ModalController,
               public popover: PopoverController,
               public storage: Storage,
+              private check: CheckService,
               public monmillier: MillierPipe) {
     this.rechargeForm = this.formbuilder.group({
       telephone: ['', [Validators.required, CustomValidatorPhone]],
@@ -97,7 +99,7 @@ export class CashinReleveComponent implements OnInit {
 
         }
 
-      } else { this.serv.showError(rep.errorLabel); }
+      } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue');
 
@@ -105,11 +107,7 @@ export class CashinReleveComponent implements OnInit {
 
     }).catch(err => {
         this.serv.dismissloadin();
-        if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-        } else {
         this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-        }
       }
     );
   }
@@ -143,25 +141,27 @@ export class CashinReleveComponent implements OnInit {
     const params = this.rechargeForm.getRawValue();
     params.nameContact = this.contactName;
     params.type        =  this.cashindata.codeOper !== '0074' ? 'recharge' : 'retrait';
-    // alert(JSON.stringify(params));
-
-    const modal = await this.modal.create({
+    const montantPlafond = this.glb.HEADER.montant.replace(/ /g, '') * 1;
+    const montantArecharger = params.montant.replace(/ /g, '') * 1;
+    if (montantPlafond < montantArecharger) {
+      this.check.showMoga();
+    } else {
+      const modal = await this.modal.create({
       component: PinValidationPage,
       componentProps: {
         data: params
       },
       backdropDismiss: true
     });
-
-    modal.onDidDismiss().then((codepin) => {
-
+      modal.onDidDismiss().then((codepin) => {
       if (codepin !== null && codepin.data) {
         this.codepin = codepin.data;
         this.recharger();
       }
     });
 
-    return await modal.present();
+      return await modal.present();
+    }
   }
   recharger() {
     this.rechargeForm.controls.sousop.setValue(this.cashindata.sousOper);
@@ -241,19 +241,14 @@ export class CashinReleveComponent implements OnInit {
           });
 
           this.rechargeForm.reset();
-        } else { this.serv.showError(reponse.errorLabel); }
+        } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue');
 
       }
 
     }).catch(err => {
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
-      }
-
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
     });
 
   }

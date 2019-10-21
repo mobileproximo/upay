@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController, AlertController, ToastController } from '@ionic/angular';
+import { Platform, NavController, AlertController, ToastController, ModalController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ServiceService } from './services/service.service';
@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { CodePush } from '@ionic-native/code-push/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import {OneSignal} from '@ionic-native/onesignal/ngx';
+import { PubliciteComponent } from './components/publicite/publicite.component';
+import { MessageComponent } from './components/message/message.component';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +42,9 @@ export class AppComponent {
     private appVersion: AppVersion,
     private codepush: CodePush,
     private network: Network,
-    private toastController: ToastController
+    private modal: ModalController,
+    private toastController: ToastController,
+
   ) {
     this.initializeApp();
   }
@@ -58,7 +63,8 @@ export class AppComponent {
                        '/utilisateur/resetpin', '/utilisateur/checkcompte' ];
         if (!route.includes(this.router.url)) {
         if (diff.min >= 5) {
-        this.serv.showError('Session expiree. Veuillez vous reconnecter!');
+          this.closeModal();
+          this.serv.showError('Session expiree. Veuillez vous reconnecter!');
         }
         }
       });
@@ -66,8 +72,6 @@ export class AppComponent {
       this.appVersion.getPackageName().then((val) => {
         this.glb.BASEURL = val === this.glb.prodpackageName ? this.glb.URLPROD : this.glb.URLTEST;
       });
-
-
       this.statusBar.backgroundColorByHexString('#2c5aa3');
       this.splashScreen.hide();
       this.serv.createDataBase();
@@ -84,6 +88,14 @@ export class AppComponent {
         }
       });
     });
+
+
+  }
+    async closeModal(){
+  const modal = await this.modal.getTop();
+  if (modal) {
+      modal.dismiss();
+  }
   }
   vershome() {
     this.navCtrl.navigateRoot('utilisateur/acceuil');

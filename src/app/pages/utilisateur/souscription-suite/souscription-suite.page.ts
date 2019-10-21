@@ -156,7 +156,7 @@ export class SouscriptionSuitePage implements OnInit {
           }).catch(err => {
             this.serv.dismissloadin();
             if (err.status === 500) {
-              this.serv.showError('Une erreur interne s\'est produit ERREUR 500');
+              this.serv.showError('Une erreur interne s\'est produit ');
             } else {
               this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
             }
@@ -164,7 +164,7 @@ export class SouscriptionSuitePage implements OnInit {
 
         } else {
           this.serv.dismissloadin();
-          this.serv.showError(reponse.errorLabel);
+          this.serv.showError('Opération échouée');
         }
       } else {
         this.serv.showError('Reponse inattendue ');

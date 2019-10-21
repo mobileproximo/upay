@@ -22,7 +22,7 @@ export class CodeTransfertPage implements OnInit {
   private refid: any;
   private ordernum: any;
   private codepin = '';
-  public headerTitle = 'Code de Transfert';
+  public headerTitle = 'Réception de Transfert';
   paiementServices: { image: string; libelle: string; chemin: string; }[];
   contactName: any;
   showName: boolean;
@@ -152,7 +152,7 @@ export class CodeTransfertPage implements OnInit {
           this.refid = reponse.RefId;
           this.ordernum = reponse.OrderNum;
         }
-      } else { this.serv.showError(reponse.errorLabel); }
+      } else { this.serv.showError('Opération échouée'); }
     }).catch(err => {
       this.serv.dismissloadin();
       this.serv.showError('Impossible d\'atteindre le serveur ');
@@ -253,7 +253,7 @@ export class CodeTransfertPage implements OnInit {
 
 
 
-      } else { this.serv.showError(reponse.errorLabel); }
+      } else { this.serv.showError('Opération échouée'); }
 
     }).catch(err => {
       this.serv.dismissloadin();
@@ -309,19 +309,14 @@ export class CodeTransfertPage implements OnInit {
           this.cashoutForm.reset();
           this.cashoutForm.controls.service.setValue('0052');
           this.showdetails = false;
-        } else { this.serv.showError(reponse.errorLabel); }
+        } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue');
 
       }
 
     }).catch(err => {
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
         this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
-
     });
   }
   showmodal(parametres: any) {

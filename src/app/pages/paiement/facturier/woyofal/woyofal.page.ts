@@ -11,6 +11,7 @@ import { CustomValidatorPhone } from 'src/app/components/customValidator/custom-
 import { PinValidationPage } from 'src/app/pages/utilisateur/pin-validation/pin-validation.page';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { CheckService } from 'src/app/services/check.service';
 
 @Component({
   selector: 'app-woyofal',
@@ -32,6 +33,7 @@ export class WoyofalPage implements OnInit {
               public serv: ServiceService,
               public monmillier: MillierPipe,
               public navCtrl: NavController,
+              private check: CheckService,
               public glb: GlobalVariableService,
               public modal: ModalController) {
     this.clientForm = this.formBuilder.group({
@@ -123,17 +125,16 @@ export class WoyofalPage implements OnInit {
             this.clientForm.controls.telClient.setValue(this.glb.PHONE);
             this.showdetails = this.newclient = true;
 
-          } else { this.serv.showError(reponse.errorLabel); }
+          } else { this.serv.showError('Opération échouée'); }
         }
       } else {
         this.serv.showError('Reponse inattendue');
       }
     }).catch(err => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-        } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard'); }    });
+
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
+         });
   }
 async showPin() {
   const params: any = {};
@@ -143,22 +144,28 @@ async showPin() {
   params.montant = this.clientForm.controls.mnttotal.value;
   params.operateur = 'WOYOFAL';
   params.type = 'facture';
-  const modal = await this.modal.create({
+  const montantPlafond = this.glb.HEADER.montant.replace(/ /g, '') * 1;
+  const montantArecharger = params.montant * 1;
+  if (montantPlafond < montantArecharger) {
+      this.check.showMoga();
+    } else {
+        const modal = await this.modal.create({
     component: PinValidationPage,
     componentProps: {
       data: params
     },
     backdropDismiss: true
   });
-
-  modal.onDidDismiss().then((codepin) => {
+        modal.onDidDismiss().then((codepin) => {
     if (codepin !== null && codepin.data) {
       this.codePin = codepin.data;
       this.encaisser();
     }
   });
 
-  return await modal.present();
+        return await modal.present();
+    }
+
 }
   encaisser() {
     const parametre: any = {};
@@ -238,7 +245,7 @@ async showPin() {
         this.clientForm.reset();
         // this.glb.showRecu = true;
       } else {
-        this.serv.showError(reponse.errorLabel);
+        this.serv.showError('Opération échouée');
       }
     } else {
       this.serv.showError('reponse inattendue');
@@ -247,11 +254,7 @@ async showPin() {
 
   }).catch(err => {
     this.serv.dismissloadin();
-    if (err.status === 500) {
-      this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
+    this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
   });
   }
 

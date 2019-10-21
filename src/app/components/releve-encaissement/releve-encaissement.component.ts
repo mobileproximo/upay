@@ -8,6 +8,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { CustomValidatorPhone } from '../customValidator/custom-validator';
 import { MillierPipe } from 'src/app/pipes/millier.pipe';
+import { CheckService } from 'src/app/services/check.service';
 
 @Component({
   selector: 'releve-encaissement',
@@ -30,6 +31,7 @@ export class ReleveEncaissementComponent implements OnInit {
               public serv: ServiceService,
               public glb: GlobalVariableService,
               public modal: ModalController,
+              private check: CheckService,
               public monmillier: MillierPipe) {
     this.Encdata = this.formBuilder.group({
       reference: ['', Validators.required],
@@ -85,7 +87,12 @@ async showPin(facture) {
   params.operateur = this.datareleve.codeoper === '0016' ? 'SDE' : 'SENELEC';
   params.numfact = facture.numFact;
   params.type = 'facture';
-  const modal = await this.modal.create({
+  const montantPlafond = this.glb.HEADER.montant.replace(/ /g, '') * 1;
+  const montantArecharger = params.montant * 1;
+  if (montantPlafond < montantArecharger) {
+      this.check.showMoga();
+    } else {
+        const modal = await this.modal.create({
     component: PinValidationPage,
     componentProps: {
       data: params
@@ -93,7 +100,7 @@ async showPin(facture) {
     backdropDismiss: true
   });
 
-  modal.onDidDismiss().then((codepin) => {
+        modal.onDidDismiss().then((codepin) => {
     if (codepin !== null && codepin.data) {
       this.codePin = codepin.data;
       this.encaisser(facture, params);
@@ -101,7 +108,9 @@ async showPin(facture) {
     }
   });
 
-  return await modal.present();
+        return await modal.present();
+    }
+
 }
 encaisser(facture, params) {
   const fact = [];
@@ -130,6 +139,7 @@ encaisser(facture, params) {
   parametre.infoclient.pin = this.codePin;
   parametre.idTerm = this.glb.IDTERM;
   parametre.session = this.glb.IDSESS;
+  alert('reponse senelec ' + JSON.stringify(parametre));
   this.serv.afficheloading();
   this.serv.posts(this.datareleve.encaissementfile, parametre, {}).then(data => {
   this.serv.dismissloadin();
@@ -167,7 +177,7 @@ encaisser(facture, params) {
 
           });
   } else {
-    this.serv.showError(reponse.errorLabel);
+    this.serv.showError('Opération échouée');
   }
   } else {
     this.serv.showError('Reponse inattendue');
@@ -177,11 +187,7 @@ encaisser(facture, params) {
 
 }).catch(err => {
   this.serv.dismissloadin();
-  if (err.status === 500) {
-    this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-    } else {
-    this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' );
-    }
+  this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' );
 
 });
 }
@@ -222,7 +228,7 @@ encaisser(facture, params) {
               this.factures.IdClient = reponse.IdClient;
               this.factures.NomOper = reponse.NomOper;
               this.factures.errorCode = reponse.errorCode;
-              this.factures.errorLabel = reponse.errorLabel;
+              this.factures.errorLabel = 'Opération échouée';
               this.factures.nbrFact = reponse.nbrFact;
               this.factures.returnCode = reponse.returnCode;
               this.factures.Factures = {};
@@ -244,7 +250,7 @@ encaisser(facture, params) {
               // this.infosClient.controls.telephone.setValue(this.glb.PHONE);
             }
 
-          } else { this.serv.showError(reponse.errorLabel); }
+          } else { this.serv.showError('Opération échouée'); }
         } else {
           this.serv.showError('Reponse inattendue');
         }
@@ -254,11 +260,7 @@ encaisser(facture, params) {
 
     }).catch(err => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
-      }
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
 
     });
   }
@@ -279,7 +281,6 @@ encaisser(facture, params) {
             this.serv.posts('encaissement/releveClient.php', parametre, {}).then(dataclient => {
               this.serv.dismissloadin();
               const reponseclient = JSON.parse(dataclient.data);
-              // alert("ReleveFacture "+JSON.stringify(reponseclient));
               if (reponseclient.returnCode === '0') {
                 this.showInfoClient = true;
                 if (typeof (reponseclient.prenom) === 'object') {
@@ -311,8 +312,8 @@ encaisser(facture, params) {
                 this.infosClient.controls.nom.setValue(reponseclient.nom);
                 this.infosClient.controls.telephone.setValue(reponseclient.telephone);
                 this.infosClient.controls.adresse.setValue(reponseclient.adresse);
-             */ 
-              //if(this.newclient === tru;
+             */
+              // if(this.newclient === tru;
               } else {
                 this.showInfoClient = false;
                 this.newclient = true;
@@ -346,7 +347,7 @@ encaisser(facture, params) {
               this.factures.IdClient = reponse.IdClient;
               this.factures.NomOper = reponse.NomOper;
               this.factures.errorCode = reponse.errorCode;
-              this.factures.errorLabel = reponse.errorLabel;
+              this.factures.errorLabel = 'Opération échouée';
               this.factures.nbrFact = reponse.nbrFact;
               this.factures.returnCode = reponse.returnCode;
               this.factures.Factures = {};
@@ -359,23 +360,16 @@ encaisser(facture, params) {
             this.listefactures = this.factures.Factures.Facture;
 
           } else {
-            this.serv.showError(reponse.errorLabel);
+            this.serv.showError('Opération échouée');
           }
         } else { this.serv.showError('Reponse inattendue'); }
 
       } else {
         this.serv.showError('Pas de facture correspondant');
       }
-
-
     }).catch(err => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
-
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
     });
   }
   selectRecent(recent) {

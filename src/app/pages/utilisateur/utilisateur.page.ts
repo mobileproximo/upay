@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalVariableService } from 'src/app/services/global-variable.service';
 import { FormBuilder } from '@angular/forms';
 import { ServiceService } from 'src/app/services/service.service';
-import { NavController, Platform } from '@ionic/angular';
+import { NavController, Platform, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { MillierPipe } from 'src/app/pipes/millier.pipe';
 import { Sim } from '@ionic-native/sim/ngx';
 import { FormatphonePipe } from 'src/app/pipes/formatphone.pipe';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Storage } from '@ionic/storage';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { PubliciteComponent } from 'src/app/components/publicite/publicite.component';
+import { MessageComponent } from 'src/app/components/message/message.component';
 
 @Component({
   selector: 'app-utilisateur',
@@ -27,8 +30,9 @@ export class UtilisateurPage implements OnInit {
               public platform: Platform,
               public monmillier: MillierPipe,
               public sim: Sim,
-              // public oneSignal: OneSignal,
+              public oneSignal: OneSignal,
               public formatphone: FormatphonePipe,
+              public modalCrtl: ModalController,
               public androidPermissions: AndroidPermissions) {
 
   }
@@ -64,6 +68,29 @@ export class UtilisateurPage implements OnInit {
         this.IsNewUser = false;
       }
     });
+    this.platform.ready().then(() => {
+      this.oneSignal.startInit(this.glb.onesignalAppIdProd, this.glb.firebaseID);
+
+      this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+
+      this.oneSignal.handleNotificationReceived().subscribe(() => {
+
+      });
+
+      this.oneSignal.handleNotificationOpened().subscribe((data) => {
+        this.presentModal(data);
+      });
+
+      this.oneSignal.endInit();
+    });
+  }
+  async presentModal(data: any) {
+    const modal = await this.modalCrtl.create({
+      component: data.notification.payload.bigPicture ? PubliciteComponent : MessageComponent,
+      componentProps: {val: data},
+      cssClass: 'test'
+    });
+    return await modal.present();
   }
   ionViewDidEnter() {
     this.pin = '';
@@ -105,23 +132,21 @@ export class UtilisateurPage implements OnInit {
                 if (card.length > 1) {
                   params.idSim2 = card[1].simSerialNumber;
                 }
-              } else { params.idSim1 = info.simSerialNumber; }
+              } else { params.idSim1 = info.simSerialNumber; params.idSim2 = ''; }
             }
-         /*    this.oneSignal.sendTags({imei: this.Userdata.controls.imei.value,
-              numsim1: this.Userdata.controls.idSim1.value,
-              numsim2: this.Userdata.controls.idSim2.value,
-            }); */
+            this.oneSignal.sendTags({imei: params.imei,
+              numsim1: params.idSim1,
+              numsim2: params.idSim2,
+            });
             params.login = this.glb.NUMCOMPTE;
             params.login = params.login.substring(0, 3) !== '221' ? '221' + params.login : params.login;
             params.login = params.login.replace(/-/g, '');
             params.login = params.login.replace(/ /g, '');
             params.codepin = this.pin;
-           // alert('cnxion' + JSON.stringify(params));
             this.serv.afficheloading();
             this.serv.posts('connexion/connexion.php', params, {}).then(data => {
               this.serv.dismissloadin();
               const reponse = JSON.parse(data.data);
-             // alert('Connexion rep' + JSON.stringify(reponse));
               if (reponse.returnCode) {
                   if (reponse.returnCode === '0') {
                     this.glb.HEADER.agence = reponse.agence;
@@ -133,19 +158,20 @@ export class UtilisateurPage implements OnInit {
                     this.glb.PHONE =  this.glb.PHONE.substring(3);
                     this.glb.NOM = reponse.nom;
                     this.glb.PIN = reponse.pin;
-                 //   this.oneSignal.sendTags({codeespace: this.glb.HEADER.agence});
+                    this.oneSignal.sendTags({compte: this.glb.HEADER.agence, telephone: this.glb.PHONE,
+                                             numeropiece: reponse.numpiece, prenom: reponse.prenom, nom: reponse.nom});
                     if (typeof(reponse.mntPlf) !== 'object') {
                       this.glb.HEADER.montant = this.monmillier.transform(reponse.mntPlf);
-                  } else { this.glb.HEADER.montant = 0; }
+                  } else { this.glb.HEADER.montant = '0'; }
                     this.glb.dateUpdate = this.serv.getCurrentDate();
                     this.glb.HEADER.numcompte = reponse.numcompte;
                     this.glb.HEADER.consomme = this.monmillier.transform(reponse.consome);
                     this.navCtrl.navigateRoot('utilisateur/bienvenue');
                   } else {
-                if (reponse.errorLabel === 'Code Pin incorrect !') {
+                if ( reponse.errorLabel === 'Code Pin incorrect !') {
               //   this.toclear = true;
                 }
-                this.serv.showError(reponse.errorLabel);
+                this.serv.showError('Opération échouée');
               }
               } else {
                 this.serv.showError('Reponse inattendue' );
@@ -153,11 +179,9 @@ export class UtilisateurPage implements OnInit {
 
             }).catch(error => {
               this.serv.dismissloadin();
-              if (error.status === 500) {
-                this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-                } else {
-                this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
-                }
+
+              this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
+
 
             });
 

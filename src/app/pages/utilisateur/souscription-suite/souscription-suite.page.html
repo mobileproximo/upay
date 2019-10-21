@@ -21,7 +21,7 @@
             </div>
             <div class="formdiv" [style.border-color]="Userdata.controls.codepin.touched  && (!isconform || Userdata.controls.codepin.errors)? 'red' : '#578cc9'">
               <label>Code Pin *</label>
-              <input type="tel" mask="XXXX" [hiddenInput]="true" formControlName="codepin"  (change)="verifConfPin()" (input)="verifConfPin()" placeholder="Saisir le "/>
+              <input type="tel" mask="XXXX" [hiddenInput]="true" formControlName="codepin"  (change)="verifConfPin()" (input)="verifConfPin()" placeholder="Saisir nouveau code pin "/>
               <div></div>
             </div>
             <div class="formdiv" [style.border-color]="Userdata.controls.confpin.touched  && (!isconform || Userdata.controls.confpin.errors)? 'red' : '#578cc9'">

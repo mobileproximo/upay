@@ -13,7 +13,7 @@ export class ReceptionPage implements OnInit {
   public headerTitle = 'Reception';
   ngOnInit() {
   this.paiementServices  = [{image: this.glbVariable.IMG_URL + 'codetransfert.png',
-                            libelle: 'Code de transfert', chemin: 'reception/codetransfert'},
+                            libelle: 'Reception de transfert', chemin: 'reception/codetransfert'},
                             {image: this.glbVariable.IMG_URL + 'collecte.png',
                             libelle: 'Collecte de creance', chemin: 'reception/collecte'}
                           ];

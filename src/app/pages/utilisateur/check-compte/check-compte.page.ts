@@ -39,7 +39,7 @@ export class CheckComptePage implements OnInit {
           this.storage.set('login', userdata.login);
           this.serv.showToast('Compte bien recuperé');
           this.navCtrl.navigateRoot('utilisateur');
-        } else { this.serv.showError(reponse.errorLabel); }
+        } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue  ');
       }
@@ -47,11 +47,7 @@ export class CheckComptePage implements OnInit {
 
     }).catch(err => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite  ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
-      }
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
     });
   }
 

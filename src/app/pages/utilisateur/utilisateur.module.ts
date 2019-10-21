@@ -34,7 +34,8 @@ const routes: Routes = [
   },
   {
     path: 'bienvenue',
-    component: BienvenuePage
+    component: BienvenuePage,
+     canActivate: [AccessGuard]
   },
   {
     path: 'login',

@@ -8,6 +8,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { FormControl, AbstractControl } from '@angular/forms';
+import { TransfertUniteValeurPage } from '../pages/envoi/transfert-unite-valeur/transfert-unite-valeur.page';
 
 @Injectable({
   providedIn: 'root'
@@ -341,6 +342,7 @@ export class ServiceService {
       this.http.setDataSerializer('json');
       this.http.setSSLCertMode('nocheck');
       this.http.setRequestTimeout(90);
+     // alert('url ' + url);
       return this.http.post(url, body, headers);
     }
 
@@ -454,18 +456,16 @@ export class ServiceService {
           this.glb.recu.service = datarecharge.operation;
           this.glb.recu.Oper = datarecharge.operateur;
 
-        } else { this.showError(reponse.errorLabel); }
+        } else { this.showError('Opération échouée'); }
       } else {
         this.showError('Reponse inattendue');
 
       }
 
     }).catch(err => {
-      if (err.status === 500) {
-        this.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
+
         this.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
+
 
     });
 
@@ -509,11 +509,7 @@ export class ServiceService {
 
     }).catch(error => {
       this.dismissloadin();
-      if (error.status === 500) {
-        this.showError('Une erreur interne s\'est produite ERREUR 500');
-      } else {
-        this.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
+      this.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
     });
   }
   getphone(selectedPhone) {
@@ -603,5 +599,6 @@ export class ServiceService {
 
     return diff;
   }
+
 
 }

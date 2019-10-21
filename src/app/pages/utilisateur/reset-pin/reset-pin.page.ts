@@ -14,9 +14,9 @@ export class ResetPinPage implements OnInit {
   public Userdata: FormGroup;
 
   constructor(public serv: ServiceService,
-    public glb: GlobalVariableService,
-    public router: Router,
-    public formBuilder: FormBuilder) {
+              public glb: GlobalVariableService,
+              public router: Router,
+              public formBuilder: FormBuilder) {
     this.Userdata = this.formBuilder.group({
       login: ['', [Validators.required, CustomValidatorPhone]],
       numpiece: ['', Validators.required],
@@ -45,7 +45,7 @@ export class ResetPinPage implements OnInit {
             }
           };
           this.router.navigate(['/utilisateur/suitesouscription'], navigationExtras);
-        } else { this.serv.showError(reponse.errorLabel); }
+        } else { this.serv.showError('Opération échouée'); }
       } else {
         this.serv.showError('Reponse inattendue ');
       }
@@ -53,11 +53,8 @@ export class ResetPinPage implements OnInit {
 
     }).catch((err) => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produite  ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
-      }
+
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
     });
 
 

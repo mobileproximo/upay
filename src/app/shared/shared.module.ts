@@ -15,12 +15,17 @@ import { OperatorImagePipe } from '../pipes/operator-image.pipe';
 import { PinValidationPage } from '../pages/utilisateur/pin-validation/pin-validation.page';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { PopoverContactComponent } from '../components/popover-contact/popover-contact.component';
+import { MessageComponent } from '../components/message/message.component';
+import { PubliciteComponent } from '../components/publicite/publicite.component';
+import { TransfertUniteValeurPage } from '../pages/envoi/transfert-unite-valeur/transfert-unite-valeur.page';
+//import { TransfertUniteValeurPage } from '../pages/envoi/transfert-unite-valeur/transfert-unite-valeur.page';
 //export c options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [FooterComponent, HeaderComponent, FormatcodePipe, OperatorImagePipe,
                  ContentmenuComponent, MillierPipe, FormatphonePipe,  FormatdatePipe,
-                 CoupurechainePipe, PinValidationPage, ConfirmationComponent, PopoverContactComponent],
+                 CoupurechainePipe, PinValidationPage, ConfirmationComponent, PopoverContactComponent,
+                 MessageComponent, PubliciteComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,7 +33,8 @@ import { PopoverContactComponent } from '../components/popover-contact/popover-c
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
   ],
-  entryComponents: [PinValidationPage, ConfirmationComponent, PopoverContactComponent],
+  entryComponents: [PinValidationPage, ConfirmationComponent,
+                    PopoverContactComponent, MessageComponent, PubliciteComponent, TransfertUniteValeurPage],
   exports: [FooterComponent,
             HeaderComponent,
             ContentmenuComponent,
@@ -42,6 +48,8 @@ import { PopoverContactComponent } from '../components/popover-contact/popover-c
             IonicModule,
             FormatcodePipe,
             NgxMaskModule,
-            ReactiveFormsModule]
+            ReactiveFormsModule,
+            MessageComponent,
+            PubliciteComponent]
 })
 export class SharedModule { }

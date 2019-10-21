@@ -134,7 +134,7 @@ export class LoginPage implements OnInit {
                 if (reponse.errorLabel === 'Code Pin incorrect !') {
               //   this.toclear = true;
                 }
-                this.serv.showError(reponse.errorLabel);
+                this.serv.showError('Opération échouée');
               }
               } else {
                 this.serv.showError('Reponse inattendue' );
@@ -142,11 +142,7 @@ export class LoginPage implements OnInit {
 
             }).catch(error => {
               this.serv.dismissloadin();
-              if (error.status === 500) {
-                this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-                } else {
-                this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-                }
+              this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
 
             });
 

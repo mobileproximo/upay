@@ -44,6 +44,9 @@ export class GlobalVariableService {
   public ATPS_OM_IDMERCHAND = 116215;
   public ATPS_EM_IDMERCHAND = 100044;
   PHONE: any = '775067661';
+  onesignalAppIdProd = '04ec581b-a5f2-4e40-ac76-8c7c02fda21c';
+  onesignalAppIdTest = '04ec581b-a5f2-4e40-ac76-8c7c02fda21c';
+  firebaseID = '350026042244';
   NUMCOMPTE: any = '';
   isUSSDTriggered = false;
   showContactName = false;

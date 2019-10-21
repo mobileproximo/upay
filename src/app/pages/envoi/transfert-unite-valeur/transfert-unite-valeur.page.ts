@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, NavParams } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ServiceService } from 'src/app/services/service.service';
 import { MillierPipe } from 'src/app/pipes/millier.pipe';
 import { GlobalVariableService } from 'src/app/services/global-variable.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidatorPhone } from 'src/app/components/customValidator/custom-validator';
-import { PinValidationPage } from '../../utilisateur/pin-validation/pin-validation.page';
+import { PinValidationPage } from 'src/app/pages/utilisateur/pin-validation/pin-validation.page';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 declare var SMSReceive: any;
 @Component({
   selector: 'app-transfert-unite-valeur',
   templateUrl: './transfert-unite-valeur.page.html',
-  styleUrls: ['./transfert-unite-valeur.page.scss'],
+  styleUrls: ['./transfert-unite-valeur.page.scss']
 })
 export class TransfertUniteValeurPage implements OnInit {
   public headerTitle = 'MOGA';
@@ -23,16 +23,17 @@ export class TransfertUniteValeurPage implements OnInit {
   idtrxEmoney: any;
   codepin = '';
   public rechargeForm: FormGroup;
+  ismodal;
   // private listeServiceDisponible = ['0005',  '0057', '0053'];
-    private listeServiceDisponible = ['0022', '0054'];
+  private listeServiceDisponible = ['0022', '0054'];
   constructor(public androidPermissions: AndroidPermissions,
-              public platform: Platform,
-              public callNumber: CallNumber,
-              public millier: MillierPipe,
-              public glb: GlobalVariableService,
-              public serv: ServiceService,
-              public modal: ModalController,
-              private formbuilder: FormBuilder) {
+    public platform: Platform,
+    public callNumber: CallNumber,
+    public millier: MillierPipe,
+    public glb: GlobalVariableService,
+    public serv: ServiceService,
+    public modal: ModalController,
+    private formbuilder: FormBuilder) {
     this.rechargeForm = this.formbuilder.group({
       telephone: ['', [Validators.required, CustomValidatorPhone]],
       montantrlv: ['', Validators.required],
@@ -42,24 +43,20 @@ export class TransfertUniteValeurPage implements OnInit {
       frais: [''],
       sousop: ['']
     });
-   // alert('je suis ');
     this.glb.isUSSDTriggered = false;
     this.smsreceiver();
   }
-
   ngOnInit() {
-    // this.smsreceiver();
-    // this.checkPermission();
     this.glb.isUSSDTriggered = false;
   }
   smsreceiver() {
     this.platform.ready().then(() => {
       if (SMSReceive) {
-      this.startWatching();
-      document.addEventListener('onSMSArrive', (e: any) => {
-        const IncomingSMS = e.data;
-        this.processSMS(IncomingSMS);
-    });
+        this.startWatching();
+        document.addEventListener('onSMSArrive', (e: any) => {
+          const IncomingSMS = e.data;
+          this.processSMS(IncomingSMS);
+        });
       } else {
         this.serv.showError('Impossible de lire un sms entrant');
         alert('nok');
@@ -103,18 +100,18 @@ export class TransfertUniteValeurPage implements OnInit {
   stopwatching() {
     SMSReceive.stopWatch(
       () => {
-      //  alert('watch stopped');
-     },
+        //  alert('watch stopped');
+      },
       () => {
-       // alert('watch stop failed');
-       }
+        // alert('watch stop failed');
+      }
     );
   }
 
   startWatching() {
     SMSReceive.startWatch(
-      () => {  },
-      () => {  }
+      () => { },
+      () => { }
     );
   }
 
@@ -123,34 +120,34 @@ export class TransfertUniteValeurPage implements OnInit {
       () => {
         this.startWatching();
       },
-      () => {  }
+      () => { }
     );
   }
   processSMS(sms: any) {
     const expediteur = sms.address.toUpperCase();
     const message = sms.body;
-   // alert(JSON.stringify(sms));
+    // alert(JSON.stringify(sms));
     if (this.glb.isUSSDTriggered === true) {
       if (expediteur === 'ORANGEMONEY') {
-      this.processOrangeMoney(message);
-    }
+        this.processOrangeMoney(message);
+      }
       if (expediteur === 'WIZALLMONEY') {
-      this.processWizall(message);
-    }
+        this.processWizall(message);
+      }
       if (expediteur === 'E-MONEY') {
-      this.processEmoney(message);
-    }
+        this.processEmoney(message);
+      }
       if (expediteur === 'POSTECASH') {
-      this.processpostecash(message);
-    }
+        this.processpostecash(message);
+      }
       if (expediteur === 'TIGO-CASH') {
-      this.processTigoCash(message);
-    }
+        this.processTigoCash(message);
+      }
 
-   }
+    }
     setTimeout(() => {
-    this.restartWatching();
-  }, 200);
+      this.restartWatching();
+    }, 200);
   }
   processEmoney(message: string) {
     const parta = 'Vous avez effectue un paiement de ';
@@ -204,49 +201,43 @@ export class TransfertUniteValeurPage implements OnInit {
       })
         .catch((err: { status: number; }) => {
           this.serv.dismissloadin();
-          if (err.status === 500) {
-            this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
-          } else {
-            this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
-          }
+          this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ');
         });
 
     }
   }
-/*   processEmoney(message: string) {
-    if (message.indexOf('OTP') !== -1) {
-      setTimeout(() => {
-        const otp = message.substring(message.indexOf('OTP:') + 5, message.indexOf('. Ref:'));
-        const parametres: any = {};
-        parametres.recharge = {};
-        parametres.recharge.numtrx = this.idtrxEmoney;
-        parametres.recharge.codevalidation    = otp;
-        parametres.recharge.montant   = this.rechargeForm.controls.montantrlv.value.replace(/ /g, '');
-        this.serv.posts('recharge/validationemoney.php', parametres, {}).then((data: { data: string; }) => {
-          const reponse = JSON.parse(data.data);
-          if (reponse.returnCode) {
-
-            if (reponse.returnCode === '0') {
-              this.cashinUPay();
-            } else { this.serv.dismissloadin(); this.serv.showError(reponse.errorLabel); }
-          } else {
+  /*   processEmoney(message: string) {
+      if (message.indexOf('OTP') !== -1) {
+        setTimeout(() => {
+          const otp = message.substring(message.indexOf('OTP:') + 5, message.indexOf('. Ref:'));
+          const parametres: any = {};
+          parametres.recharge = {};
+          parametres.recharge.numtrx = this.idtrxEmoney;
+          parametres.recharge.codevalidation    = otp;
+          parametres.recharge.montant   = this.rechargeForm.controls.montantrlv.value.replace(/ /g, '');
+          this.serv.posts('recharge/validationemoney.php', parametres, {}).then((data: { data: string; }) => {
+            const reponse = JSON.parse(data.data);
+            if (reponse.returnCode) {
+  
+              if (reponse.returnCode === '0') {
+                this.cashinUPay();
+              } else { this.serv.dismissloadin(); this.serv.showError('Opération échouée'); }
+            } else {
+              this.serv.dismissloadin();
+              this.serv.showError('Reponse inattendue');
+            }
+          }).catch((err: { status: number; }) => {
             this.serv.dismissloadin();
-            this.serv.showError('Reponse inattendue');
-          }
-        }).catch((err: { status: number; }) => {
-          this.serv.dismissloadin();
-          if (err.status === 500) {
-            this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
-          } else {
-            this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
-          }
-        });
-
-      }, 3000);
-
-
-    }
-  } */
+  
+              this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
+  
+          });
+  
+        }, 3000);
+  
+  
+      }
+    } */
   processpostecash(message) {
     if (message.substr(0, 42) === 'Vous avez effectue une demande de debit de') {
       const v = message.substr(message.indexOf(':') + 2, message.indexOf('.'));
@@ -260,31 +251,29 @@ export class TransfertUniteValeurPage implements OnInit {
       parametre.idTerm = this.glb.IDTERM;
       parametre.session = this.glb.IDSESS;
       this.serv.posts('recharge/retraitpostcash.php', parametre, {}).then((data: { data: string; }) => {
-          this.serv.dismissloadin();
-          const reponse = JSON.parse(data.data);
-          if (reponse.returnCode === '0') {
-            this.numtrx = this.glb.PHONE;
-            this.glb.HEADER.montant = this.millier.transform(reponse.mntPlfap);
-            this.cashinUPay();
-          } else {
-            this.serv.showError(reponse.errorLabel);
-          }
-        }).catch((err: any) => {
-          this.serv.dismissloadin();
-          this.serv.showError('Impossible d\'atteindre le serveur');
-        });
-
-
-     }
+        this.serv.dismissloadin();
+        const reponse = JSON.parse(data.data);
+        if (reponse.returnCode === '0') {
+          this.numtrx = this.glb.PHONE;
+          this.glb.HEADER.montant = this.millier.transform(reponse.mntPlfap);
+          this.cashinUPay();
+        } else {
+          this.serv.showError('Opération échouée');
+        }
+      }).catch((err: any) => {
+        this.serv.dismissloadin();
+        this.serv.showError('Impossible d\'atteindre le serveur');
+      });
+    }
   }
   cashinUPay() {
     this.glb.isUSSDTriggered = false;
     const parametres: any = {};
     parametres.recharge = {};
     parametres.recharge.nomClient = this.glb.PRENOM + ' ' + this.glb.NOM;
-    parametres.recharge.sousoper = this.sousop;
+    parametres.recharge.sousoper = this.sousop ? this.sousop : '';
     parametres.recharge.numtrx = this.numtrx ? this.numtrx : this.glb.PHONE;
-    parametres.recharge.oper      = this.rechargeForm.controls.service.value;
+    parametres.recharge.oper = this.rechargeForm.controls.service.value;
     parametres.recharge.codeEs = '221' + this.glb.PHONE;
     parametres.recharge.montant = this.rechargeForm.controls.montantrlv.value; // .replace(/ /g, '');
     parametres.recharge.telephone = this.glb.PHONE; // datarecharge.recharge.telephone.replace(/-/g, '');
@@ -299,34 +288,37 @@ export class TransfertUniteValeurPage implements OnInit {
           this.rechargeForm.controls.service.setValue('0005');
           this.glb.HEADER.montant = this.millier.transform(reponse.mntPlfap);
           this.glb.dateUpdate = this.serv.getCurrentDate();
-          parametres.recharge.montant    = this.millier.transform(parametres.recharge.montant);
+          parametres.recharge.montant = this.millier.transform(parametres.recharge.montant);
           parametres.recharge.nameContact = this.glb.PRENOM + ' ' + this.glb.NOM;
           parametres.recharge.label = 'N° Tel';
-          const mod = this.modal.create({
-            component: ConfirmationComponent,
-            componentProps: {
-              data: parametres.recharge,
-            }
-          }).then((e) => {
-            e.present();
-            e.onDidDismiss().then(() => {
+          if (this.ismodal === true) {
+            // tslint:disable-next-line: max-line-length
+            const msg = 'Votre compte a été réapprovisionné avec succès d\'un montant de ' + parametres.recharge.montant + ' \n Votre nouveau solde est : ' + this.glb.HEADER.montant;
+            this.serv.showToast(msg);
+            this.modal.dismiss();
+          } else {
+            const mod = this.modal.create({
+              component: ConfirmationComponent,
+              componentProps: {
+                data: parametres.recharge,
+              }
+            }).then((e) => {
+              e.present();
+              e.onDidDismiss().then(() => {
+              });
             });
-          });
+          }
         } else {
-          this.serv.showError(reponse.errorLabel);
+          this.serv.showError('Opération échouée');
         }
       } else {
         this.serv.showError('Reponse inattendue  ');
       }
 
     }
-    ).catch((err: { status: number; }) => {
+    ).catch((err) => {
       this.serv.dismissloadin();
-      if (err.status === 500) {
-        this.serv.showError('Une erreur interne s\'est produit ERREUR 500');
-      } else {
-        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-      }
+      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
     });
   }
   async showPin() {
@@ -334,19 +326,25 @@ export class TransfertUniteValeurPage implements OnInit {
     if (!this.listeServiceDisponible.includes(service)) {
       this.serv.showAlert('Service en cours developpement');
     } else {
-      const modal = await this.modal.create({
-        component: PinValidationPage,
-        backdropDismiss: true
-      });
-      modal.onDidDismiss().then((codepin) => {
-        if (codepin !== null && codepin.data) {
-          this.codepin = codepin.data;
-          this.initier();
-        } else {
-          this.glb.ShowSolde = false;
-        }
-      });
-      return await modal.present();
+      if (this.ismodal !== true) {
+        const modal = await this.modal.create({
+          component: PinValidationPage,
+          backdropDismiss: true
+        });
+        modal.onDidDismiss().then((codepin) => {
+          if (codepin !== null && codepin.data) {
+            this.codepin = codepin.data;
+            this.initier();
+          } else {
+            this.glb.ShowSolde = false;
+          }
+        });
+        return await modal.present();
+
+      } else {
+        this.initier();
+      }
+
 
     }
 
@@ -397,18 +395,16 @@ export class TransfertUniteValeurPage implements OnInit {
 
               .catch((err: { status: number; }) => {
                 this.serv.dismissloadin();
-                if (err.status === 500) {
-                  this.serv.showError('Une erreur interne s\'est produite ERREUR 500 ' + JSON.stringify(err));
-                } else {
-                  this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
-                }
+
+                this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard ' + JSON.stringify(err));
+
               });
           }
         })
           .catch((err: { status: number; }) => {
             this.serv.dismissloadin();
             if (err.status === 500) {
-              this.serv.showError('Une erreur interne s\'est produit ERREUR 500 ' + JSON.stringify(err));
+              this.serv.showError('Une erreur interne s\'est produit  ' + JSON.stringify(err));
             } else {
               this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard' + JSON.stringify(err));
             }
@@ -435,76 +431,76 @@ export class TransfertUniteValeurPage implements OnInit {
     }
 
   }
-lancementussd(service: string) {
-  this.serv.afficheloadingWithExit();
-  setTimeout(() => {
-    const  reference = this.serv.generateUniqueId();
-// tslint:disable-next-line: max-line-length
-    const mnt = this.rechargeForm.controls.montantrlv.value;
-    const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*' + mnt + '#';
-    const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*' + mnt + '#';
-    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*' + mnt + '#';
- /* const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*1#';
-    const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*10#';
-    const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*100#';*/
-    let commande = '';
-    if (service === '0022') {
-      commande = commandetigo;
-    }
-    if (service === '0005') {
-      commande = commandeOrange;
-    }
-    if (service === '0054') {
-      commande = commandeEmoney;
-    }
-   // alert(commande);
-    this.callNumber.callNumber(commande, true)
-      .then(res => {
-         this.glb.isUSSDTriggered = true;
-       })
-      .catch(err => {
-        this.serv.dismissloadin();
-      });
-  }, 200);
-}
-initOperation(service: string) {
-  const transfert = { montant: this.rechargeForm.controls.montantrlv.value, telSource: this.glb.PHONE, opersource: service };
-  const params = {
-    transfert,
-    idTerm: this.glb.IDTERM,
-    session: this.glb.IDSESS
-  };
-  const data: any = {};
-  data.idTerm = this.glb.IDTERM;
-  data.session = this.glb.IDSESS;
-  this.serv.afficheloadingWithExit();
-  this.serv.posts('recharge/initcashoutoper.php', params, {}).then((data) => {
-    const reponse = JSON.parse(data.data);
-    if (reponse.returnCode) {
-      if (reponse.returnCode === '0') {
-        alert(JSON.stringify(reponse));
-        if (service === '0054') {
-          this.idtrxEmoney = reponse.numtrx;
+  lancementussd(service: string) {
+    this.serv.afficheloadingWithExit();
+    setTimeout(() => {
+      const reference = this.serv.generateUniqueId();
+      // tslint:disable-next-line: max-line-length
+      const mnt = this.rechargeForm.controls.montantrlv.value;
+      const commandetigo = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*' + mnt + '#';
+      const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*' + mnt + '#';
+      const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*' + mnt + '#';
+      /* const commandetigo   = '#150*4*6*' + this.glb.ATPS_TIGO_IDMERCHAND + '*' + reference + '*1#';
+         const commandeOrange = '#144#5*' + this.glb.ATPS_OM_IDMERCHAND + '*10#';
+         const commandeEmoney = '#444*3*1*' + this.glb.ATPS_EM_IDMERCHAND + '*100#';*/
+      let commande = '';
+      if (service === '0022') {
+        commande = commandetigo;
+      }
+      if (service === '0005') {
+        commande = commandeOrange;
+      }
+      if (service === '0054') {
+        commande = commandeEmoney;
+      }
+      // alert(commande);
+      this.callNumber.callNumber(commande, true)
+        .then(res => {
+          this.glb.isUSSDTriggered = true;
+        })
+        .catch(err => {
+          this.serv.dismissloadin();
+        });
+    }, 200);
+  }
+  initOperation(service: string) {
+    const transfert = { montant: this.rechargeForm.controls.montantrlv.value, telSource: this.glb.PHONE, opersource: service };
+    const params = {
+      transfert,
+      idTerm: this.glb.IDTERM,
+      session: this.glb.IDSESS
+    };
+    const data: any = {};
+    data.idTerm = this.glb.IDTERM;
+    data.session = this.glb.IDSESS;
+    this.serv.afficheloadingWithExit();
+    this.serv.posts('recharge/initcashoutoper.php', params, {}).then((data) => {
+      const reponse = JSON.parse(data.data);
+      if (reponse.returnCode) {
+        if (reponse.returnCode === '0') {
+          alert(JSON.stringify(reponse));
+          if (service === '0054') {
+            this.idtrxEmoney = reponse.numtrx;
+          }
+
+        } else {
+          this.serv.dismissloadin();
+          this.serv.showError('Opération échouée');
         }
 
       } else {
         this.serv.dismissloadin();
-        this.serv.showError(reponse.errorLabel);
+        this.serv.showError('Reponse inattendue ');
       }
-
-    } else {
+    }
+    ).catch((err: { status: number; }) => {
       this.serv.dismissloadin();
-      this.serv.showError('Reponse inattendue ');
-    }
+      if (err.status === 500) {
+        this.serv.showError('Une erreur interne s\'est produit ');
+      } else {
+        this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
+      }
+    });
   }
-  ).catch((err: { status: number; }) => {
-    this.serv.dismissloadin();
-    if (err.status === 500) {
-      this.serv.showError('Une erreur interne s\'est produit ERREUR 500');
-    } else {
-      this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-    }
-  });
-}
 
 }

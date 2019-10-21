@@ -7,6 +7,7 @@ import { GlobalVariableService } from 'src/app/services/global-variable.service'
 import { ServiceService } from 'src/app/services/service.service';
 import { ConfirmationComponent } from 'src/app/components/confirmation/confirmation.component';
 import { MillierPipe } from 'src/app/pipes/millier.pipe';
+import { CheckService } from 'src/app/services/check.service';
 
 @Component({
   selector: 'app-marchand',
@@ -23,6 +24,7 @@ export class MarchandPage implements OnInit {
               private modal: ModalController,
               private millier: MillierPipe,
               private glb: GlobalVariableService,
+              private check: CheckService,
               private serv: ServiceService) {
     this.rechargeForm = this.formBuilder.group({
       codemarchand: ['', Validators.required],
@@ -39,12 +41,17 @@ export class MarchandPage implements OnInit {
   }
 
   async showpin() {
-    this.rechargeForm.controls.pin.setValue('');
-    const modal = await this.modal.create({
+    const montantPlafond = this.glb.HEADER.montant.replace(/ /g, '') * 1;
+    const montantArecharger = this.rechargeForm.getRawValue().montant * 1;
+    if (montantPlafond < montantArecharger) {
+      this.check.showMoga();
+    } else {
+          this.rechargeForm.controls.pin.setValue('');
+          const modal = await this.modal.create({
       component: PinValidationPage,
       backdropDismiss: true
     });
-    modal.onDidDismiss().then((codepin) => {
+          modal.onDidDismiss().then((codepin) => {
       if (codepin !== null && codepin.data) {
         this.rechargeForm.controls.pin.setValue(codepin.data);
         this.paiementmarchand();
@@ -52,7 +59,9 @@ export class MarchandPage implements OnInit {
         this.glb.ShowSolde = false;
       }
     });
-    return await modal.present();
+          return await modal.present();
+    }
+
   }
   paiementmarchand() {
     const parametres: any = {};
@@ -98,19 +107,14 @@ export class MarchandPage implements OnInit {
             });
           });
         } else {
-          this.serv.showError(reponse.errorLabel);
+          this.serv.showError('Opération échouée');
         }
       } else {
         this.serv.showError('Reponse inattendue  ');
       }
     })
       .catch(err => {
-        if (err.status === 500) {
-          this.serv.showError('Une erreur interne s\'est produite ERREUR 500');
-        } else {
           this.serv.showError('Le service est momentanément indisponible.Veuillez réessayer plutard');
-        }
-
       });
   }
   getNomoperateur() {

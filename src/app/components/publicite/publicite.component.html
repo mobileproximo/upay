@@ -1,0 +1,40 @@
+<ion-header style="display: flex;justify-content: center">
+  <ion-toolbar color="none" style="min-height:140px;background: url('assets/images/haut.png') #f2f2f2 no-repeat;background-size: 100%;">
+    <ion-title style="height: 45px;">
+
+    </ion-title>
+
+  </ion-toolbar>
+
+  <div id="modaldiv">
+    <div id="logoupaydiv">
+      <img src="assets/images/logo-upay-portrait.png" height="80"/>
+    </div>
+    <div id="actionefectue">
+      {{ message.title }}
+    </div>
+
+    <div id="messagestatus">
+      {{ message.body }}
+    </div>
+    <img style="padding:5px; margin-bottom:10px;" src="{{ message.bigPicture }}"/>
+    <div id="actiondiv">
+      <div id="goacceuil" (click)="quitter()">
+               <span>
+                    <img src="assets/images/iconvalidation.png" height="55"/>
+               </span>
+        <label style="font-size: 13px;">Fermer</label>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-header>
+
+<ion-content>
+<div class="bodycontent">
+
+</div>
+</ion-content>
+<!-- <app-footer></app-footer> -->

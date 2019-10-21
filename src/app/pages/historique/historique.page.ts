@@ -151,7 +151,7 @@ export class HistoriquePage implements OnInit {
             this.transactions[j].image = this.operatorImage.transform(this.glb.OperatorsImages, codeoper, sousop);
           }
         }
-      } else { this.serv.showError(reponse.errorLabel); }
+      } else { this.serv.showError('Opération échouée'); }
 
     }).catch(err => {
       this.serv.dismissloadin();
