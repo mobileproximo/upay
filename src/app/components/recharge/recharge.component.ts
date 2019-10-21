@@ -188,7 +188,7 @@ export class RechargeComponent implements OnInit {
     this.serv.posts('recharge/' + file + '.php', parametres, {}).then(data => {
       this.serv.dismissloadin();
       const reponse = JSON.parse(data.data);
-      alert(JSON.stringify(reponse));
+      //alert(JSON.stringify(reponse));
       if (reponse.returnCode) {
         if (reponse.returnCode === '0') {
           // this.getContactName(parametres.recharge.telephone);
